@@ -1,0 +1,3 @@
+rootProject.name = 'koma'
+
+include ':app'
