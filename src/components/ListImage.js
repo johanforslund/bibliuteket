@@ -5,6 +5,9 @@ import { Image } from 'react-native';
 //Make Component
 const ListImage = (props) => {
   const { imageStyle } = styles;
+  
+  console.log(props.source);
+
   return (
     <Image
       style={imageStyle}
