@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ScrollView, Text, Image } from 'react-native';
-import Card from './Card';
-import CardSection from './CardSection';
+import Card from '../components/Card';
+import CardSection from '../components/CardSection';
 
 class BookView extends Component {
   state = { book: { title: 'Matematisk Analys 3',
