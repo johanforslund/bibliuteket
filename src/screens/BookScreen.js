@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
-import { ScrollView, Text, Image } from 'react-native';
+import { ScrollView, View, Text, Image } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import Card from '../components/Card';
 import CardSection from '../components/CardSection';
+
+
+//const myIcon = (<Icon name="rocket" size={30} color="#900" />)
 
 class BookView extends Component {
   state = { book: { title: 'Matematisk Analys 3',
@@ -9,17 +13,17 @@ class BookView extends Component {
    price: '350',
    author: 'Forsling Neymark',
    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sapien eros, cursus eget maximus in, tempus in sapien. Sed gravida, velit in euismod lobortis, nunc nisi tempor tellus, vel orci aliquam.',
-   pic: 'https://scontent-arn2-1.xx.fbcdn.net/v/t31.0-8/21272787_10155731517383307_3671440456226880079_o.jpg?oh=6bccd466ff6f421b77950994833c3605&oe=5AACAC6D',
+   pic: 'https://scontent-arn2-1.xx.fbcdn.net/v/t31.0-8/11402781_10205922494654323_1508583514649894409_o.jpg?oh=f491fa2955eb9ae204b313b648393044&oe=5AAB5ABF',
    phone: '070566434',
    email: 'hej@bokapp.com',
-   seller: 'Adam',
+   seller: 'Adam Lindfors',
    date: '2017-05-42'
  } };
 
   render() {
    return (
-     <ScrollView style={{ flex: 1, backgroundColor: '#CFE3E9' }}>
-       <Card>
+     <ScrollView>
+       <Card style={{ flex: 1, backgroundColor: '#CFE3E9' }}>
          <Image style={styles.imageStyle} source={{ uri: this.state.book.pic }} />
        </Card>
        <Card>
@@ -32,9 +36,12 @@ class BookView extends Component {
            </Text>
          </CardSection>
          <CardSection style={styles.rowCardStyle}>
-           <Text style={[styles.subHeadingStyle, { alignSelf: 'center' }]}>
-             { this.state.book.loc }
-           </Text>
+           <View style={{ flexDirection: 'row' }}>
+             <Icon name="location-on" size={20} color="#373737" style={styles.iconStyle} />
+             <Text style={[styles.subHeadingStyle, { alignSelf: 'center' }]}>
+               { this.state.book.loc }
+             </Text>
+           </View>
            <Text style={styles.priceStyle}>
               { this.state.book.price } kr
            </Text>
@@ -50,18 +57,30 @@ class BookView extends Component {
        </Card>
        <Card>
          <CardSection>
-           <Text style={styles.infoStyle}>
-             { this.state.book.seller }
-           </Text>
-           <Text style={styles.infoStyle}>
-             { this.state.book.email }
-           </Text>
-           <Text style={styles.infoStyle}>
-             { this.state.book.phone }
-           </Text>
-           <Text style={styles.infoStyle}>
-             { this.state.book.date }
-           </Text>
+           <View style={{ flexDirection: 'row', marginBottom: 3 }}>
+             <Icon name="person" size={20} color="#373737" style={styles.iconStyle} />
+             <Text style={styles.infoStyle}>
+               { this.state.book.seller }
+             </Text>
+           </View>
+           <View style={{ flexDirection: 'row', marginBottom: 3 }}>
+             <Icon name="email" size={20} color="#373737" style={styles.iconStyle} />
+             <Text style={styles.infoStyle}>
+               { this.state.book.email }
+             </Text>
+           </View>
+           <View style={{ flexDirection: 'row', marginBottom: 3 }}>
+             <Icon name="phone" size={20} color="#373737" style={styles.iconStyle} />
+             <Text style={styles.infoStyle}>
+               { this.state.book.phone }
+             </Text>
+           </View>
+           <View style={{ flexDirection: 'row', marginBottom: 3 }}>
+             <Icon name="access-time" size={20} color="#373737" style={styles.iconStyle} />
+             <Text style={styles.infoStyle}>
+               { this.state.book.date }
+             </Text>
+           </View>
          </CardSection>
        </Card>
      </ScrollView>
@@ -102,7 +121,10 @@ const styles = {
   infoStyle: {
     fontSize: 14,
     color: '#373737',
-    marginBottom: 3
+    marginBottom: 3,
+  },
+  iconStyle: {
+    marginRight: 8
   }
 };
 

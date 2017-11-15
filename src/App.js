@@ -3,25 +3,33 @@ import { Navigation } from 'react-native-navigation';
 import BookScreen from './screens/BookScreen';
 import BookListScreen from './screens/BookListScreen';
 import AddBookScreen from './screens/AddBookScreen';
+import ProfileScreen from './screens/ProfileScreen';
 
 export default () => {
   Navigation.registerComponent('BookListScreen', () => BookListScreen);
   Navigation.registerComponent('BookScreen', () => BookScreen);
   Navigation.registerComponent('AddBookScreen', () => AddBookScreen);
+  Navigation.registerComponent('ProfileScreen', () => ProfileScreen);
 
   Navigation.startTabBasedApp({
     tabs: [
       {
-        label: 'Böcker',
+        label: 'Hem',
         screen: 'BookListScreen',
-        icon: require('./images/icon1.png'),
-        selectedIcon: require('./images/icon1_selected.png')
+        icon: require('./images/icon_home.png'),
+        selectedIcon: require('./images/icon_home.png')
       },
       {
-        label: 'Lägg till',
+        label: 'Sälj bok',
         screen: 'AddBookScreen',
-        icon: require('./images/icon2.png'),
-        selectedIcon: require('./images/icon2_selected.png')
+        icon: require('./images/icon_add.png'),
+        selectedIcon: require('./images/icon_add.png')
+      },
+      {
+        label: 'Konto',
+        screen: 'ProfileScreen',
+        icon: require('./images/icon_person.png'),
+        selectedIcon: require('./images/icon_person.png')
       }
     ],
     appStyle: {
@@ -34,6 +42,13 @@ export default () => {
       navBarBackgroundColor: '#29749D',
       navBarTextColor: '#ffffff',
       navBarButtonColor: '#ffffff'
+    },
+    tabsStyle: {
+      tabBarButtonColor: '#94bace',
+      tabBarSelectedButtonColor: '#f9fafa',
+      tabBarBackgroundColor: '#29749D',
+      tabBarLabelColor: '#94bace',
+      tabBarSelectedLabelColor: '#f9fafa',
     }
   });
 };
