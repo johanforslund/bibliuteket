@@ -12,16 +12,22 @@ export default () => {
   Navigation.startTabBasedApp({
     tabs: [
       {
-        label: 'Böcker',
+        label: 'Hem',
         screen: 'BookListScreen',
-        icon: require('./images/icon1.png'),
-        selectedIcon: require('./images/icon1_selected.png')
+        icon: require('./images/icon_home.png'),
+        selectedIcon: require('./images/icon_home.png')
       },
       {
-        label: 'Lägg till',
+        label: 'Sälj bok',
         screen: 'AddBookScreen',
-        icon: require('./images/icon2.png'),
-        selectedIcon: require('./images/icon2_selected.png')
+        icon: require('./images/icon_add.png'),
+        selectedIcon: require('./images/icon_add.png')
+      },
+      {
+        label: 'Konto',
+        screen: 'AddBookScreen',
+        icon: require('./images/icon_person.png'),
+        selectedIcon: require('./images/icon_person.png')
       }
     ],
     appStyle: {
