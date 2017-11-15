@@ -18,7 +18,7 @@ class BookView extends Component {
 
   render() {
    return (
-     <ScrollView>
+     <ScrollView style={{ flex: 1, backgroundColor: '#CFE3E9' }}>
        <Card>
          <Image style={styles.imageStyle} source={{ uri: this.state.book.pic }} />
        </Card>

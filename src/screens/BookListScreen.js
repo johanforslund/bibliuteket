@@ -28,7 +28,7 @@ class BookList extends Component {
     console.log(this.state);
 
     return (
-      <ScrollView>
+      <ScrollView style={{ flex: 1, backgroundColor: '#CFE3E9' }}>
         {this.renderBooks()}
       </ScrollView>
     );
