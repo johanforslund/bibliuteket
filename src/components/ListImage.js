@@ -5,7 +5,7 @@ import { Image } from 'react-native';
 //Make Component
 const ListImage = (props) => {
   const { imageStyle } = styles;
-  
+
   console.log(props.source);
 
   return (
@@ -19,7 +19,7 @@ const ListImage = (props) => {
 //Style
 const styles = {
   imageStyle: {
-    height: 150,
+    height: 130,
     width: 150,
     resizeMode: 'contain',
     backgroundColor: '#373737'

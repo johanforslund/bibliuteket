@@ -33,7 +33,7 @@ class App extends Component {
 const styles = {
   titleStyle: {
     fontWeight: 'bold',
-    fontSize: 25
+    fontSize: 20
   },
   locationStyle: {
     fontSize: 15
@@ -57,7 +57,7 @@ const styles = {
     flex: 1
   },
   priceStyle: {
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#00C853',
     alignSelf: 'flex-end'
