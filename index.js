@@ -1,3 +1,4 @@
-import registerApp from './src/App';
+/* eslint-disable no-unused-vars */
+import App from './src/App';
 
-registerApp();
+const app = new App();

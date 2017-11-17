@@ -4,88 +4,86 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import Card from '../components/Card';
 import CardSection from '../components/CardSection';
 
-
-//const myIcon = (<Icon name="rocket" size={30} color="#900" />)
-
 class BookView extends Component {
-  state = { book: { title: 'Matematisk Analys 3',
-   loc: 'Norrköping',
-   price: '350',
-   author: 'Forsling Neymark',
-   description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sapien eros, cursus eget maximus in, tempus in sapien. Sed gravida, velit in euismod lobortis, nunc nisi tempor tellus, vel orci aliquam.',
-   pic: 'https://scontent-arn2-1.xx.fbcdn.net/v/t31.0-8/11402781_10205922494654323_1508583514649894409_o.jpg?oh=f491fa2955eb9ae204b313b648393044&oe=5AAB5ABF',
-   phone: '070566434',
-   email: 'hej@bokapp.com',
-   seller: 'Adam Lindfors',
-   date: '2017-05-42'
- } };
-
   render() {
-   return (
-     <ScrollView>
-       <Card style={{ flex: 1, backgroundColor: '#CFE3E9' }}>
-         <Image style={styles.imageStyle} source={{ uri: this.state.book.pic }} />
-       </Card>
-       <Card>
+    const {
+      author,
+      date,
+      description,
+      email,
+      loc,
+      phone,
+      pic,
+      price,
+      seller,
+      title
+    } = this.props.book;
+
+    return (
+      <ScrollView>
+        <Card style={{ flex: 1, backgroundColor: '#CFE3E9' }}>
+          <Image style={styles.imageStyle} source={{ uri: pic }} />
+        </Card>
+        <Card>
          <CardSection>
            <Text style={styles.headingStyle}>
-             { this.state.book.title }
+             { title }
            </Text>
            <Text style={styles.subHeadingStyle}>
-             { this.state.book.author }
+             { author }
            </Text>
          </CardSection>
          <CardSection style={styles.rowCardStyle}>
            <View style={{ flexDirection: 'row' }}>
              <Icon name="location-on" size={20} color="#373737" style={styles.iconStyle} />
              <Text style={[styles.subHeadingStyle, { alignSelf: 'center' }]}>
-               { this.state.book.loc }
+               { loc }
              </Text>
            </View>
            <Text style={styles.priceStyle}>
-              { this.state.book.price } kr
+              { price } kr
            </Text>
          </CardSection>
-       </Card>
-       <Card>
+        </Card>
+        <Card>
          <CardSection>
            <Text style={styles.descriptionHeadingStyle}>Beskrivning</Text>
            <Text style={styles.descriptionTextStyle}>
-             { this.state.book.description }
+             { description }
            </Text>
          </CardSection>
-       </Card>
-       <Card>
+        </Card>
+        <Card>
          <CardSection>
            <View style={{ flexDirection: 'row', marginBottom: 3 }}>
              <Icon name="person" size={20} color="#373737" style={styles.iconStyle} />
              <Text style={styles.infoStyle}>
-               { this.state.book.seller }
+               { seller }
              </Text>
            </View>
            <View style={{ flexDirection: 'row', marginBottom: 3 }}>
              <Icon name="email" size={20} color="#373737" style={styles.iconStyle} />
              <Text style={styles.infoStyle}>
-               { this.state.book.email }
+               { email }
              </Text>
            </View>
            <View style={{ flexDirection: 'row', marginBottom: 3 }}>
              <Icon name="phone" size={20} color="#373737" style={styles.iconStyle} />
              <Text style={styles.infoStyle}>
-               { this.state.book.phone }
+               { phone }
              </Text>
            </View>
            <View style={{ flexDirection: 'row', marginBottom: 3 }}>
              <Icon name="access-time" size={20} color="#373737" style={styles.iconStyle} />
              <Text style={styles.infoStyle}>
-               { this.state.book.date }
+               { date }
              </Text>
            </View>
          </CardSection>
-       </Card>
+        </Card>
      </ScrollView>
-   );
- }
+    );
+  }
 }
 
 const styles = {
