@@ -9,6 +9,7 @@ import BookListScreen from './screens/BookListScreen';
 import AddBookScreen from './screens/AddBookScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import reducers from './reducers';
+import { iconsLoaded, iconsMap } from './utils/AppIcons';
 
 const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
 
@@ -29,7 +30,9 @@ class App extends Component {
       messagingSenderId: '943209967796'
     };
     firebase.initializeApp(config);
-    this.startApp();
+    iconsLoaded.then(() => {
+      this.startApp();
+    });
   }
 
   startApp() {
@@ -38,20 +41,20 @@ class App extends Component {
         {
           label: 'Hem',
           screen: 'BookListScreen',
-          icon: require('./images/icon_home.png'),
-          selectedIcon: require('./images/icon_home.png')
+          icon: iconsMap['home'],
+          selectedIcon: iconsMap['home']
         },
         {
           label: 'Sälj bok',
           screen: 'AddBookScreen',
-          icon: require('./images/icon_add.png'),
-          selectedIcon: require('./images/icon_add.png')
+          icon: iconsMap['add'],
+          selectedIcon: iconsMap['add']
         },
         {
           label: 'Konto',
           screen: 'ProfileScreen',
-          icon: require('./images/icon_person.png'),
-          selectedIcon: require('./images/icon_person.png')
+          icon: iconsMap['person'],
+          selectedIcon: iconsMap['person']
         }
       ],
       appStyle: {
