@@ -11,18 +11,18 @@ class BookView extends Component {
       date,
       description,
       email,
-      loc,
+      location,
+      name,
       phone,
-      pic,
+      pictureUrl,
       price,
-      seller,
       title
     } = this.props.book;
 
     return (
       <ScrollView>
         <Card style={{ flex: 1, backgroundColor: '#CFE3E9' }}>
-          <Image style={styles.imageStyle} source={{ uri: pic }} />
+          <Image style={styles.imageStyle} source={{ uri: pictureUrl }} />
         </Card>
         <Card>
          <CardSection>
@@ -37,7 +37,7 @@ class BookView extends Component {
            <View style={{ flexDirection: 'row' }}>
              <Icon name="location-on" size={20} color="#373737" style={styles.iconStyle} />
              <Text style={[styles.subHeadingStyle, { alignSelf: 'center' }]}>
-               { loc }
+               { location }
              </Text>
            </View>
            <Text style={styles.priceStyle}>
@@ -58,7 +58,7 @@ class BookView extends Component {
            <View style={{ flexDirection: 'row', marginBottom: 3 }}>
              <Icon name="person" size={20} color="#373737" style={styles.iconStyle} />
              <Text style={styles.infoStyle}>
-               { seller }
+               { name }
              </Text>
            </View>
            <View style={{ flexDirection: 'row', marginBottom: 3 }}>

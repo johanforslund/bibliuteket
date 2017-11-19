@@ -21,6 +21,7 @@ Navigation.registerComponent('ProfileScreen', () => ProfileScreen, store, Provid
 class App extends Component {
   constructor(props) {
     super(props);
+    console.ignoredYellowBox = ['Setting a timer'];
     const config = {
       apiKey: 'AIzaSyD04Ttv-pdfc6V9hlh2oBChnL_vtZOvk9E',
       authDomain: 'koma-26e03.firebaseapp.com',
@@ -41,28 +42,25 @@ class App extends Component {
         {
           label: 'Hem',
           screen: 'BookListScreen',
-          icon: iconsMap['home'],
-          selectedIcon: iconsMap['home']
+          icon: iconsMap.home
         },
         {
           label: 'Sälj bok',
           screen: 'AddBookScreen',
-          icon: iconsMap['add'],
-          selectedIcon: iconsMap['add']
+          icon: iconsMap.add
         },
         {
           label: 'Konto',
           screen: 'ProfileScreen',
-          icon: iconsMap['person'],
-          selectedIcon: iconsMap['person']
+          icon: iconsMap.person
         }
       ],
       appStyle: {
-        tabBarButtonColor: '#ffffff',
-        tabBarSelectedButtonColor: '#ffffff',
+        tabBarButtonColor: '#94bace',
+        tabBarSelectedButtonColor: '#f9fafa',
         tabBarBackgroundColor: '#29749D',
-        tabBarLabelColor: '#ffffff',
-        tabBarSelectedLabelColor: '#ffffff',
+        tabBarLabelColor: '#94bace',
+        tabBarSelectedLabelColor: '#f9fafa',
         forceTitlesDisplay: true,
         navBarBackgroundColor: '#29749D',
         navBarTextColor: '#ffffff',

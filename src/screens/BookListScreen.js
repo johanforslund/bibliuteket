@@ -21,7 +21,11 @@ class BookList extends Component {
 
   renderBooks() {
     return this.props.books.map(book =>
-      <TouchableOpacity key={book.pic} delayPressIn={50} onPress={() => this.handlePress(book)}>
+      <TouchableOpacity
+        key={book.pictureUrl}
+        delayPressIn={50}
+        onPress={() => this.handlePress(book)}
+      >
         <BookDetail book={book} />
       </TouchableOpacity>
     );

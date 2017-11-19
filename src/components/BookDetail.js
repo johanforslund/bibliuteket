@@ -10,17 +10,19 @@ import ListImage from './ListImage';
 
 class App extends Component {
   render() {
+    const { pictureUrl, title, location, price, date } = this.props.book;
+
     return (
       <View>
         <Card>
           <CardSection style={styles.cardSectionAllStyle}>
-            <ListImage source={{ uri: this.props.book.pic }} />
+            <ListImage source={{ uri: pictureUrl }} />
             <CardSection style={styles.cardSectionTextStyle}>
-              <Text style={styles.titleStyle}>{ this.props.book.title }</Text>
-              <Text style={styles.locationStyle}>{ this.props.book.loc }</Text>
+              <Text style={styles.titleStyle}>{ title }</Text>
+              <Text style={styles.locationStyle}>{ location }</Text>
               <CardSection style={styles.cardSectionBottomStyle}>
-                <Text style={styles.priceStyle}>350 kr</Text>
-                <Text style={styles.dateStyle}>idag 10.43</Text>
+                <Text style={styles.priceStyle}>{ price } kr</Text>
+                <Text style={styles.dateStyle}>{ date }</Text>
               </CardSection>
             </CardSection>
           </CardSection>

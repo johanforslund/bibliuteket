@@ -1,17 +1,51 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { ScrollView } from 'react-native';
+import { connect } from 'react-redux';
+import { Button } from 'react-native-elements';
+import { bookUpdate, bookCreate } from '../actions';
 import Card from '../components/Card';
+import CardSection from '../components/CardSection';
+import BookForm from '../components/BookForm';
 
-class BookList extends Component {
+class AddBookScreen extends Component {
+  onButtonPress() {
+    const {
+      author, date, description, email, location, phone, pictureUrl, price, name, title
+    } = this.props;
+
+    this.props.bookCreate({
+      author, date, description, email, location, phone, pictureUrl, price, name, title
+    });
+  }
+
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: '#CFE3E9' }}>
+      <ScrollView>
         <Card>
-          <Text>Temporär screen</Text>
+          <BookForm {...this.props} />
+          <CardSection>
+            <Button
+              raised
+              buttonStyle={{ backgroundColor: '#2ecc71', borderRadius: 10 }}
+              textStyle={{ textAlign: 'center' }}
+              title={'Lägg upp'}
+              onPress={this.onButtonPress.bind(this)}
+            />
+          </CardSection>
         </Card>
-      </View>
+      </ScrollView>
     );
   }
 }
 
-export default BookList;
+const mapStateToProps = (state) => {
+  const {
+    author, date, description, email, location, phone, pictureUrl, price, name, title
+  } = state.bookForm;
+
+  return { author, date, description, email, location, phone, pictureUrl, price, name, title };
+};
+
+export default connect(mapStateToProps, {
+  bookUpdate, bookCreate
+})(AddBookScreen);
