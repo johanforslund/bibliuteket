@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { ScrollView, View, Text, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import moment from 'moment';
 import Card from '../components/Card';
 import CardSection from '../components/CardSection';
 
-class BookView extends Component {
+class BookScreen extends Component {
   render() {
     const {
       author,
@@ -18,6 +19,7 @@ class BookView extends Component {
       price,
       title
     } = this.props.book;
+    const formattedDate = moment(date).fromNow();
 
     return (
       <ScrollView>
@@ -76,7 +78,7 @@ class BookView extends Component {
            <View style={{ flexDirection: 'row', marginBottom: 3 }}>
              <Icon name="access-time" size={20} color="#373737" style={styles.iconStyle} />
              <Text style={styles.infoStyle}>
-               { date }
+               { formattedDate }
              </Text>
            </View>
          </CardSection>
@@ -126,4 +128,4 @@ const styles = {
   }
 };
 
-export default BookView;
+export default BookScreen;

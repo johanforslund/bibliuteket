@@ -3,14 +3,16 @@ import {
   Text,
   View
 } from 'react-native';
+import moment from 'moment';
+import 'moment/locale/sv';
 import Card from './Card';
 import CardSection from './CardSection';
 import ListImage from './ListImage';
 
-
-class App extends Component {
+class BookDetail extends Component {
   render() {
     const { pictureUrl, title, location, price, date } = this.props.book;
+    const dateFormatted = moment(date).format('YYYY-MM-DD');
 
     return (
       <View>
@@ -22,7 +24,7 @@ class App extends Component {
               <Text style={styles.locationStyle}>{ location }</Text>
               <CardSection style={styles.cardSectionBottomStyle}>
                 <Text style={styles.priceStyle}>{ price } kr</Text>
-                <Text style={styles.dateStyle}>{ date }</Text>
+                <Text style={styles.dateStyle}>{ dateFormatted }</Text>
               </CardSection>
             </CardSection>
           </CardSection>
@@ -66,4 +68,4 @@ const styles = {
   }
 };
 
-export default App;
+export default BookDetail;

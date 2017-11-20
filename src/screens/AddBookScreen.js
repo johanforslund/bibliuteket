@@ -10,8 +10,9 @@ import BookForm from '../components/BookForm';
 class AddBookScreen extends Component {
   onButtonPress() {
     const {
-      author, date, description, email, location, phone, pictureUrl, price, name, title
+      author, description, email, location, phone, pictureUrl, price, name, title
     } = this.props;
+    const date = new Date().getTime();
 
     this.props.bookCreate({
       author, date, description, email, location, phone, pictureUrl, price, name, title
@@ -22,12 +23,13 @@ class AddBookScreen extends Component {
     return (
       <ScrollView>
         <Card>
-          <BookForm {...this.props} />
+          <BookForm />
           <CardSection>
             <Button
               raised
-              buttonStyle={{ backgroundColor: '#2ecc71', borderRadius: 10 }}
+              buttonStyle={{ backgroundColor: '#2ecc71' }}
               textStyle={{ textAlign: 'center' }}
+              backgroundColor='red'
               title={'Lägg upp'}
               onPress={this.onButtonPress.bind(this)}
             />
@@ -40,10 +42,10 @@ class AddBookScreen extends Component {
 
 const mapStateToProps = (state) => {
   const {
-    author, date, description, email, location, phone, pictureUrl, price, name, title
+    author, description, email, location, phone, pictureUrl, price, name, title
   } = state.bookForm;
 
-  return { author, date, description, email, location, phone, pictureUrl, price, name, title };
+  return { author, description, email, location, phone, pictureUrl, price, name, title };
 };
 
 export default connect(mapStateToProps, {

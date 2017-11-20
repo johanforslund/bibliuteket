@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import Card from '../components/Card';
 
-class ProfileView extends Component {
+class ProfileScreen extends Component {
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: '#CFE3E9' }}>
@@ -27,4 +27,4 @@ const styles = {
     }
   };
 
-export default ProfileView;
+export default ProfileScreen;

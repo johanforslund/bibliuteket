@@ -4,6 +4,8 @@ import firebase from 'firebase';
 import ReduxThunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
+import moment from 'moment';
+import 'moment/locale/sv';
 import BookScreen from './screens/BookScreen';
 import BookListScreen from './screens/BookListScreen';
 import AddBookScreen from './screens/AddBookScreen';
@@ -22,6 +24,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     console.ignoredYellowBox = ['Setting a timer'];
+    moment.locale('sv');
     const config = {
       apiKey: 'AIzaSyD04Ttv-pdfc6V9hlh2oBChnL_vtZOvk9E',
       authDomain: 'koma-26e03.firebaseapp.com',

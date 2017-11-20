@@ -4,7 +4,7 @@ import { ScrollView, TouchableOpacity } from 'react-native';
 import { booksFetch } from '../actions';
 import BookDetail from '../components/BookDetail';
 
-class BookList extends Component {
+class BookListScreen extends Component {
   componentWillMount() {
     this.props.booksFetch();
   }
@@ -48,4 +48,4 @@ const mapStateToProps = state => {
   return { books };
 };
 
-export default connect(mapStateToProps, { booksFetch })(BookList);
+export default connect(mapStateToProps, { booksFetch })(BookListScreen);

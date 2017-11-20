@@ -7,7 +7,7 @@ import {
 
 export const booksFetch = () => {
   return (dispatch) => {
-    firebase.database().ref('/books')
+    firebase.database().ref('books').orderByChild('date')
       .on('value', snapshot => {
         dispatch({ type: BOOKS_FETCH_SUCCESS, payload: snapshot.val() });
       });
