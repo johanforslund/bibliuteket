@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
-import { FormLabel, FormInput } from 'react-native-elements';
+import { View, Picker } from 'react-native';
+import { FormInput } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { bookUpdate } from '../actions';
 import CardSection from './CardSection';
@@ -12,7 +12,14 @@ class BookForm extends Component {
       <View>
         <ImageUploader />
         <CardSection>
-          <FormLabel>Författare</FormLabel>
+          <FormInput
+            placeholder="Bokens Titel"
+            value={this.props.title}
+            onChangeText={value => this.props.bookUpdate({ prop: 'title', value })}
+          />
+        </CardSection>
+
+        <CardSection>
           <FormInput
             placeholder="Författare"
             value={this.props.author}
@@ -20,8 +27,28 @@ class BookForm extends Component {
           />
         </CardSection>
 
+        <CardSection style={{ flexDirection: 'row', flex: 2, padding: 0 }}>
+          <CardSection style={{ flex: 1, paddingLeft: 21 }}>
+            <Picker
+              style={{ width: 120, color: '#a4a5a5' }}
+              selectedValue={this.props.location}
+              onValueChange={value => this.props.bookUpdate({ prop: 'location', value })}
+            >
+              <Picker.Item label="Norrköping" value="Norrköping" />
+              <Picker.Item label="Linköping" value="Linköping" />
+            </Picker>
+          </CardSection>
+
+          <CardSection style={{ flex: 1 }}>
+            <FormInput
+              placeholder="Pris"
+              value={this.props.price}
+              onChangeText={value => this.props.bookUpdate({ prop: 'price', value })}
+            />
+          </CardSection>
+        </CardSection>
+
         <CardSection>
-          <FormLabel>Beskrivning</FormLabel>
           <FormInput
             placeholder="Beskrivning"
             value={this.props.description}
@@ -30,25 +57,6 @@ class BookForm extends Component {
         </CardSection>
 
         <CardSection>
-          <FormLabel>Email</FormLabel>
-          <FormInput
-            placeholder="Email"
-            value={this.props.email}
-            onChangeText={value => this.props.bookUpdate({ prop: 'email', value })}
-          />
-        </CardSection>
-
-        <CardSection>
-          <FormLabel>Ort</FormLabel>
-          <FormInput
-            placeholder="Ort"
-            value={this.props.location}
-            onChangeText={value => this.props.bookUpdate({ prop: 'location', value })}
-          />
-        </CardSection>
-
-        <CardSection>
-          <FormLabel>Namn</FormLabel>
           <FormInput
             placeholder="Namn"
             value={this.props.name}
@@ -57,7 +65,14 @@ class BookForm extends Component {
         </CardSection>
 
         <CardSection>
-          <FormLabel>Telefonnummer</FormLabel>
+          <FormInput
+            placeholder="Email"
+            value={this.props.email}
+            onChangeText={value => this.props.bookUpdate({ prop: 'email', value })}
+          />
+        </CardSection>
+
+        <CardSection>
           <FormInput
             placeholder="Telefonnummer"
             value={this.props.phone}
@@ -65,23 +80,6 @@ class BookForm extends Component {
           />
         </CardSection>
 
-        <CardSection>
-          <FormLabel>Pris</FormLabel>
-          <FormInput
-            placeholder="Pris"
-            value={this.props.price}
-            onChangeText={value => this.props.bookUpdate({ prop: 'price', value })}
-          />
-        </CardSection>
-
-        <CardSection>
-          <FormLabel>Bokens Titel</FormLabel>
-          <FormInput
-            placeholder="Bokens Titel"
-            value={this.props.title}
-            onChangeText={value => this.props.bookUpdate({ prop: 'title', value })}
-          />
-        </CardSection>
       </View>
     );
   }

@@ -1,30 +1,28 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
-import Card from '../components/Card';
+import { List, ListItem } from 'react-native-elements';
+import { View } from 'react-native';
 
 class ProfileScreen extends Component {
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: '#CFE3E9' }}>
-        <Card>
-          <Text style={styles.profileTextStyle}>Sign in</Text>
-        </Card>
-        <Card>
-          <Text style={styles.profileTextStyle}>Help</Text>
-        </Card>
-        <Card>
-          <Text style={styles.profileTextStyle}>Contact</Text>
-        </Card>
-
+        <List>
+          <ListItem
+            title='Kontakt'
+            leftIcon={{ name: 'mail' }}
+          />
+          <ListItem
+            title='Hjälp'
+            leftIcon={{ name: 'help' }}
+          />
+          <ListItem
+            title='Logga ut'
+            leftIcon={{ name: 'log-out', type: 'entypo' }}
+          />
+        </List>
       </View>
     );
   }
 }
-const styles = {
-  profileTextStyle: {
-    fontSize: 25,
-    alignSelf: 'center',
-    }
-  };
 
 export default ProfileScreen;

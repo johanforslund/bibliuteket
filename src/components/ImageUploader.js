@@ -49,7 +49,7 @@ class ImageUploader extends Component {
 
   pickImage() {
     this.props.bookUpdate({ prop: 'pictureUrl', value: '' });
-    ImagePicker.launchImageLibrary({}, response => {
+    ImagePicker.launchImageLibrary({ maxWidth: 500 }, response => {
       this.uploadImage(response.uri)
         .then(url => this.props.bookUpdate({ prop: 'pictureUrl', value: url }))
         .catch(error => console.log(error));
@@ -63,7 +63,13 @@ class ImageUploader extends Component {
           (() => {
             switch (this.props.pictureUrl) {
               case null:
-                return null;
+                return (
+                  <TouchableOpacity onPress={() => this.pickImage()}>
+                    <Text style={styles.upload}>
+                      Upload
+                    </Text>
+                  </TouchableOpacity>
+                );
               case '':
                 return <ActivityIndicator />;
               default:
@@ -78,11 +84,7 @@ class ImageUploader extends Component {
             }
           })()
         }
-        <TouchableOpacity onPress={() => this.pickImage()}>
-          <Text style={styles.upload}>
-            Upload
-          </Text>
-        </TouchableOpacity>
+
       </View>
     );
   }

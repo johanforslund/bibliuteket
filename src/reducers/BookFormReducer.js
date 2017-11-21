@@ -4,16 +4,16 @@ import {
 } from '../actions/types';
 
 const INITIAL_STATE = {
-  author: 'Bengt Sandell',
+  author: '',
   date: '',
-  description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-  email: 'test@test.com',
+  description: '',
+  email: '',
   location: 'Norrköping',
-  name: 'Test Testsson',
-  phone: '0701234567',
+  name: '',
+  phone: '',
   pictureUrl: null,
-  price: '500',
-  title: 'Exempelbok'
+  price: '',
+  title: ''
 };
 
 export default (state = INITIAL_STATE, action) => {
