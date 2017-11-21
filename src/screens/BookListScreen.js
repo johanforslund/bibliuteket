@@ -22,7 +22,7 @@ class BookListScreen extends Component {
   renderBooks() {
     return this.props.books.map(book =>
       <TouchableOpacity
-        key={book.pictureUrl}
+        key={book.date}
         delayPressIn={50}
         onPress={() => this.handlePress(book)}
       >
