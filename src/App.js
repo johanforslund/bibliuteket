@@ -10,6 +10,7 @@ import BookScreen from './screens/BookScreen';
 import BookListScreen from './screens/BookListScreen';
 import AddBookScreen from './screens/AddBookScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import LoginScreen from './screens/LoginScreen';
 import reducers from './reducers';
 import { iconsLoaded, iconsMap } from './utils/AppIcons';
 
@@ -19,6 +20,7 @@ Navigation.registerComponent('BookListScreen', () => BookListScreen, store, Prov
 Navigation.registerComponent('BookScreen', () => BookScreen, store, Provider);
 Navigation.registerComponent('AddBookScreen', () => AddBookScreen, store, Provider);
 Navigation.registerComponent('ProfileScreen', () => ProfileScreen, store, Provider);
+Navigation.registerComponent('LoginScreen', () => LoginScreen, store, Provider);
 
 class App extends Component {
   constructor(props) {
@@ -35,11 +37,16 @@ class App extends Component {
     };
     firebase.initializeApp(config);
     iconsLoaded.then(() => {
-      this.startApp();
+      firebase.auth().onAuthStateChanged(user => {
+        if (user) this.startApp(true);
+        else this.startApp(false);
+      });
     });
   }
 
-  startApp() {
+  startApp(auth) {
+    const addBookScreen = auth ? 'AddBookScreen' : 'LoginScreen';
+    const profileScreen = auth ? 'ProfileScreen' : 'LoginScreen';
     Navigation.startTabBasedApp({
       tabs: [
         {
@@ -49,12 +56,12 @@ class App extends Component {
         },
         {
           label: 'Sälj bok',
-          screen: 'AddBookScreen',
+          screen: addBookScreen,
           icon: iconsMap.add
         },
         {
           label: 'Konto',
-          screen: 'ProfileScreen',
+          screen: profileScreen,
           icon: iconsMap.person
         }
       ],
