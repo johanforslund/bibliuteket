@@ -30,7 +30,7 @@ class BookForm extends Component {
         <CardSection style={{ flexDirection: 'row', flex: 2, padding: 0 }}>
           <CardSection style={{ flex: 1, paddingLeft: 21 }}>
             <Picker
-              style={{ width: 120, color: '#a4a5a5' }}
+              style={{ width: 135, color: '#a4a5a5' }}
               selectedValue={this.props.location}
               onValueChange={value => this.props.bookUpdate({ prop: 'location', value })}
             >

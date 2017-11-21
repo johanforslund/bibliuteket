@@ -37,7 +37,11 @@ class BookScreen extends Component {
          </CardSection>
          <CardSection style={styles.rowCardStyle}>
            <View style={{ flexDirection: 'row' }}>
-             <Icon name="location-on" size={20} color="#373737" style={[styles.iconStyle, { marginTop: 5 }]} />
+             <Icon
+              name="location-on"
+              size={20} color="#373737"
+              style={[styles.iconStyle, { marginTop: 5 }]}
+             />
              <Text style={[styles.subHeadingStyle, { alignSelf: 'center' }]}>
                { location }
              </Text>

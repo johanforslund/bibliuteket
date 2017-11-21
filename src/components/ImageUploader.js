@@ -65,9 +65,7 @@ class ImageUploader extends Component {
               case null:
                 return (
                   <TouchableOpacity onPress={() => this.pickImage()}>
-                    <Text style={styles.upload}>
-                      Upload
-                    </Text>
+                    <Image source={require('../images/uploadButton.png')} />
                   </TouchableOpacity>
                 );
               case '':
