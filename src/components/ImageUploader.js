@@ -10,7 +10,9 @@ import ImagePicker from 'react-native-image-picker';
 import RNFetchBlob from 'react-native-fetch-blob';
 import firebase from 'firebase';
 import { connect } from 'react-redux';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import { bookUpdate } from '../actions/BookActions';
+import CardSection from './CardSection';
 
 class ImageUploader extends Component {
   uploadImage(uri, mime = 'application/octet-stream') {
@@ -27,6 +29,7 @@ class ImageUploader extends Component {
 
       fs.readFile(uploadUri, 'base64')
         .then((data) => {
+          this.props.bookUpdate({ prop: 'pictureUrl', value: '' });
           return Blob.build(data, { type: `${mime};BASE64` });
         })
         .then((blob) => {
@@ -47,7 +50,7 @@ class ImageUploader extends Component {
   }
 
   pickImage() {
-    this.props.bookUpdate({ prop: 'pictureUrl', value: '' });
+    //this.props.bookUpdate({ prop: 'pictureUrl', value: '' });
     ImagePicker.launchImageLibrary({ maxWidth: 500 }, response => {
       this.uploadImage(response.uri)
         .then(url => this.props.bookUpdate({ prop: 'pictureUrl', value: url }))
@@ -64,18 +67,30 @@ class ImageUploader extends Component {
               case null:
                 return (
                   <TouchableOpacity onPress={() => this.pickImage()}>
-                    <Image source={require('../images/uploadButton.png')} />
+                    <Image style={{ width: 100, height: 100 }} source={require('../images/uploadButton.png')} />
                   </TouchableOpacity>
                 );
               case '':
-                return <ActivityIndicator />;
+                return (
+                  <CardSection>
+                    <ActivityIndicator />
+                  </CardSection>
+                );
               default:
                 return (
                   <View>
                     <Image
                       source={{ uri: this.props.pictureUrl }}
                       style={styles.image}
-                    />
+                    >
+                      <Icon
+                        onPress={() => this.props.bookUpdate({ prop: 'pictureUrl', value: null })}
+                        name="close"
+                        size={30}
+                        color="white"
+                        style={{ alignSelf: 'flex-end', backgroundColor: '#e53935' }}
+                      />
+                    </Image>
                   </View>
                 );
             }
@@ -98,6 +113,7 @@ const styles = {
     width: 250,
     height: 200,
     resizeMode: 'contain',
+    backgroundColor: '#373737'
   },
   upload: {
     textAlign: 'center',
