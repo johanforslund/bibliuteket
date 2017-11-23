@@ -55,12 +55,14 @@ class App extends Component {
           icon: iconsMap.home
         },
         {
-          label: 'Sälj bok',
+          label: 'Lägg ut bok',
+          title: 'Lägg ut bok',
           screen: addBookScreen,
           icon: iconsMap.add
         },
         {
           label: 'Konto',
+          title: 'Konto',
           screen: profileScreen,
           icon: iconsMap.person
         }
@@ -74,7 +76,8 @@ class App extends Component {
         forceTitlesDisplay: true,
         navBarBackgroundColor: '#29749D',
         navBarTextColor: '#ffffff',
-        navBarButtonColor: '#ffffff'
+        navBarButtonColor: '#ffffff',
+        navBarTitleTextCentered: true
       },
       tabsStyle: {
         tabBarButtonColor: '#94bace',
