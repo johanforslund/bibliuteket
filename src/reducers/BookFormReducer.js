@@ -8,7 +8,7 @@ const INITIAL_STATE = {
   date: '',
   description: '',
   email: '',
-  location: 'Norrköping',
+  location: '',
   name: '',
   phone: '',
   pictureUrl: null,
