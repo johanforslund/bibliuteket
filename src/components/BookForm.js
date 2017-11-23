@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { View, Picker } from 'react-native';
+import { View } from 'react-native';
 import { FormInput } from 'react-native-elements';
 import { connect } from 'react-redux';
+import ModalSelector from 'react-native-modal-selector';
 import { bookUpdate } from '../actions';
 import CardSection from './CardSection';
 import Card from './Card';
@@ -9,6 +10,12 @@ import ImageUploader from '../components/ImageUploader';
 
 class BookForm extends Component {
   render() {
+    let index = 0;
+    const data = [
+      { key: index++, label: 'Norrköping' },
+      { key: index++, label: 'Linköping' }
+    ];
+
     return (
       <View>
         <Card style={{ marginBottom: 10 }}>
@@ -25,7 +32,7 @@ class BookForm extends Component {
               onChangeText={value => this.props.bookUpdate({ prop: 'title', value })}
             />
           </CardSection>
-
+          
           <CardSection>
             <FormInput
               ref='Author'
@@ -38,20 +45,20 @@ class BookForm extends Component {
               value={this.props.author}
               onChangeText={value => this.props.bookUpdate({ prop: 'author', value })}
             />
+
           </CardSection>
 
           <CardSection style={{ flexDirection: 'row', flex: 2, padding: 0 }}>
-            <CardSection style={{ flex: 1, paddingLeft: 21 }}>
-              <Picker
-                style={{ width: 135, color: '#a4a5a5' }}
-                selectedValue={this.props.location}
-                onValueChange={value => this.props.bookUpdate({ prop: 'location', value })}
-              >
-                <Picker.Item label="Norrköping" value="Norrköping" />
-                <Picker.Item label="Linköping" value="Linköping" />
-              </Picker>
+            <CardSection style={{ flex: 1, paddingLeft: 30 }}>
+              <ModalSelector
+                data={data}
+                selectTextStyle={{ color: '#c2c3c9' }}
+                initValue='Välj ort...'
+                backdropPressToClose
+                cancelText={'Avbryt'}
+                onChange={value => this.props.bookUpdate({ prop: 'location', value: value.label })}
+              />
             </CardSection>
-
             <CardSection style={{ flex: 1 }}>
               <FormInput
                 ref='Price'
