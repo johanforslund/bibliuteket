@@ -22,7 +22,7 @@ class AddBookScreen extends Component {
   render() {
     return (
       <ScrollView>
-        <Card>
+        <Card style={{ backgroundColor: '#CFE3E9' }}>
           <BookForm />
           <CardSection>
             <Button
