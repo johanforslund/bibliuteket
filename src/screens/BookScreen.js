@@ -14,7 +14,7 @@ class BookScreen extends Component {
     const { currentUser } = firebase.auth();
     const { uid, user } = this.props.book;
     const { navigator } = this.props;
-    if (currentUser.uid === user) {
+    if (currentUser && currentUser.uid === user) {
       return (
         <Button
           raised
