@@ -33,7 +33,7 @@ class LoginScreen extends Component {
     return (
       <View>
         <CardSection style={{ marginTop: 40, marginBottom: 40 }}>
-          <Image style={{ alignSelf: 'center' }} source={require('../images/uploadButton.png')} />
+      
         </CardSection>
         <CardSection>
           <View style={styles.searchSection}>
