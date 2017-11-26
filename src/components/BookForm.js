@@ -3,12 +3,17 @@ import { View } from 'react-native';
 import { FormInput } from 'react-native-elements';
 import { connect } from 'react-redux';
 import ModalSelector from 'react-native-modal-selector';
+import firebase from 'firebase';
 import { bookUpdate } from '../actions';
 import CardSection from './CardSection';
 import Card from './Card';
 import ImageUploader from '../components/ImageUploader';
 
 class BookForm extends Component {
+  componentWillMount() {
+    this.props.bookUpdate({ prop: 'name', value: firebase.auth().currentUser.displayName });
+  }
+
   render() {
     let index = 0;
     const data = [
@@ -32,7 +37,7 @@ class BookForm extends Component {
               onChangeText={value => this.props.bookUpdate({ prop: 'title', value })}
             />
           </CardSection>
-          
+
           <CardSection>
             <FormInput
               ref='Author'

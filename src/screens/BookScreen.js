@@ -2,10 +2,32 @@ import React, { Component } from 'react';
 import { ScrollView, View, Text, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import moment from 'moment';
+import firebase from 'firebase';
+import { connect } from 'react-redux';
+import { Button } from 'react-native-elements';
 import Card from '../components/Card';
 import CardSection from '../components/CardSection';
+import { bookDelete } from '../actions';
 
 class BookScreen extends Component {
+  renderDeleteButton() {
+    const { currentUser } = firebase.auth();
+    const { uid, user } = this.props.book;
+    const { navigator } = this.props;
+    if (currentUser.uid === user) {
+      return (
+        <Button
+          raised
+          buttonStyle={{ backgroundColor: '#F44336', marginBottom: 15 }}
+          textStyle={{ textAlign: 'center' }}
+          backgroundColor='red'
+          title={'Ta bort'}
+          onPress={() => this.props.bookDelete({ uid, navigator })}
+        />
+      );
+    }
+  }
+
   render() {
     const {
       author,
@@ -17,7 +39,7 @@ class BookScreen extends Component {
       phone,
       pictureUrl,
       price,
-      title
+      title,
     } = this.props.book;
     const formattedDate = moment(date).fromNow();
 
@@ -86,6 +108,7 @@ class BookScreen extends Component {
              </Text>
            </View>
          </CardSection>
+         {this.renderDeleteButton()}
         </Card>
      </ScrollView>
     );
@@ -132,4 +155,4 @@ const styles = {
   }
 };
 
-export default BookScreen;
+export default connect(null, { bookDelete })(BookScreen);

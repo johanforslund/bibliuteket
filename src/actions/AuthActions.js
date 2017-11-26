@@ -1,7 +1,6 @@
 import firebase from 'firebase';
 import {
-  EMAIL_CHANGED,
-  PASSWORD_CHANGED,
+  USER_UPDATE,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAIL,
   LOGIN_USER,
@@ -10,17 +9,10 @@ import {
   REGISTER_USER
 } from './types';
 
-export const emailChanged = (text) => {
+export const userUpdate = ({ prop, value }) => {
   return {
-    type: EMAIL_CHANGED,
-    payload: text
-  };
-};
-
-export const passwordChanged = (text) => {
-  return {
-    type: PASSWORD_CHANGED,
-    payload: text
+    type: USER_UPDATE,
+    payload: { prop, value }
   };
 };
 
@@ -34,12 +26,16 @@ export const loginUser = ({ email, password }) => {
   };
 };
 
-export const registerUser = ({ email, password }) => {
+export const registerUser = ({ name, email, password }) => {
   return (dispatch) => {
     dispatch({ type: REGISTER_USER });
-
     firebase.auth().createUserWithEmailAndPassword(email, password)
-      .then(user => registerUserSuccess(dispatch, user))
+      .then(user => {
+        user.updateProfile({
+          displayName: name
+        });
+        registerUserSuccess(dispatch, user);
+      })
       .catch(error => registerUserFail(error.message, dispatch));
   };
 };
@@ -65,6 +61,9 @@ const registerUserFail = (error, dispatch) => {
   });
 };
 
-const registerUserSuccess = (dispatch) => {
-  dispatch({ type: REGISTER_USER_SUCCESS });
+const registerUserSuccess = (dispatch, user) => {
+  dispatch({
+    type: REGISTER_USER_SUCCESS,
+    payload: user
+  });
 };

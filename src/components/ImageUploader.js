@@ -67,7 +67,10 @@ class ImageUploader extends Component {
               case null:
                 return (
                   <TouchableOpacity onPress={() => this.pickImage()}>
-                    <Image style={{ width: 100, height: 100 }} source={require('../images/uploadButton.png')} />
+                    <Image
+                      style={{ width: 100, height: 100 }}
+                      source={require('../images/uploadButton.png')} //eslint-disable-line
+                    />
                   </TouchableOpacity>
                 );
               case '':

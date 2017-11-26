@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Text, View, Image, TouchableWithoutFeedback } from 'react-native';
+import { Text, View, TouchableWithoutFeedback } from 'react-native';
 import { FormInput, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { emailChanged, passwordChanged, loginUser, registerUser } from '../actions';
+import { userUpdate, loginUser } from '../actions';
 import CardSection from '../components/CardSection';
 
 class LoginScreen extends Component {
@@ -12,17 +12,9 @@ class LoginScreen extends Component {
     this.props.loginUser({ email, password });
   }
 
-  onEmailChange(text) {
-    this.props.emailChanged(text);
-  }
-
-  onPasswordChange(text) {
-    this.props.passwordChanged(text);
-  }
-
   handleRegisterButtonPress() {
     this.props.navigator.push({
-      screen: 'BookListScreen',
+      screen: 'RegisterScreen',
       navigatorStyle: {
         tabBarHidden: true
       }
@@ -32,9 +24,7 @@ class LoginScreen extends Component {
   render() {
     return (
       <View>
-        <CardSection style={{ marginTop: 40, marginBottom: 40 }}>
-      
-        </CardSection>
+        <CardSection style={{ marginTop: 40, marginBottom: 40 }} />
         <CardSection>
           <View style={styles.searchSection}>
             <Icon color="#a5a5a5" name="person" size={20} style={styles.searchIcon} />
@@ -43,7 +33,7 @@ class LoginScreen extends Component {
               inputStyle={{ marginLeft: 30 }}
               placeholder="LiU-ID"
               value={this.props.email}
-              onChangeText={this.onEmailChange.bind(this)}
+              onChangeText={value => this.props.userUpdate({ prop: 'email', value })}
             />
           </View>
           <View style={styles.searchSection}>
@@ -53,7 +43,9 @@ class LoginScreen extends Component {
               inputStyle={{ marginLeft: 30 }}
               placeholder="Lösenord"
               value={this.props.password}
-              onChangeText={this.onPasswordChange.bind(this)}
+              autoCorrect={false}
+              secureTextEntry
+              onChangeText={value => this.props.userUpdate({ prop: 'password', value })}
             />
           </View>
           <Button
@@ -69,12 +61,13 @@ class LoginScreen extends Component {
             {this.props.error}
           </Text>
         </CardSection>
-        <CardSection>
-          <Text style={{ alignSelf: 'center' }}>Har du inget konto?
-            <TouchableWithoutFeedback onPress={this.handleRegisterButtonPress.bind(this)}>
+        <CardSection style={{ flexDirection: 'row', justifyContent: 'center' }}>
+          <Text style={{ alignSelf: 'center' }}>Har du inget konto?</Text>
+          <TouchableWithoutFeedback onPress={this.handleRegisterButtonPress.bind(this)}>
+            <View>
               <Text style={{ color: '#2ecc71' }}> Registrera ditt konto här</Text>
-            </TouchableWithoutFeedback>
-          </Text>
+            </View>
+          </TouchableWithoutFeedback>
         </CardSection>
       </View>
     );
@@ -108,5 +101,5 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, {
-  emailChanged, passwordChanged, loginUser, registerUser
+  userUpdate, loginUser
 })(LoginScreen);

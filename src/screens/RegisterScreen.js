@@ -2,58 +2,33 @@ import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import { FormInput, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { emailChanged, passwordChanged, loginUser, registerUser } from '../actions';
+import { userUpdate, registerUser } from '../actions';
 
 class LoginScreen extends Component {
-  onLoginPress() {
-    const { email, password } = this.props;
-    this.props.loginUser({ email, password });
-  }
-
   onRegisterPress() {
-    const { email, password } = this.props;
-    this.props.registerUser({ email, password });
-  }
-
-  onEmailChange(text) {
-    this.props.emailChanged(text);
-  }
-
-  onPasswordChange(text) {
-    this.props.passwordChanged(text);
+    const { name, email, password } = this.props;
+    this.props.registerUser({ name, email, password });
   }
 
   render() {
     return (
       <View>
         <FormInput
+          placeholder="Namn"
+          value={this.props.name}
+          onChangeText={value => this.props.userUpdate({ prop: 'name', value })}
+        />
+        <FormInput
           placeholder="Email"
           value={this.props.email}
-          onChangeText={this.onEmailChange.bind(this)}
+          onChangeText={value => this.props.userUpdate({ prop: 'email', value })}
         />
         <FormInput
           placeholder="Lösenord"
           value={this.props.password}
-          onChangeText={this.onPasswordChange.bind(this)}
-        />
-        <Button
-          raised
-          buttonStyle={{ backgroundColor: '#2ecc71' }}
-          textStyle={{ textAlign: 'center' }}
-          backgroundColor='red'
-          title={'Logga in'}
-          onPress={this.onLoginPress.bind(this)}
-        />
-
-        <FormInput
-          placeholder="Email"
-          value={this.props.email}
-          onChangeText={this.onEmailChange.bind(this)}
-        />
-        <FormInput
-          placeholder="Lösenord"
-          value={this.props.password}
-          onChangeText={this.onPasswordChange.bind(this)}
+          autoCorrect={false}
+          secureTextEntry
+          onChangeText={value => this.props.userUpdate({ prop: 'password', value })}
         />
         <Button
           raised
@@ -81,11 +56,11 @@ const styles = {
 };
 
 const mapStateToProps = (state) => {
-  const { email, password, error, loading } = state.auth;
+  const { name, email, password, error, loading } = state.auth;
 
-  return { email, password, error, loading };
+  return { name, email, password, error, loading };
 };
 
 export default connect(mapStateToProps, {
-  emailChanged, passwordChanged, loginUser, registerUser
+  userUpdate, registerUser
 })(LoginScreen);

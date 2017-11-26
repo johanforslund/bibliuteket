@@ -15,6 +15,7 @@ class ProfileScreen extends Component {
       <View style={{ flex: 1, backgroundColor: '#CFE3E9' }}>
         <Card>
           <CardSection>
+            <Text>{firebase.auth().currentUser.displayName}</Text>
             <Text>{firebase.auth().currentUser.email}</Text>
           </CardSection>
         </Card>

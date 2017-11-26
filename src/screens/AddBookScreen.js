@@ -10,12 +10,12 @@ import BookForm from '../components/BookForm';
 class AddBookScreen extends Component {
   onButtonPress() {
     const {
-      author, description, email, location, phone, pictureUrl, price, name, title
+      author, description, email, location, phone, pictureUrl, price, name, title, navigator
     } = this.props;
     const date = new Date().getTime();
 
     this.props.bookCreate({
-      author, date, description, email, location, phone, pictureUrl, price, name, title
+      author, date, description, email, location, phone, pictureUrl, price, name, title, navigator
     });
   }
 

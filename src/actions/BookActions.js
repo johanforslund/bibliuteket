@@ -11,7 +11,8 @@ export const booksFetch = () => {
       .on('value', snapshot => {
         const books = [];
         snapshot.forEach(child => {
-          books.push(child.val());
+          const childWithUid = { ...child.val(), uid: child.key };
+          books.push(childWithUid);
         });
         books.reverse();
         dispatch({ type: BOOKS_FETCH_SUCCESS, payload: books });
@@ -27,13 +28,40 @@ export const bookUpdate = ({ prop, value }) => {
 };
 
 export const bookCreate = ({
-  author, date, description, email, location, phone, pictureUrl, price, name, title
+  author, date, description, email, location, phone, pictureUrl, price, name, title, navigator
 }) => {
+  const { currentUser } = firebase.auth();
+
   return (dispatch) => {
     firebase.database().ref('/books')
-      .push({ author, date, description, email, location, phone, pictureUrl, price, name, title })
+      .push({
+        author,
+        date,
+        user: currentUser.uid,
+        description,
+        email,
+        location,
+        phone,
+        pictureUrl,
+        price,
+        name,
+        title
+      })
       .then(() => {
         dispatch({ type: BOOK_CREATE });
+        navigator.switchToTab({
+          tabIndex: 0
+        });
+      });
+  };
+};
+
+export const bookDelete = ({ uid, navigator }) => {
+  return () => {
+    firebase.database().ref(`books/${uid}`)
+      .remove()
+      .then(() => {
+        navigator.popToRoot({});
       });
   };
 };
