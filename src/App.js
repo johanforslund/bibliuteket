@@ -79,7 +79,9 @@ class App extends Component {
         navBarBackgroundColor: '#29749D',
         navBarTextColor: '#ffffff',
         navBarButtonColor: '#ffffff',
-        navBarTitleTextCentered: true
+        navBarTitleTextCentered: true,
+        navBarHideOnScroll: true,
+        drawUnderTabBar: true
       },
       tabsStyle: {
         tabBarButtonColor: '#94bace',

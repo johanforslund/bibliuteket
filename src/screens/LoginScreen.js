@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableWithoutFeedback } from 'react-native';
+import { Text, View, TouchableWithoutFeedback, Image } from 'react-native';
 import { FormInput, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -24,7 +24,9 @@ class LoginScreen extends Component {
   render() {
     return (
       <View>
-        <CardSection style={{ marginTop: 40, marginBottom: 40 }} />
+        <CardSection style={{ alignItems: 'center', marginTop: 40 }}>
+          <Image style={{ width: 200, height: 161 }} source={require('../images/inAppLogo.png')} />
+        </CardSection>
         <CardSection>
           <View style={styles.searchSection}>
             <Icon color="#a5a5a5" name="person" size={20} style={styles.searchIcon} />
