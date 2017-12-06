@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableWithoutFeedback, Image } from 'react-native';
+import { Text, View, ScrollView, TouchableWithoutFeedback, Image, Keyboard } from 'react-native';
 import { FormInput, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -7,6 +7,26 @@ import { userUpdate, loginUser } from '../actions';
 import CardSection from '../components/CardSection';
 
 class LoginScreen extends Component {
+  static navigatorStyle = {
+    navBarHideOnScroll: false
+  }
+
+  constructor(props) {
+    super(props);
+    this.keyboardWillShow = this.keyboardWillShow.bind(this);
+    this.keyboardWillHide = this.keyboardWillHide.bind(this);
+  }
+
+  componentWillMount() {
+    this.keyboardWillShowSub = Keyboard.addListener('keyboardDidShow', this.keyboardWillShow);
+    this.keyboardWillHideSub = Keyboard.addListener('keyboardDidHide', this.keyboardWillHide);
+  }
+
+  componentWillUnmount() {
+    this.keyboardWillShowSub.remove();
+    this.keyboardWillHideSub.remove();
+  }
+
   onLoginPress() {
     const { email, password } = this.props;
     this.props.loginUser({ email, password });
@@ -21,9 +41,23 @@ class LoginScreen extends Component {
     });
   }
 
+  keyboardWillShow() {
+    this.props.navigator.toggleTabs({
+      to: 'hidden',
+      animated: false
+    });
+  }
+
+  keyboardWillHide() {
+    this.props.navigator.toggleTabs({
+      to: 'shown',
+      animated: false
+    });
+  }
+
   render() {
     return (
-      <View>
+      <ScrollView keyboardShouldPersistTaps="handled">
         <CardSection style={{ alignItems: 'center', marginTop: 40 }}>
           <Image style={{ width: 200, height: 161 }} source={require('../images/inAppLogo.png')} />
         </CardSection>
@@ -36,6 +70,10 @@ class LoginScreen extends Component {
               placeholder="LiU-ID"
               value={this.props.email}
               onChangeText={value => this.props.userUpdate({ prop: 'email', value })}
+              onSubmitEditing={() => {
+                this.refs.Password.focus();
+              }}
+              returnKeyType="next"
             />
           </View>
           <View style={styles.searchSection}>
@@ -48,6 +86,7 @@ class LoginScreen extends Component {
               autoCorrect={false}
               secureTextEntry
               onChangeText={value => this.props.userUpdate({ prop: 'password', value })}
+              ref="Password"
             />
           </View>
           <Button
@@ -71,7 +110,7 @@ class LoginScreen extends Component {
             </View>
           </TouchableWithoutFeedback>
         </CardSection>
-      </View>
+      </ScrollView>
     );
   }
 }
