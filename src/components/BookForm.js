@@ -27,7 +27,7 @@ class BookForm extends Component {
           <ImageUploader />
           <CardSection>
             <FormInput
-              returnKeyType="go"
+              returnKeyType="next"
               autoCapitalize="sentences"
               placeholder="Bokens Titel"
               onSubmitEditing={() => {
@@ -42,7 +42,7 @@ class BookForm extends Component {
             <FormInput
               ref='Author'
               autoCapitalize="words"
-              returnKeyType="go"
+              returnKeyType="next"
               placeholder="Författare"
               onSubmitEditing={() => {
                 this.refs.Price.focus();
@@ -67,7 +67,7 @@ class BookForm extends Component {
             <CardSection style={{ flex: 1 }}>
               <FormInput
                 ref='Price'
-                returnKeyType="go"
+                returnKeyType="next"
                 keyboardType="numeric"
                 placeholder="Pris"
                 onSubmitEditing={() => {
@@ -82,7 +82,7 @@ class BookForm extends Component {
           <CardSection style={{ marginBottom: 24 }}>
             <FormInput
               ref='Description'
-              returnKeyType="go"
+              returnKeyType="next"
               autoCapitalize="sentences"
               placeholder="Beskrivning"
               numberOfLines={3}
@@ -99,7 +99,7 @@ class BookForm extends Component {
           <CardSection>
             <FormInput
               ref='Name'
-              returnKeyType="go"
+              returnKeyType="next"
               autoCapitalize="words"
               placeholder="Namn"
               onSubmitEditing={() => {
@@ -113,7 +113,7 @@ class BookForm extends Component {
           <CardSection>
             <FormInput
               ref='Email'
-              returnKeyType="go"
+              returnKeyType="next"
               placeholder="Email"
               onSubmitEditing={() => {
                 this.refs.Number.focus();
