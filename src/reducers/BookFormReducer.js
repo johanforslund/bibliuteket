@@ -13,6 +13,7 @@ const INITIAL_STATE = {
   phone: '',
   pictureUrl: null,
   price: '',
+  searchTitle: '',
   title: ''
 };
 

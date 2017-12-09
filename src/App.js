@@ -12,6 +12,7 @@ import AddBookScreen from './screens/AddBookScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
+import SearchBar from './components/SearchBar';
 import reducers from './reducers';
 import { iconsLoaded, iconsMap } from './utils/AppIcons';
 
@@ -23,6 +24,7 @@ Navigation.registerComponent('AddBookScreen', () => AddBookScreen, store, Provid
 Navigation.registerComponent('ProfileScreen', () => ProfileScreen, store, Provider);
 Navigation.registerComponent('LoginScreen', () => LoginScreen, store, Provider);
 Navigation.registerComponent('RegisterScreen', () => RegisterScreen, store, Provider);
+Navigation.registerComponent('SearchBar', () => SearchBar, store, Provider);
 
 class App extends Component {
   constructor(props) {

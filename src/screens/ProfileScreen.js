@@ -6,6 +6,10 @@ import Card from '../components/Card';
 import CardSection from '../components/CardSection';
 
 class ProfileScreen extends Component {
+  static navigatorStyle = {
+    navBarHideOnScroll: false
+  }
+
   onLogout() {
     firebase.auth().signOut();
   }

@@ -9,3 +9,5 @@ export const REGISTER_USER = 'register_user';
 export const BOOKS_FETCH_SUCCESS = 'books_fetch_success';
 export const BOOK_UPDATE = 'book_update';
 export const BOOK_CREATE = 'book_create';
+export const BOOKS_SEARCH_SUCCESS = 'books_search_success';
+export const SEARCH_UPDATE = 'search_update';

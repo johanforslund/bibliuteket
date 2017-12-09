@@ -2,7 +2,9 @@ import firebase from 'firebase';
 import {
   BOOKS_FETCH_SUCCESS,
   BOOK_UPDATE,
-  BOOK_CREATE
+  BOOK_CREATE,
+  BOOKS_SEARCH_SUCCESS,
+  SEARCH_UPDATE
 } from './types';
 
 export const booksFetch = () => {
@@ -17,6 +19,30 @@ export const booksFetch = () => {
         books.reverse();
         dispatch({ type: BOOKS_FETCH_SUCCESS, payload: books });
       });
+  };
+};
+
+export const booksSearch = (value) => {
+  return (dispatch) => {
+    firebase.database().ref('books').orderByChild('date')
+      .once('value', snapshot => {
+        const books = [];
+        snapshot.forEach(child => {
+          if (child.val().title.toLowerCase().includes(value.toLowerCase().trim())) {
+            const childWithUid = { ...child.val(), uid: child.key };
+            books.push(childWithUid);
+          }
+        });
+        books.reverse();
+        dispatch({ type: BOOKS_SEARCH_SUCCESS, payload: books });
+      });
+  };
+};
+
+export const searchUpdate = (searchTitle) => {
+  return {
+    type: SEARCH_UPDATE,
+    payload: searchTitle
   };
 };
 

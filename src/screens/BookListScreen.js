@@ -5,6 +5,16 @@ import { booksFetch } from '../actions';
 import BookDetail from '../components/BookDetail';
 
 class BookListScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.props.navigator.setStyle({
+      navBarCustomView: 'SearchBar',
+      navBarCustomViewInitialProps: {
+        store: this.props.store
+      }
+    });
+  }
+
   componentWillMount() {
     this.props.booksFetch();
   }
