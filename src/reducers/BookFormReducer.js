@@ -9,7 +9,6 @@ const INITIAL_STATE = {
   description: '',
   email: '',
   location: '',
-  name: '',
   phone: '',
   pictureUrl: null,
   price: '',

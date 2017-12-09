@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { FormInput } from 'react-native-elements';
 import { connect } from 'react-redux';
-import ModalSelector from 'react-native-modal-selector';
 import firebase from 'firebase';
+import ModalSelector from 'react-native-modal-selector';
 import { bookUpdate } from '../actions';
 import CardSection from './CardSection';
 import Card from './Card';
@@ -11,7 +11,7 @@ import ImageUploader from '../components/ImageUploader';
 
 class BookForm extends Component {
   componentWillMount() {
-    this.props.bookUpdate({ prop: 'name', value: firebase.auth().currentUser.displayName });
+    this.props.bookUpdate({ prop: 'email', value: firebase.auth().currentUser.email });
   }
 
   render() {
@@ -102,11 +102,11 @@ class BookForm extends Component {
               returnKeyType="next"
               autoCapitalize="words"
               placeholder="Namn"
+              editable={false}
               onSubmitEditing={() => {
                 this.refs.Email.focus();
               }}
-              value={this.props.name}
-              onChangeText={value => this.props.bookUpdate({ prop: 'name', value })}
+              value={this.props.user.displayName}
             />
           </CardSection>
 
@@ -127,7 +127,7 @@ class BookForm extends Component {
             <FormInput
               ref='Number'
               keyboardType="numeric"
-              placeholder="Telefonnummer"
+              placeholder="Telefonnummer (frivilligt)"
               value={this.props.phone}
               onChangeText={value => this.props.bookUpdate({ prop: 'phone', value })}
             />
@@ -141,10 +141,12 @@ class BookForm extends Component {
 
 const mapStateToProps = (state) => {
   const {
-    author, description, email, location, phone, pictureUrl, price, name, title
+    author, description, email, location, phone, pictureUrl, price, title
   } = state.bookForm;
 
-  return { author, description, email, location, phone, pictureUrl, price, name, title };
+  const { user } = state.auth;
+
+  return { author, description, email, location, phone, pictureUrl, price, title, user };
 };
 
 export default connect(mapStateToProps, { bookUpdate })(BookForm);

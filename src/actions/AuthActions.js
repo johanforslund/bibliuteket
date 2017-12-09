@@ -1,5 +1,6 @@
 import firebase from 'firebase';
 import {
+  FETCH_USER,
   USER_UPDATE,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAIL,
@@ -8,6 +9,13 @@ import {
   REGISTER_USER_FAIL,
   REGISTER_USER
 } from './types';
+
+export const fetchUser = (user) => {
+  return {
+    type: FETCH_USER,
+    payload: user
+  };
+};
 
 export const userUpdate = ({ prop, value }) => {
   return {
@@ -33,8 +41,10 @@ export const registerUser = ({ name, email, password }) => {
       .then(user => {
         user.updateProfile({
           displayName: name
+        })
+        .then(() => {
+          registerUserSuccess(dispatch, user);
         });
-        registerUserSuccess(dispatch, user);
       })
       .catch(error => registerUserFail(error.message, dispatch));
   };

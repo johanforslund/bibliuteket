@@ -1,4 +1,5 @@
 import {
+  FETCH_USER,
   USER_UPDATE,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAIL,
@@ -12,13 +13,15 @@ const INITIAL_STATE = {
   name: '',
   email: '',
   password: '',
-  user: null,
+  user: {},
   error: '',
   loading: false
 };
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case FETCH_USER:
+      return { ...state, user: action.payload };
     case USER_UPDATE:
       return { ...state, [action.payload.prop]: action.payload.value };
     case LOGIN_USER:

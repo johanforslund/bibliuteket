@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import firebase from 'firebase';
 import { ScrollView, TouchableOpacity } from 'react-native';
-import { booksFetch } from '../actions';
+import { booksFetch, fetchUser } from '../actions';
 import BookDetail from '../components/BookDetail';
 
 class BookListScreen extends Component {
@@ -17,6 +18,9 @@ class BookListScreen extends Component {
 
   componentWillMount() {
     this.props.booksFetch();
+    if (this.props.user.displayName === undefined) {
+      this.props.fetchUser(firebase.auth().currentUser);
+    }
   }
 
   handlePress = (book) => {
@@ -55,7 +59,9 @@ const mapStateToProps = state => {
     return state.books[key];
   });
 
-  return { books };
+  const { user } = state.auth;
+
+  return { books, user };
 };
 
-export default connect(mapStateToProps, { booksFetch })(BookListScreen);
+export default connect(mapStateToProps, { booksFetch, fetchUser })(BookListScreen);

@@ -11,14 +11,14 @@ export const booksFetch = () => {
   return (dispatch) => {
     firebase.database().ref('books').orderByChild('date')
       .on('value', snapshot => {
-        const books = [];
-        snapshot.forEach(child => {
-          const childWithUid = { ...child.val(), uid: child.key };
-          books.push(childWithUid);
-        });
-        books.reverse();
-        dispatch({ type: BOOKS_FETCH_SUCCESS, payload: books });
+      const books = [];
+      snapshot.forEach(child => {
+        const childWithUid = { ...child.val(), uid: child.key };
+        books.push(childWithUid);
       });
+      books.reverse();
+      dispatch({ type: BOOKS_FETCH_SUCCESS, payload: books });
+    });
   };
 };
 
@@ -54,9 +54,10 @@ export const bookUpdate = ({ prop, value }) => {
 };
 
 export const bookCreate = ({
-  author, date, description, email, location, phone, pictureUrl, price, name, title, navigator
+  author, date, description, email, location, phone, pictureUrl, price, title, navigator
 }) => {
   const { currentUser } = firebase.auth();
+  const name = currentUser.displayName;
 
   return (dispatch) => {
     firebase.database().ref('/books')
