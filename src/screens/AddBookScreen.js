@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { ScrollView, Keyboard } from 'react-native';
+import { ScrollView, Keyboard, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { Button } from 'react-native-elements';
+import firebase from 'firebase';
 import { bookUpdate, bookCreate } from '../actions';
 import Card from '../components/Card';
 import CardSection from '../components/CardSection';
@@ -16,6 +17,10 @@ class AddBookScreen extends Component {
     super(props);
     this.keyboardWillShow = this.keyboardWillShow.bind(this);
     this.keyboardWillHide = this.keyboardWillHide.bind(this);
+  }
+
+  state = {
+    emailVerified: false
   }
 
   componentWillMount() {
@@ -39,6 +44,13 @@ class AddBookScreen extends Component {
     });
   }
 
+  retryEmail() {
+    firebase.auth().currentUser.reload();
+    if (firebase.auth().currentUser.emailVerified) {
+      this.setState({ emailVerified: true });
+    }
+  }
+
   keyboardWillShow() {
     this.props.navigator.toggleTabs({
       to: 'hidden',
@@ -53,22 +65,43 @@ class AddBookScreen extends Component {
     });
   }
 
+  renderAddBookScreen() {
+    if (firebase.auth().currentUser.emailVerified) {
+      return (
+          <Card style={{ backgroundColor: '#CFE3E9' }}>
+            <BookForm />
+            <CardSection>
+              <Button
+                raised
+                buttonStyle={{ backgroundColor: '#2ecc71' }}
+                textStyle={{ textAlign: 'center' }}
+                backgroundColor='red'
+                title={'Lägg upp'}
+                onPress={this.onButtonPress.bind(this)}
+              />
+            </CardSection>
+          </Card>
+      );
+    }
+
+    return (
+      <Card style={{ backgroundColor: '#CFE3E9' }}>
+        <CardSection>
+          <Text>
+            För att lägga upp en bok behöver du verifiera din email först. Ett mail har skickats till: {firebase.auth().currentUser.email}
+          </Text>
+          <TouchableOpacity onPress={() => this.retryEmail()}>
+            <Text>Testa igen</Text>
+          </TouchableOpacity>
+        </CardSection>
+      </Card>
+    );
+  }
+
   render() {
     return (
       <ScrollView keyboardShouldPersistTaps="handled">
-        <Card style={{ backgroundColor: '#CFE3E9' }}>
-          <BookForm />
-          <CardSection>
-            <Button
-              raised
-              buttonStyle={{ backgroundColor: '#2ecc71' }}
-              textStyle={{ textAlign: 'center' }}
-              backgroundColor='red'
-              title={'Lägg upp'}
-              onPress={this.onButtonPress.bind(this)}
-            />
-          </CardSection>
-        </Card>
+        {this.renderAddBookScreen()}
       </ScrollView>
     );
   }

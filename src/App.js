@@ -40,6 +40,7 @@ class App extends Component {
       messagingSenderId: '943209967796'
     };
     firebase.initializeApp(config);
+    firebase.auth().languageCode = 'sv';
     iconsLoaded.then(() => {
       firebase.auth().onAuthStateChanged(user => {
         if (user) this.startApp(true);

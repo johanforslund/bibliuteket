@@ -43,6 +43,11 @@ export const registerUser = ({ name, email, password }) => {
           displayName: name
         })
         .then(() => {
+          user.sendEmailVerification()
+          .then(() => console.log('Sent email confirmation'))
+          .catch(error => console.log(error));
+        })
+        .then(() => {
           registerUserSuccess(dispatch, user);
         });
       })

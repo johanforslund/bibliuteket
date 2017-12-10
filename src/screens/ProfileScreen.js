@@ -32,7 +32,6 @@ class ProfileScreen extends Component {
   }
 
   renderProfileBooks() {
-    console.log(this.props.profileBooks);
     return this.props.profileBooks.map(profileBook =>
       <TouchableOpacity
         key={profileBook.date}
@@ -50,6 +49,17 @@ class ProfileScreen extends Component {
     );
   }
 
+  authStatus() {
+    if (this.props.user.emailVerified) {
+      return (
+        <Text>Verifierad mail: ja</Text>
+      );
+    }
+    return (
+      <Text>Verifierad mail: nej</Text>
+    );
+  }
+
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: '#CFE3E9' }}>
@@ -58,6 +68,7 @@ class ProfileScreen extends Component {
             <Text>*TEMPORÄR INFO*</Text>
             <Text>{this.props.user.displayName}</Text>
             <Text>{this.props.user.email}</Text>
+            {this.authStatus()}
           </CardSection>
         </Card>
         <Card>
