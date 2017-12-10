@@ -45,10 +45,11 @@ class AddBookScreen extends Component {
   }
 
   retryEmail() {
-    firebase.auth().currentUser.reload();
-    if (firebase.auth().currentUser.emailVerified) {
-      this.setState({ emailVerified: true });
-    }
+    firebase.auth().currentUser.reload().then(() => {
+      if (firebase.auth().currentUser.emailVerified) {
+        this.setState({ emailVerified: true });
+      }
+    });
   }
 
   keyboardWillShow() {
@@ -88,7 +89,8 @@ class AddBookScreen extends Component {
       <Card style={{ backgroundColor: '#CFE3E9' }}>
         <CardSection>
           <Text>
-            För att lägga upp en bok behöver du verifiera din email först. Ett mail har skickats till: {firebase.auth().currentUser.email}
+            För att lägga upp en bok behöver du verifiera din email först.
+            Ett mail har skickats till: {firebase.auth().currentUser.email}
           </Text>
           <TouchableOpacity onPress={() => this.retryEmail()}>
             <Text>Testa igen</Text>

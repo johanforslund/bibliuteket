@@ -24,19 +24,20 @@ export const userUpdate = ({ prop, value }) => {
   };
 };
 
-export const loginUser = ({ email, password }) => {
+export const loginUser = ({ liuid, password }) => {
   return (dispatch) => {
     dispatch({ type: LOGIN_USER });
-
+    const email = `${liuid}@student.liu.se`;
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then(user => loginUserSuccess(dispatch, user))
       .catch(error => loginUserFail(error.message, dispatch));
   };
 };
 
-export const registerUser = ({ name, email, password }) => {
+export const registerUser = ({ name, liuid, password }) => {
   return (dispatch) => {
     dispatch({ type: REGISTER_USER });
+    const email = `${liuid}@student.liu.se`;
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .then(user => {
         user.updateProfile({

@@ -28,8 +28,8 @@ class LoginScreen extends Component {
   }
 
   onLoginPress() {
-    const { email, password } = this.props;
-    this.props.loginUser({ email, password });
+    const { liuid, password } = this.props;
+    this.props.loginUser({ liuid, password });
   }
 
   handleRegisterButtonPress() {
@@ -68,8 +68,8 @@ class LoginScreen extends Component {
               containerStyle={styles.input}
               inputStyle={{ marginLeft: 30 }}
               placeholder="LiU-ID"
-              value={this.props.email}
-              onChangeText={value => this.props.userUpdate({ prop: 'email', value })}
+              value={this.props.liuid}
+              onChangeText={value => this.props.userUpdate({ prop: 'liuid', value })}
               onSubmitEditing={() => {
                 this.refs.Password.focus();
               }}
@@ -136,9 +136,9 @@ const styles = {
 
 
 const mapStateToProps = (state) => {
-  const { email, password, error, loading } = state.auth;
+  const { liuid, password, error, loading } = state.auth;
 
-  return { email, password, error, loading };
+  return { liuid, password, error, loading };
 };
 
 export default connect(mapStateToProps, {

@@ -11,7 +11,7 @@ import {
 
 const INITIAL_STATE = {
   name: '',
-  email: '',
+  liuid: '',
   password: '',
   user: {},
   error: '',

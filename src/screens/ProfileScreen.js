@@ -31,6 +31,17 @@ class ProfileScreen extends Component {
     });
   }
 
+  authStatus() {
+    if (this.props.user.emailVerified) {
+      return (
+        <Text>Verifierad mail: ja</Text>
+      );
+    }
+    return (
+      <Text>Verifierad mail: nej</Text>
+    );
+  }
+
   renderProfileBooks() {
     return this.props.profileBooks.map(profileBook =>
       <TouchableOpacity
@@ -46,17 +57,6 @@ class ProfileScreen extends Component {
           </CardSection>
         </Card>
       </TouchableOpacity>
-    );
-  }
-
-  authStatus() {
-    if (this.props.user.emailVerified) {
-      return (
-        <Text>Verifierad mail: ja</Text>
-      );
-    }
-    return (
-      <Text>Verifierad mail: nej</Text>
     );
   }
 

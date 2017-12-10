@@ -6,22 +6,23 @@ import { userUpdate, registerUser } from '../actions';
 
 class LoginScreen extends Component {
   onRegisterPress() {
-    const { name, email, password } = this.props;
-    this.props.registerUser({ name, email, password });
+    const { name, liuid, password } = this.props;
+    this.props.registerUser({ name, liuid, password });
   }
 
   render() {
     return (
       <View>
         <FormInput
-          placeholder="Namn"
+          placeholder="Ditt namn"
           value={this.props.name}
           onChangeText={value => this.props.userUpdate({ prop: 'name', value })}
         />
         <FormInput
-          placeholder="Email"
-          value={this.props.email}
-          onChangeText={value => this.props.userUpdate({ prop: 'email', value })}
+          placeholder="LiU-ID"
+          value={this.props.liuid}
+          onChangeText={value => this.props.userUpdate({ prop: 'liuid', value })}
+          maxLength={8}
         />
         <FormInput
           placeholder="Lösenord"
@@ -56,9 +57,9 @@ const styles = {
 };
 
 const mapStateToProps = (state) => {
-  const { name, email, password, error, loading } = state.auth;
+  const { name, liuid, password, error, loading } = state.auth;
 
-  return { name, email, password, error, loading };
+  return { name, liuid, password, error, loading };
 };
 
 export default connect(mapStateToProps, {
