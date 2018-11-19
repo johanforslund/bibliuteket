@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
-import firebase from '@firebase/app'
-import '@firebase/auth'
+import firebase from '@firebase/app';
+import '@firebase/auth';
+import { createStore, applyMiddleware } from 'redux';
+import ReduxThunk from 'redux-thunk';
+import { Provider } from 'react-redux';
 import AppContainer from './Navigator';
+import reducers from './reducers';
 
-export default class App extends Component {
+const store = createStore(reducers);
+
+class App extends Component {
   constructor(props) {
     super(props);
     const config = {
@@ -18,6 +24,12 @@ export default class App extends Component {
   }
 
   render() {
-    return <AppContainer />;
+    return (
+      <Provider store={store}>
+        <AppContainer />
+      </Provider>
+    );
   }
 }
+
+export default App;

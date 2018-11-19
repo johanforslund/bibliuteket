@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
-import firebase from '@firebase/app'
-import '@firebase/auth'
-import { ScrollView, TouchableOpacity, Text } from 'react-native';
+import { ScrollView, Text } from 'react-native';
+import { connect } from 'react-redux';
+import { booksFetch } from '../actions';
 
 class BookListScreen extends Component {
+  componentWillMount() {
+    this.props.booksFetch();
+  }
+
   render() {
+    console.log(this.props.books);
+
     return (
       <ScrollView style={{ flex: 1, backgroundColor: '#CFE3E9' }}>
         <Text>Hem</Text>
@@ -13,4 +19,9 @@ class BookListScreen extends Component {
   }
 }
 
-export default BookListScreen;
+const mapStateToProps = state => {
+  const { books } = state;
+  return { books };
+};
+
+export default connect(mapStateToProps, { booksFetch })(BookListScreen);
