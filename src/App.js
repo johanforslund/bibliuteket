@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import firebase from '@firebase/app';
-import '@firebase/auth';
+import firebase from '@firebase/app'; //eslint-disable-line
 import { createStore, applyMiddleware } from 'redux';
 import ReduxThunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import AppContainer from './Navigator';
 import reducers from './reducers';
 
-const store = createStore(reducers);
+const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
 
 class App extends Component {
   constructor(props) {

@@ -20,7 +20,10 @@ class BookListScreen extends Component {
 }
 
 const mapStateToProps = state => {
-  const { books } = state;
+  const books = Object.keys(state.books).map((key) => {
+    return state.books[key];
+  });
+
   return { books };
 };
 
