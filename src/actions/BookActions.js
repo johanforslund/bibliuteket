@@ -1,5 +1,5 @@
-import firebase from '@firebase/app';
-import '@firebase/database';
+import firebase from '@firebase/app'; //eslint-disable-line
+import '@firebase/database'; //eslint-disable-line
 import {
   BOOKS_FETCH_SUCCESS
 } from './types';

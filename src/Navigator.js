@@ -1,6 +1,9 @@
-import React, { Component } from 'react';
-import { Text, View } from 'react-native';
-import { createBottomTabNavigator, createAppContainer, createStackNavigator } from 'react-navigation';
+import React from 'react';
+import {
+  createBottomTabNavigator,
+  createAppContainer,
+  createStackNavigator
+} from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/MaterialIcons';
 import BookListScreen from './screens/BookListScreen';
 import AddBookScreen from './screens/AddBookScreen';
