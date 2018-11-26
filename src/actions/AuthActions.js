@@ -1,5 +1,5 @@
-import firebase from '@firebase/app';  //eslint-disable-line
-import '@firebase/auth';  //eslint-disable-line
+import firebase from '@firebase/app'; //eslint-disable-line
+import '@firebase/auth'; //eslint-disable-line
 import {
   FETCH_USER,
   USER_UPDATE,
