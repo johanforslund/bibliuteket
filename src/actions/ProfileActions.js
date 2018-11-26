@@ -9,7 +9,7 @@ export const profileBooksFetch = () => {
   const { currentUser } = firebase.auth();
 
   return (dispatch) => {
-    firebase.database().ref('books').orderByChild('user').equalTo(currentUser.uid)
+    firebase.database().ref('books').orderByChild('user').equalTo(null)
       .on('value', snapshot => {
         const profileBooks = [];
         snapshot.forEach(child => {
