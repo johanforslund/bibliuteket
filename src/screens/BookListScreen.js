@@ -1,19 +1,39 @@
 import React, { Component } from 'react';
-import { ScrollView, Text } from 'react-native';
+import { ScrollView, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-import { booksFetch } from '../actions';
+import firebase from '@firebase/app'; //eslint-disable-line
+import '@firebase/auth'; //eslint-disable-line
+import { booksFetch, fetchUser } from '../actions';
+import BookDetail from '../components/BookDetail';
 
 class BookListScreen extends Component {
   componentWillMount() {
     this.props.booksFetch();
+    if (this.props.user.displayName === undefined) {
+      this.props.fetchUser(firebase.auth().currentUser);
+    }
+  }
+
+  handlePress = (book) => {
+    //TODO
+  }
+
+  renderBooks() {
+    return this.props.books.map(book =>
+      <TouchableOpacity
+        key={book.date}
+        delayPressIn={50}
+        onPress={() => this.handlePress(book)}
+      >
+        <BookDetail book={book} />
+      </TouchableOpacity>
+    );
   }
 
   render() {
-    console.log(this.props.books);
-
     return (
       <ScrollView style={{ flex: 1, backgroundColor: '#CFE3E9' }}>
-        <Text>Hem</Text>
+        {this.renderBooks()}
       </ScrollView>
     );
   }
@@ -23,8 +43,11 @@ const mapStateToProps = state => {
   const books = Object.keys(state.books).map((key) => {
     return state.books[key];
   });
+  console.log(books);
 
-  return { books };
+  const { user } = state.auth;
+
+  return { books, user };
 };
 
-export default connect(mapStateToProps, { booksFetch })(BookListScreen);
+export default connect(mapStateToProps, { booksFetch, fetchUser })(BookListScreen);
