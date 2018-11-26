@@ -2,12 +2,15 @@ import React from 'react';
 import {
   createBottomTabNavigator,
   createAppContainer,
-  createStackNavigator
+  createStackNavigator,
+  createSwitchNavigator
 } from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/MaterialIcons';
 import BookListScreen from './screens/BookListScreen';
 import AddBookScreen from './screens/AddBookScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import LoginScreen from './screens/LoginScreen';
+import AuthLoadingScreen from './screens/AuthLoadingScreen';
 
 const BookListStack = createStackNavigator({
   BookList: {
@@ -54,7 +57,37 @@ ProfileStack.navigationOptions = {
   tabBarLabel: 'Konto',
 };
 
-const TabNavigator = createBottomTabNavigator(
+const LoginStackAdd = createStackNavigator({
+  Login: {
+    screen: LoginScreen,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#29749D'
+      }
+    }
+  }
+});
+
+LoginStackAdd.navigationOptions = {
+  tabBarLabel: 'Lägg ut bok',
+};
+
+const LoginStackProfile = createStackNavigator({
+  Login: {
+    screen: LoginScreen,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#29749D'
+      }
+    }
+  }
+});
+
+LoginStackProfile.navigationOptions = {
+  tabBarLabel: 'Konto',
+};
+
+const AppStack = createBottomTabNavigator(
   {
     BookList: BookListStack,
     AddBook: AddBookStack,
@@ -85,6 +118,48 @@ const TabNavigator = createBottomTabNavigator(
   }
 );
 
-const AppContainer = createAppContainer(TabNavigator);
+const AuthStack = createBottomTabNavigator(
+  {
+    BookList: BookListStack,
+    AddBook: LoginStackAdd,
+    Profile: LoginStackProfile
+  },
+  {
+    defaultNavigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ focused, horizontal, tintColor }) => {
+        const { routeName } = navigation.state;
+        let iconName;
+        if (routeName === 'BookList') {
+          iconName = `home${focused ? '' : ''}`;
+        } else if (routeName === 'AddBook') {
+          iconName = `add${focused ? '' : ''}`;
+        } else if (routeName === 'Profile') {
+          iconName = `person${focused ? '' : ''}`;
+        }
+
+        return <Ionicons name={iconName} size={horizontal ? 20 : 25} color={tintColor} />;
+      },
+    }),
+    tabBarOptions: {
+      activeTintColor: '#f9fafa',
+      activeBackgroundColor: '#29749D',
+      inactiveTintColor: '#94bace',
+      inactiveBackgroundColor: '#29749D'
+    }
+  }
+);
+
+const SwitchNavigator = createSwitchNavigator(
+  {
+    AuthLoading: AuthLoadingScreen,
+    App: AppStack,
+    Auth: AuthStack
+  },
+  {
+    initialRouteName: 'AuthLoading'
+  }
+);
+
+const AppContainer = createAppContainer(SwitchNavigator);
 
 export default AppContainer;

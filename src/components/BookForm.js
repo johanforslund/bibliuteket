@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { FormInput } from 'react-native-elements';
 import { connect } from 'react-redux';
-import firebase from 'firebase';
-import ModalSelector from 'react-native-modal-selector';
+import firebase from '@firebase/app'; //eslint-disable-line
+import '@firebase/auth'; //eslint-disable-line
+//import ModalSelector from 'react-native-modal-selector';
 import { bookUpdate } from '../actions';
 import CardSection from './CardSection';
 import Card from './Card';
-import ImageUploader from '../components/ImageUploader';
 
 class BookForm extends Component {
   componentWillMount() {
@@ -24,7 +24,6 @@ class BookForm extends Component {
     return (
       <View>
         <Card style={{ marginBottom: 10 }}>
-          <ImageUploader />
           <CardSection>
             <FormInput
               returnKeyType="next"
@@ -54,7 +53,7 @@ class BookForm extends Component {
           </CardSection>
 
           <CardSection style={{ flexDirection: 'row', flex: 2, padding: 0 }}>
-            <CardSection style={{ flex: 1, paddingLeft: 30 }}>
+            {/* <CardSection style={{ flex: 1, paddingLeft: 30 }}>
               <ModalSelector
                 data={data}
                 selectTextStyle={{ color: '#c2c3c9' }}
@@ -63,7 +62,7 @@ class BookForm extends Component {
                 cancelText={'Avbryt'}
                 onChange={value => this.props.bookUpdate({ prop: 'location', value: value.label })}
               />
-            </CardSection>
+            </CardSection> */}
             <CardSection style={{ flex: 1 }}>
               <FormInput
                 ref='Price'
