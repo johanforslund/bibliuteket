@@ -1,5 +1,6 @@
 import firebase from '@firebase/app'; //eslint-disable-line
 import '@firebase/auth'; //eslint-disable-line
+import '@firebase/database'; //eslint-disable-line
 import {
   BOOKS_PROFILE_FETCH_SUCCESS
 } from './types';
