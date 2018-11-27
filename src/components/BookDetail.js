@@ -11,7 +11,7 @@ import ListImage from './ListImage';
 
 class BookDetail extends Component {
   render() {
-    const { pictureUrl, title, location, price, date } = this.props.book;
+    const { pictureUrl, title, price, date } = this.props.book;
     const dateFormatted = moment(date).format('YYYY-MM-DD');
 
     return (
@@ -21,7 +21,6 @@ class BookDetail extends Component {
             <ListImage source={{ uri: pictureUrl }} />
             <CardSection style={styles.cardSectionTextStyle}>
               <Text style={styles.titleStyle}>{ title }</Text>
-              <Text style={styles.locationStyle}>{ location }</Text>
               <CardSection style={styles.cardSectionBottomStyle}>
                 <Text style={styles.priceStyle}>{ price } kr</Text>
                 <Text style={styles.dateStyle}>{ dateFormatted }</Text>
@@ -38,10 +37,6 @@ const styles = {
   titleStyle: {
     fontWeight: 'bold',
     fontSize: 15
-  },
-  locationStyle: {
-    fontSize: 10
-
   },
   cardSectionAllStyle: {
     flexDirection: 'row'

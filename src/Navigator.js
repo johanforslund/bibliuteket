@@ -10,6 +10,7 @@ import BookListScreen from './screens/BookListScreen';
 import AddBookScreen from './screens/AddBookScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import LoginScreen from './screens/LoginScreen';
+import RegisterScreen from './screens/RegisterScreen';
 import AuthLoadingScreen from './screens/AuthLoadingScreen';
 
 const BookListStack = createStackNavigator({
@@ -75,6 +76,14 @@ LoginStackAdd.navigationOptions = {
 const LoginStackProfile = createStackNavigator({
   Login: {
     screen: LoginScreen,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#29749D'
+      }
+    }
+  },
+  Register: {
+    screen: RegisterScreen,
     navigationOptions: {
       headerStyle: {
         backgroundColor: '#29749D'

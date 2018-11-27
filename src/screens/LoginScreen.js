@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, TouchableWithoutFeedback, Image, Keyboard } from 'react-native';
+import { Text, View, ScrollView, TouchableWithoutFeedback, Image } from 'react-native';
 import { FormInput, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -13,7 +13,7 @@ class LoginScreen extends Component {
   }
 
   handleRegisterButtonPress() {
-
+    this.props.navigation.navigate('Register');
   }
 
   render() {
