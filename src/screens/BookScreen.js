@@ -45,10 +45,8 @@ class BookScreen extends Component {
 
     return (
       <ScrollView>
-        <Card style={{ flex: 1, backgroundColor: '#CFE3E9' }}>
-          <Image style={styles.imageStyle} source={{ uri: pictureUrl }} />
-        </Card>
         <Card>
+        <Image style={styles.imageStyle} source={{ uri: pictureUrl }} />
          <CardSection>
            <Text style={styles.headingStyle}>
              { title }
@@ -134,7 +132,10 @@ const styles = {
     justifyContent: 'space-between',
   },
   imageStyle: {
-    width: 375, height: 280, resizeMode: 'contain', backgroundColor: '#373737'
+    width: '100%',
+    height: 280,
+    resizeMode: 'contain',
+    backgroundColor: '#373737',
   },
   descriptionHeadingStyle: {
     fontSize: 14,

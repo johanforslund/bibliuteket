@@ -23,6 +23,7 @@ class BookForm extends Component {
               returnKeyType="next"
               autoCapitalize="sentences"
               placeholder="Bokens Titel"
+              maxLength={35}
               onSubmitEditing={() => {
                 this.refs.Author.focus();
               }}
@@ -37,6 +38,7 @@ class BookForm extends Component {
               autoCapitalize="words"
               returnKeyType="next"
               placeholder="Författare"
+              maxLength={35}
               onSubmitEditing={() => {
                 this.refs.Price.focus();
               }}
@@ -97,6 +99,7 @@ class BookForm extends Component {
               ref='Email'
               returnKeyType="next"
               placeholder="Email"
+              maxLength={40}
               onSubmitEditing={() => {
                 this.refs.Number.focus();
               }}
@@ -110,12 +113,12 @@ class BookForm extends Component {
               ref='Number'
               keyboardType="numeric"
               placeholder="Telefonnummer (frivilligt)"
+              maxLength={15}
               value={this.props.phone}
               onChangeText={value => this.props.bookUpdate({ prop: 'phone', value })}
             />
           </CardSection>
         </Card>
-
       </View>
     );
   }
