@@ -19,9 +19,9 @@ class LoginScreen extends Component {
   render() {
     return (
       <ScrollView keyboardShouldPersistTaps="handled">
-        {/* <CardSection style={{ alignItems: 'center', marginTop: 40 }}>
+        <CardSection style={{ alignItems: 'center', marginTop: 40 }}>
           <Image style={{ width: 200, height: 161 }} source={require('../images/inAppLogo.png')} />
-        </CardSection> */}
+        </CardSection>
         <CardSection>
           <View style={styles.searchSection}>
             <Icon color="#a5a5a5" name="person" size={20} style={styles.searchIcon} />

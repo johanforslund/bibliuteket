@@ -85,12 +85,8 @@ export const bookCreate = ({
   };
 };
 
-export const bookDelete = ({ uid, navigator }) => {
+export const bookDelete = ({ uid }) => {
   return () => {
-    firebase.database().ref(`books/${uid}`)
-      .remove()
-      .then(() => {
-        navigator.popToRoot({});
-      });
+    firebase.database().ref(`books/${uid}`).remove();
   };
 };

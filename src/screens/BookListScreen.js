@@ -15,7 +15,7 @@ class BookListScreen extends Component {
   }
 
   handlePress = (book) => {
-    //TODO
+    this.props.navigation.navigate('Book', { book });
   }
 
   renderBooks() {
