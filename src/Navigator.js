@@ -28,7 +28,8 @@ const BookListStack = createStackNavigator({
     navigationOptions: {
       headerStyle: {
         backgroundColor: '#29749D'
-      }
+      },
+      headerTintColor: 'white'
     }
   }
 });
@@ -96,7 +97,8 @@ const LoginStackProfile = createStackNavigator({
     navigationOptions: {
       headerStyle: {
         backgroundColor: '#29749D'
-      }
+      },
+      headerTintColor: 'white'
     }
   }
 });

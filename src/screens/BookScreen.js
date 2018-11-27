@@ -34,7 +34,6 @@ class BookScreen extends Component {
       date,
       description,
       email,
-      location,
       name,
       phone,
       pictureUrl,
@@ -65,7 +64,7 @@ class BookScreen extends Component {
               style={[styles.iconStyle, { marginTop: 5 }]}
              />
              <Text style={[styles.subHeadingStyle, { alignSelf: 'center' }]}>
-               { location }
+               TNM093
              </Text>
            </View>
            <Text style={styles.priceStyle}>
