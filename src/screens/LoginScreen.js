@@ -6,6 +6,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { userUpdate, loginUser } from '../actions';
 import CardSection from '../components/CardSection';
 
+const logo = require('../images/inAppLogo.png');
+
 class LoginScreen extends Component {
   onLoginPress() {
     const { liuid, password } = this.props;
@@ -20,7 +22,7 @@ class LoginScreen extends Component {
     return (
       <ScrollView keyboardShouldPersistTaps="handled">
         <CardSection style={{ alignItems: 'center', marginTop: 40 }}>
-          <Image style={{ width: 200, height: 161 }} source={require('../images/inAppLogo.png')} />
+          <Image style={{ width: 200, height: 161 }} source={logo} />
         </CardSection>
         <CardSection>
           <View style={styles.searchSection}>

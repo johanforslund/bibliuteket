@@ -10,43 +10,46 @@ import CardSection from '../components/CardSection';
 import { profileBooksFetch } from '../actions';
 
 class ProfileScreen extends Component {
-
   componentWillMount() {
     this.props.profileBooksFetch();
   }
 
-    onLogout() {
-      firebase.auth().signOut();
-    }
+  onLogout() {
+    firebase.auth().signOut();
+  }
 
-    authStatus() {
-      if (this.props.user.emailVerified) {
-        return (
-          <Text>Verifierad mail: ja</Text>
-        );
-      }
+  handlePress = (book) => {
+    this.props.navigation.navigate('Book', { book });
+  }
+
+  authStatus() {
+    if (this.props.user.emailVerified) {
       return (
-        <Text>Verifierad mail: nej</Text>
+        <Text>Verifierad mail: ja</Text>
       );
     }
+    return (
+      <Text>Verifierad mail: nej</Text>
+    );
+  }
 
-    renderProfileBooks() {
-      return this.props.profileBooks.map(profileBook =>
-        <TouchableOpacity
-          key={profileBook.date}
-          delayPressIn={50}
-          onPress={() => this.handlePress(profileBook)}
-        >
-          <Card>
-            <CardSection>
-              <Text>
-                {profileBook.title} - ({moment(profileBook.date).format('YYYY-MM-DD | HH:SS')})
-              </Text>
-            </CardSection>
-          </Card>
-        </TouchableOpacity>
-      );
-    }
+  renderProfileBooks() {
+    return this.props.profileBooks.map(profileBook =>
+      <TouchableOpacity
+        key={profileBook.date}
+        delayPressIn={50}
+        onPress={() => this.handlePress(profileBook)}
+      >
+        <Card>
+          <CardSection>
+            <Text>
+              {profileBook.title} - ({moment(profileBook.date).format('YYYY-MM-DD | HH:SS')})
+            </Text>
+          </CardSection>
+        </Card>
+      </TouchableOpacity>
+    );
+  }
 
   render() {
     return (
