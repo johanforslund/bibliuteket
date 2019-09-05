@@ -1,4 +1,6 @@
-import firebase from 'firebase';
+import firebase from '@firebase/app'; //eslint-disable-line
+import '@firebase/auth'; //eslint-disable-line
+import '@firebase/database'; //eslint-disable-line
 import {
   BOOKS_FETCH_SUCCESS,
   BOOK_UPDATE,
@@ -83,12 +85,8 @@ export const bookCreate = ({
   };
 };
 
-export const bookDelete = ({ uid, navigator }) => {
+export const bookDelete = ({ uid }) => {
   return () => {
-    firebase.database().ref(`books/${uid}`)
-      .remove()
-      .then(() => {
-        navigator.popToRoot({});
-      });
+    firebase.database().ref(`books/${uid}`).remove();
   };
 };

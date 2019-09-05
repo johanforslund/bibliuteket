@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { ScrollView, View, Text, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import moment from 'moment';
-import firebase from 'firebase';
+import firebase from '@firebase/app'; //eslint-disable-line
+import '@firebase/auth'; //eslint-disable-line
 import { connect } from 'react-redux';
 import { Button } from 'react-native-elements';
 import Card from '../components/Card';
@@ -12,8 +13,7 @@ import { bookDelete } from '../actions';
 class BookScreen extends Component {
   renderDeleteButton() {
     const { currentUser } = firebase.auth();
-    const { uid, user } = this.props.book;
-    const { navigator } = this.props;
+    const { uid, user } = this.props.navigation.getParam('book');
     if (currentUser && currentUser.uid === user) {
       return (
         <Button
@@ -22,7 +22,7 @@ class BookScreen extends Component {
           textStyle={{ textAlign: 'center' }}
           backgroundColor='red'
           title={'Ta bort'}
-          onPress={() => this.props.bookDelete({ uid, navigator })}
+          onPress={() => this.props.bookDelete({ uid })}
         />
       );
     }
@@ -34,21 +34,18 @@ class BookScreen extends Component {
       date,
       description,
       email,
-      location,
       name,
       phone,
       pictureUrl,
       price,
       title,
-    } = this.props.book;
+    } = this.props.navigation.getParam('book');
     const formattedDate = moment(date).fromNow();
 
     return (
       <ScrollView>
-        <Card style={{ flex: 1, backgroundColor: '#CFE3E9' }}>
-          <Image style={styles.imageStyle} source={{ uri: pictureUrl }} />
-        </Card>
         <Card>
+        <Image style={styles.imageStyle} source={{ uri: pictureUrl }} />
          <CardSection>
            <Text style={styles.headingStyle}>
              { title }
@@ -65,7 +62,7 @@ class BookScreen extends Component {
               style={[styles.iconStyle, { marginTop: 5 }]}
              />
              <Text style={[styles.subHeadingStyle, { alignSelf: 'center' }]}>
-               { location }
+               TNM093
              </Text>
            </View>
            <Text style={styles.priceStyle}>
@@ -134,7 +131,10 @@ const styles = {
     justifyContent: 'space-between',
   },
   imageStyle: {
-    width: 375, height: 280, resizeMode: 'contain', backgroundColor: '#373737'
+    width: '100%',
+    height: 280,
+    resizeMode: 'contain',
+    backgroundColor: '#373737',
   },
   descriptionHeadingStyle: {
     fontSize: 14,

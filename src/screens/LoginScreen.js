@@ -1,70 +1,33 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, TouchableWithoutFeedback, Image, Keyboard } from 'react-native';
-import { FormInput, Button } from 'react-native-elements';
+import { Text, View, ScrollView, TouchableWithoutFeedback, Image } from 'react-native';
+import { Input, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { userUpdate, loginUser } from '../actions';
 import CardSection from '../components/CardSection';
 
+const logo = require('../images/inAppLogo.png');
+
 class LoginScreen extends Component {
-  static navigatorStyle = {
-    navBarHideOnScroll: false
-  }
-
-  constructor(props) {
-    super(props);
-    this.keyboardWillShow = this.keyboardWillShow.bind(this);
-    this.keyboardWillHide = this.keyboardWillHide.bind(this);
-  }
-
-  componentWillMount() {
-    this.keyboardWillShowSub = Keyboard.addListener('keyboardDidShow', this.keyboardWillShow);
-    this.keyboardWillHideSub = Keyboard.addListener('keyboardDidHide', this.keyboardWillHide);
-  }
-
-  componentWillUnmount() {
-    this.keyboardWillShowSub.remove();
-    this.keyboardWillHideSub.remove();
-  }
-
   onLoginPress() {
     const { liuid, password } = this.props;
     this.props.loginUser({ liuid, password });
   }
 
   handleRegisterButtonPress() {
-    this.props.navigator.push({
-      screen: 'RegisterScreen',
-      navigatorStyle: {
-        tabBarHidden: true
-      }
-    });
-  }
-
-  keyboardWillShow() {
-    this.props.navigator.toggleTabs({
-      to: 'hidden',
-      animated: false
-    });
-  }
-
-  keyboardWillHide() {
-    this.props.navigator.toggleTabs({
-      to: 'shown',
-      animated: false
-    });
+    this.props.navigation.navigate('Register');
   }
 
   render() {
     return (
       <ScrollView keyboardShouldPersistTaps="handled">
         <CardSection style={{ alignItems: 'center', marginTop: 40 }}>
-          <Image style={{ width: 200, height: 161 }} source={require('../images/inAppLogo.png')} />
+          <Image style={{ width: 200, height: 161 }} source={logo} />
         </CardSection>
         <CardSection>
           <View style={styles.searchSection}>
             <Icon color="#a5a5a5" name="person" size={20} style={styles.searchIcon} />
-            <FormInput
+            <Input
               containerStyle={styles.input}
               inputStyle={{ marginLeft: 30 }}
               placeholder="LiU-ID"
@@ -78,7 +41,7 @@ class LoginScreen extends Component {
           </View>
           <View style={styles.searchSection}>
             <Icon color="#a5a5a5" name="lock" size={20} style={styles.searchIcon} />
-            <FormInput
+            <Input
               containerStyle={[styles.input, { marginBottom: 20 }]}
               inputStyle={{ marginLeft: 30 }}
               placeholder="Lösenord"

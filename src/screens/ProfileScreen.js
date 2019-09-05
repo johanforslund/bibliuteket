@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { List, ListItem } from 'react-native-elements';
-import { Text, View, TouchableOpacity } from 'react-native';
-import firebase from 'firebase';
+import { ListItem } from 'react-native-elements';
+import { View, Text, TouchableOpacity } from 'react-native';
+import firebase from '@firebase/app';//eslint-disable-line
+import '@firebase/auth';//eslint-disable-line
 import { connect } from 'react-redux';
 import moment from 'moment';
 import Card from '../components/Card';
@@ -9,10 +10,6 @@ import CardSection from '../components/CardSection';
 import { profileBooksFetch } from '../actions';
 
 class ProfileScreen extends Component {
-  static navigatorStyle = {
-    navBarHideOnScroll: false
-  }
-
   componentWillMount() {
     this.props.profileBooksFetch();
   }
@@ -22,13 +19,7 @@ class ProfileScreen extends Component {
   }
 
   handlePress = (book) => {
-    this.props.navigator.push({
-      screen: 'BookScreen',
-      passProps: { book },
-      navigatorStyle: {
-        tabBarHidden: true
-      }
-    });
+    this.props.navigation.navigate('Book', { book });
   }
 
   authStatus() {
@@ -76,22 +67,25 @@ class ProfileScreen extends Component {
             {this.renderProfileBooks()}
           </CardSection>
         </Card>
-        <List>
+        <View>
           <ListItem
             title='Kontakt'
             leftIcon={{ name: 'mail' }}
+            bottomDivider
           />
           <ListItem
             title='Hjälp'
             leftIcon={{ name: 'help' }}
+            bottomDivider
           />
           <TouchableOpacity onPress={this.onLogout}>
             <ListItem
               title='Logga ut'
               leftIcon={{ name: 'log-out', type: 'entypo' }}
+              bottomDivider
             />
           </TouchableOpacity>
-        </List>
+        </View>
       </View>
     );
   }

@@ -1,36 +1,18 @@
 import React, { Component } from 'react';
-import { ScrollView, Keyboard, Text, TouchableOpacity } from 'react-native';
+import { ScrollView, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { Button } from 'react-native-elements';
-import firebase from 'firebase';
+import firebase from '@firebase/app'; //eslint-disable-line
+import '@firebase/auth'; //eslint-disable-line
 import { bookUpdate, bookCreate } from '../actions';
 import Card from '../components/Card';
 import CardSection from '../components/CardSection';
 import BookForm from '../components/BookForm';
+import ImageUploader from '../components/ImageUploader';
 
 class AddBookScreen extends Component {
-  static navigatorStyle = {
-    navBarHideOnScroll: false
-  }
-
-  constructor(props) {
-    super(props);
-    this.keyboardWillShow = this.keyboardWillShow.bind(this);
-    this.keyboardWillHide = this.keyboardWillHide.bind(this);
-  }
-
   state = {
     emailVerified: false
-  }
-
-  componentWillMount() {
-    this.keyboardWillShowSub = Keyboard.addListener('keyboardDidShow', this.keyboardWillShow);
-    this.keyboardWillHideSub = Keyboard.addListener('keyboardDidHide', this.keyboardWillHide);
-  }
-
-  componentWillUnmount() {
-    this.keyboardWillShowSub.remove();
-    this.keyboardWillHideSub.remove();
   }
 
   onButtonPress() {
@@ -52,24 +34,11 @@ class AddBookScreen extends Component {
     });
   }
 
-  keyboardWillShow() {
-    this.props.navigator.toggleTabs({
-      to: 'hidden',
-      animated: false
-    });
-  }
-
-  keyboardWillHide() {
-    this.props.navigator.toggleTabs({
-      to: 'shown',
-      animated: false
-    });
-  }
-
   renderAddBookScreen() {
     if (firebase.auth().currentUser.emailVerified) {
       return (
           <Card style={{ backgroundColor: '#CFE3E9' }}>
+            <ImageUploader />
             <BookForm />
             <CardSection>
               <Button

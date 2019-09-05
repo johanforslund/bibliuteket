@@ -1,20 +1,16 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import firebase from 'firebase';
 import { ScrollView, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
+import firebase from '@firebase/app'; //eslint-disable-line
+import '@firebase/auth'; //eslint-disable-line
 import { booksFetch, fetchUser } from '../actions';
 import BookDetail from '../components/BookDetail';
+import SearchBar from '../components/SearchBar';
 
 class BookListScreen extends Component {
-  constructor(props) {
-    super(props);
-    this.props.navigator.setStyle({
-      navBarCustomView: 'SearchBar',
-      navBarCustomViewInitialProps: {
-        store: this.props.store
-      }
-    });
-  }
+  static navigationOptions = {
+    headerLeft: <SearchBar />
+  };
 
   componentWillMount() {
     this.props.booksFetch();
@@ -24,13 +20,7 @@ class BookListScreen extends Component {
   }
 
   handlePress = (book) => {
-    this.props.navigator.push({
-      screen: 'BookScreen',
-      passProps: { book },
-      navigatorStyle: {
-        tabBarHidden: true
-      }
-    });
+    this.props.navigation.navigate('Book', { book });
   }
 
   renderBooks() {
@@ -58,6 +48,7 @@ const mapStateToProps = state => {
   const books = Object.keys(state.books).map((key) => {
     return state.books[key];
   });
+  console.log(books);
 
   const { user } = state.auth;
 

@@ -1,4 +1,9 @@
-/* eslint-disable no-unused-vars */
-import App from './src/App';
+/**
+ * @format
+ */
 
-const app = new App();
+import {AppRegistry} from 'react-native';
+import App from './src/App';
+import {name as appName} from './app.json';
+
+AppRegistry.registerComponent(appName, () => App);

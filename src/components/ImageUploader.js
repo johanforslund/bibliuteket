@@ -4,10 +4,11 @@ import {
   TouchableOpacity,
   Platform,
   Image,
+  ImageBackground,
   ActivityIndicator
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
-import RNFetchBlob from 'react-native-fetch-blob';
+import RNFetchBlob from 'rn-fetch-blob';
 import firebase from 'firebase';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -82,7 +83,7 @@ class ImageUploader extends Component {
               default:
                 return (
                   <View>
-                    <Image
+                    <ImageBackground
                       source={{ uri: this.props.pictureUrl }}
                       style={styles.image}
                     >
@@ -93,7 +94,7 @@ class ImageUploader extends Component {
                         color="white"
                         style={{ alignSelf: 'flex-end', backgroundColor: '#e53935' }}
                       />
-                    </Image>
+                    </ImageBackground>
                   </View>
                 );
             }

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
-import { FormInput, Button } from 'react-native-elements';
+import { Input, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { userUpdate, registerUser } from '../actions';
 
-class LoginScreen extends Component {
+class RegisterScreen extends Component {
   onRegisterPress() {
     const { name, liuid, password } = this.props;
     this.props.registerUser({ name, liuid, password });
@@ -13,18 +13,18 @@ class LoginScreen extends Component {
   render() {
     return (
       <View>
-        <FormInput
+        <Input
           placeholder="Ditt namn"
           value={this.props.name}
           onChangeText={value => this.props.userUpdate({ prop: 'name', value })}
         />
-        <FormInput
+        <Input
           placeholder="LiU-ID"
           value={this.props.liuid}
           onChangeText={value => this.props.userUpdate({ prop: 'liuid', value })}
           maxLength={8}
         />
-        <FormInput
+        <Input
           placeholder="Lösenord"
           value={this.props.password}
           autoCorrect={false}
@@ -64,4 +64,4 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   userUpdate, registerUser
-})(LoginScreen);
+})(RegisterScreen);

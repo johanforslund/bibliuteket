@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { FormInput } from 'react-native-elements';
+import { Input } from 'react-native-elements';
 import { connect } from 'react-redux';
-import firebase from 'firebase';
-import ModalSelector from 'react-native-modal-selector';
+import firebase from '@firebase/app'; //eslint-disable-line
+import '@firebase/auth'; //eslint-disable-line
+//import ModalSelector from 'react-native-modal-selector';
 import { bookUpdate } from '../actions';
 import CardSection from './CardSection';
 import Card from './Card';
-import ImageUploader from '../components/ImageUploader';
 
 class BookForm extends Component {
   componentWillMount() {
@@ -15,21 +15,15 @@ class BookForm extends Component {
   }
 
   render() {
-    let index = 0;
-    const data = [
-      { key: index++, label: 'Norrköping' },
-      { key: index++, label: 'Linköping' }
-    ];
-
     return (
       <View>
         <Card style={{ marginBottom: 10 }}>
-          <ImageUploader />
           <CardSection>
-            <FormInput
+            <Input
               returnKeyType="next"
               autoCapitalize="sentences"
               placeholder="Bokens Titel"
+              maxLength={35}
               onSubmitEditing={() => {
                 this.refs.Author.focus();
               }}
@@ -39,11 +33,12 @@ class BookForm extends Component {
           </CardSection>
 
           <CardSection>
-            <FormInput
+            <Input
               ref='Author'
               autoCapitalize="words"
               returnKeyType="next"
               placeholder="Författare"
+              maxLength={35}
               onSubmitEditing={() => {
                 this.refs.Price.focus();
               }}
@@ -53,34 +48,23 @@ class BookForm extends Component {
 
           </CardSection>
 
-          <CardSection style={{ flexDirection: 'row', flex: 2, padding: 0 }}>
-            <CardSection style={{ flex: 1, paddingLeft: 30 }}>
-              <ModalSelector
-                data={data}
-                selectTextStyle={{ color: '#c2c3c9' }}
-                initValue='Välj ort...'
-                backdropPressToClose
-                cancelText={'Avbryt'}
-                onChange={value => this.props.bookUpdate({ prop: 'location', value: value.label })}
-              />
-            </CardSection>
-            <CardSection style={{ flex: 1 }}>
-              <FormInput
-                ref='Price'
-                returnKeyType="next"
-                keyboardType="numeric"
-                placeholder="Pris"
-                onSubmitEditing={() => {
-                  this.refs.Description.focus();
-                }}
-                value={this.props.price}
-                onChangeText={value => this.props.bookUpdate({ prop: 'price', value })}
-              />
-            </CardSection>
+          <CardSection style={{ flex: 1 }}>
+            <Input
+              ref='Price'
+              returnKeyType="next"
+              keyboardType="numeric"
+              placeholder="Pris"
+              maxLength={4}
+              onSubmitEditing={() => {
+                this.refs.Description.focus();
+              }}
+              value={this.props.price}
+              onChangeText={value => this.props.bookUpdate({ prop: 'price', value })}
+            />
           </CardSection>
 
           <CardSection style={{ marginBottom: 24 }}>
-            <FormInput
+            <Input
               ref='Description'
               returnKeyType="next"
               autoCapitalize="sentences"
@@ -97,7 +81,7 @@ class BookForm extends Component {
         </Card>
         <Card>
           <CardSection>
-            <FormInput
+            <Input
               ref='Name'
               returnKeyType="next"
               autoCapitalize="words"
@@ -111,10 +95,11 @@ class BookForm extends Component {
           </CardSection>
 
           <CardSection>
-            <FormInput
+            <Input
               ref='Email'
               returnKeyType="next"
               placeholder="Email"
+              maxLength={40}
               onSubmitEditing={() => {
                 this.refs.Number.focus();
               }}
@@ -124,16 +109,16 @@ class BookForm extends Component {
           </CardSection>
 
           <CardSection>
-            <FormInput
+            <Input
               ref='Number'
               keyboardType="numeric"
               placeholder="Telefonnummer (frivilligt)"
+              maxLength={15}
               value={this.props.phone}
               onChangeText={value => this.props.bookUpdate({ prop: 'phone', value })}
             />
           </CardSection>
         </Card>
-
       </View>
     );
   }
@@ -141,12 +126,12 @@ class BookForm extends Component {
 
 const mapStateToProps = (state) => {
   const {
-    author, description, email, location, phone, pictureUrl, price, title
+    author, description, email, phone, pictureUrl, price, title
   } = state.bookForm;
 
   const { user } = state.auth;
 
-  return { author, description, email, location, phone, pictureUrl, price, title, user };
+  return { author, description, email, phone, pictureUrl, price, title, user };
 };
 
 export default connect(mapStateToProps, { bookUpdate })(BookForm);
