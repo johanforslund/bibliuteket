@@ -40,17 +40,17 @@ export const registerUser = ({ name, liuid, password }) => {
     dispatch({ type: REGISTER_USER });
     const email = `${liuid}@student.liu.se`;
     firebase.auth().createUserWithEmailAndPassword(email, password)
-      .then(user => {
-        user.updateProfile({
+      .then(userInfo => {
+        userInfo.user.updateProfile({
           displayName: name
         })
         .then(() => {
-          user.sendEmailVerification()
+          userInfo.user.sendEmailVerification()
           .then(() => console.log('Sent email confirmation'))
           .catch(error => console.log(error));
         })
         .then(() => {
-          registerUserSuccess(dispatch, user);
+          registerUserSuccess(dispatch, userInfo.user);
         });
       })
       .catch(error => registerUserFail(error.message, dispatch));

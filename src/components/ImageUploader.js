@@ -52,7 +52,7 @@ class ImageUploader extends Component {
 
   pickImage() {
     //this.props.bookUpdate({ prop: 'pictureUrl', value: '' });
-    ImagePicker.launchImageLibrary({ maxWidth: 500 }, response => {
+    ImagePicker.showImagePicker({ maxWidth: 500, quality: 0.5 }, response => {
       this.uploadImage(response.uri)
         .then(url => this.props.bookUpdate({ prop: 'pictureUrl', value: url }))
         .catch(error => console.log(error));
