@@ -6,13 +6,13 @@ import {
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
 import Ionicons from 'react-native-vector-icons/MaterialIcons';
-import BookListScreen from './screens/BookListScreen';
-import BookScreen from './screens/BookScreen';
-import AddBookScreen from './screens/AddBookScreen';
-import ProfileScreen from './screens/ProfileScreen';
-import LoginScreen from './screens/LoginScreen';
-import RegisterScreen from './screens/RegisterScreen';
-import AuthLoadingScreen from './screens/AuthLoadingScreen';
+import BookListScreen from '../screens/BookListScreen';
+import BookScreen from '../screens/BookScreen';
+import AddBookScreen from '../screens/AddBookScreen';
+import ProfileScreen from '../screens/ProfileScreen';
+import LoginScreen from '../screens/LoginScreen';
+import RegisterScreen from '../screens/RegisterScreen';
+import AuthLoadingScreen from '../screens/AuthLoadingScreen';
 
 const BookListStack = createStackNavigator({
   BookList: {
