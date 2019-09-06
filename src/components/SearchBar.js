@@ -20,8 +20,6 @@ class SearchInput extends Component {
           placeholder="Sök bok"
           onChangeText={value => this.onSearchText(value)}
         />
-        <Icon name="sort" style={styles.iconStyle} />
-        <Icon name="tune" style={styles.iconStyle} />
       </View>
     );
   }
@@ -39,8 +37,7 @@ const styles = {
     width: 200,
     display: 'flex',
     flexDirection: 'row',
-    marginLeft: 10,
-    justifyContent: 'center'
+    marginLeft: 8
   },
   iconStyle: {
     marginRight: 8,
@@ -49,7 +46,8 @@ const styles = {
   },
   textInputStyle: {
     color: "white",
-    fontSize: 18
+    fontSize: 18,
+    padding: 2
   }
 };
 
