@@ -48,7 +48,6 @@ const mapStateToProps = state => {
   const books = Object.keys(state.books).map((key) => {
     return state.books[key];
   });
-  console.log(books);
 
   const { user } = state.auth;
 
