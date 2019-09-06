@@ -1,17 +1,21 @@
-import React, { Component } from 'react';
-import { View } from 'react-native';
-import { Input } from 'react-native-elements';
-import { connect } from 'react-redux';
-import firebase from '@firebase/app'; //eslint-disable-line
-import '@firebase/auth'; //eslint-disable-line
+import React, { Component } from "react";
+import { View } from "react-native";
+import { Input } from "react-native-elements";
+import { connect } from "react-redux";
+import firebase from "@firebase/app"; //eslint-disable-line
+import "@firebase/auth"; //eslint-disable-line
 //import ModalSelector from 'react-native-modal-selector';
-import { bookUpdate } from '../actions';
-import CardSection from './CardSection';
-import Card from './Card';
+import { bookUpdate } from "../actions";
+import CardSection from "./CardSection";
+import Card from "./Card";
+import BookTagList from "./BookTagList";
 
 class BookForm extends Component {
   componentWillMount() {
-    this.props.bookUpdate({ prop: 'email', value: firebase.auth().currentUser.email });
+    this.props.bookUpdate({
+      prop: "email",
+      value: firebase.auth().currentUser.email
+    });
   }
 
   render() {
@@ -28,13 +32,15 @@ class BookForm extends Component {
                 this.refs.Author.focus();
               }}
               value={this.props.title}
-              onChangeText={value => this.props.bookUpdate({ prop: 'title', value })}
+              onChangeText={value =>
+                this.props.bookUpdate({ prop: "title", value })
+              }
             />
           </CardSection>
 
           <CardSection>
             <Input
-              ref='Author'
+              ref="Author"
               autoCapitalize="words"
               returnKeyType="next"
               placeholder="Författare"
@@ -43,14 +49,15 @@ class BookForm extends Component {
                 this.refs.Price.focus();
               }}
               value={this.props.author}
-              onChangeText={value => this.props.bookUpdate({ prop: 'author', value })}
+              onChangeText={value =>
+                this.props.bookUpdate({ prop: "author", value })
+              }
             />
-
           </CardSection>
 
           <CardSection style={{ flex: 1 }}>
             <Input
-              ref='Price'
+              ref="Price"
               returnKeyType="next"
               keyboardType="numeric"
               placeholder="Pris"
@@ -59,13 +66,15 @@ class BookForm extends Component {
                 this.refs.Description.focus();
               }}
               value={this.props.price}
-              onChangeText={value => this.props.bookUpdate({ prop: 'price', value })}
+              onChangeText={value =>
+                this.props.bookUpdate({ prop: "price", value })
+              }
             />
           </CardSection>
 
           <CardSection style={{ marginBottom: 24 }}>
             <Input
-              ref='Description'
+              ref="Description"
               returnKeyType="next"
               autoCapitalize="sentences"
               placeholder="Beskrivning"
@@ -75,14 +84,16 @@ class BookForm extends Component {
                 this.refs.Name.focus();
               }}
               value={this.props.description}
-              onChangeText={value => this.props.bookUpdate({ prop: 'description', value })}
+              onChangeText={value =>
+                this.props.bookUpdate({ prop: "description", value })
+              }
             />
           </CardSection>
         </Card>
         <Card>
           <CardSection>
             <Input
-              ref='Name'
+              ref="Name"
               returnKeyType="next"
               autoCapitalize="words"
               placeholder="Namn"
@@ -96,7 +107,7 @@ class BookForm extends Component {
 
           <CardSection>
             <Input
-              ref='Email'
+              ref="Email"
               returnKeyType="next"
               placeholder="Email"
               maxLength={40}
@@ -104,19 +115,26 @@ class BookForm extends Component {
                 this.refs.Number.focus();
               }}
               value={this.props.email}
-              onChangeText={value => this.props.bookUpdate({ prop: 'email', value })}
+              onChangeText={value =>
+                this.props.bookUpdate({ prop: "email", value })
+              }
             />
           </CardSection>
 
           <CardSection>
             <Input
-              ref='Number'
+              ref="Number"
               keyboardType="numeric"
               placeholder="Telefonnummer (frivilligt)"
               maxLength={15}
               value={this.props.phone}
-              onChangeText={value => this.props.bookUpdate({ prop: 'phone', value })}
+              onChangeText={value =>
+                this.props.bookUpdate({ prop: "phone", value })
+              }
             />
+          </CardSection>
+          <CardSection>
+            <BookTagList />
           </CardSection>
         </Card>
       </View>
@@ -124,9 +142,15 @@ class BookForm extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const {
-    author, description, email, phone, pictureUrl, price, title
+    author,
+    description,
+    email,
+    phone,
+    pictureUrl,
+    price,
+    title
   } = state.bookForm;
 
   const { user } = state.auth;
@@ -134,4 +158,7 @@ const mapStateToProps = (state) => {
   return { author, description, email, phone, pictureUrl, price, title, user };
 };
 
-export default connect(mapStateToProps, { bookUpdate })(BookForm);
+export default connect(
+  mapStateToProps,
+  { bookUpdate }
+)(BookForm);
