@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import { View, TextInput } from 'react-native';
-import { connect } from 'react-redux';
-import { booksSearch, booksFetch } from '../actions';
+import { View, TextInput } from "react-native";
+import { connect } from "react-redux";
+import { booksSearch, booksFetch } from "../actions";
 
 class SearchInput extends Component {
   onSearchText(value) {
-    if (value.length === 0) this.props.booksFetch();
-    if (value.length > 2) this.props.booksSearch(value);
+    if (value.length === 0) this.props.booksFetch(this.props.sorting);
+    if (value.length > 2) this.props.booksSearch(this.props.sorting, value);
   }
 
   render() {
@@ -25,18 +25,18 @@ class SearchInput extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  const { searchTitle } = state.books;
+const mapStateToProps = state => {
+  const { searchTitle, sorting } = state.books;
 
-  return { searchTitle };
+  return { searchTitle, sorting };
 };
 
 const styles = {
   searchStyle: {
     flex: 1,
     width: 200,
-    display: 'flex',
-    flexDirection: 'row',
+    display: "flex",
+    flexDirection: "row",
     marginLeft: 8
   },
   iconStyle: {
@@ -51,4 +51,7 @@ const styles = {
   }
 };
 
-export default connect(mapStateToProps, { booksSearch, booksFetch })(SearchInput);
+export default connect(
+  mapStateToProps,
+  { booksSearch, booksFetch }
+)(SearchInput);
