@@ -48,7 +48,7 @@ const styles = {
   iconStyle: {
     marginRight: 8,
     color: "white",
-    fontSize: 25
+    fontSize: 30
   },
   textInputStyle: {
     color: "white",

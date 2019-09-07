@@ -31,38 +31,41 @@ class ModifySearch extends Component {
         >
           <View style={styles.modalContainerStyle}>
             <Text style={styles.titleStyle}>Sortera efter...</Text>
-            <CheckBox
-              center
-              title="Pris"
-              onPress={() => {
-                {
+            <View>
+              <CheckBox
+                size={40}
+                center
+                title="Pris"
+                onPress={() => {
+                  {
+                    this.props.changeSorting("price");
+                    this.props.isSearching
+                      ? this.props.booksSearch("price", this.props.searchText)
+                      : this.props.booksFetch("price");
+                    this.setState({
+                      isModalVisible: !this.state.isModalVisible
+                    });
+                  }
+                }}
+                checked={this.props.sorting === "price"}
+              />
+              <CheckBox
+                size={40}
+                center
+                title="Datum"
+                checked={this.props.sorting === "date"}
+                onPress={() => {
                   console.log("is searching: " + this.props.isSearching);
-                  console.log("search text: " + this.props.searchText);
 
-                  this.props.changeSorting("price");
+                  this.props.changeSorting("date");
                   this.props.isSearching
-                    ? this.props.booksSearch("price", this.props.searchText)
-                    : this.props.booksFetch("price");
+                    ? this.props.booksSearch("date", this.props.searchText)
+                    : this.props.booksFetch("date");
                   this.setState({ isModalVisible: !this.state.isModalVisible });
-                }
-              }}
-              checked={this.props.sorting === "price"}
-            />
-            <CheckBox
-              center
-              title="Datum"
-              checked={this.props.sorting === "date"}
-              onPress={() => {
-                console.log("is searching: " + this.props.isSearching);
-
-                this.props.changeSorting("date");
-                this.props.isSearching
-                  ? this.props.booksSearch("date", this.props.searchText)
-                  : this.props.booksFetch("date");
-                this.setState({ isModalVisible: !this.state.isModalVisible });
-              }}
-            />
-            <Button title="Avbryt" onPress={this.toggleModal} />
+                }}
+              />
+            </View>
+            <Button title="Avbryt" onPress={this.toggleModal} type="clear" />
           </View>
         </Modal>
       </View>
@@ -87,15 +90,11 @@ const styles = {
     color: "white",
     fontSize: 35
   },
-  checkboxesStyle: {
-    height: 300,
-    width: 200
-  },
   titleStyle: {
-    alignSelf: "center",
     color: "black",
     fontSize: 20,
-    marginBottom: 20
+    marginBottom: 20,
+    fontWeight: "bold"
   },
   modalContainerStyle: {
     backgroundColor: "white",
