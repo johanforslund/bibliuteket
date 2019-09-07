@@ -3,7 +3,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { View, TouchableOpacity, Text } from "react-native";
 import { CheckBox, Button } from "react-native-elements";
 import Modal from "react-native-modal";
-import { changeSorting, booksFetch } from "../actions/BookActions";
+import { changeSorting, booksFetch, booksSearch } from "../actions/BookActions";
 
 import { connect } from "react-redux";
 
@@ -36,8 +36,13 @@ class ModifySearch extends Component {
               title="Pris"
               onPress={() => {
                 {
+                  console.log("is searching: " + this.props.isSearching);
+                  console.log("search text: " + this.props.searchText);
+
                   this.props.changeSorting("price");
-                  this.props.booksFetch("price");
+                  this.props.isSearching
+                    ? this.props.booksSearch("price", this.props.searchText)
+                    : this.props.booksFetch("price");
                   this.setState({ isModalVisible: !this.state.isModalVisible });
                 }
               }}
@@ -48,8 +53,12 @@ class ModifySearch extends Component {
               title="Datum"
               checked={this.props.sorting === "date"}
               onPress={() => {
+                console.log("is searching: " + this.props.isSearching);
+
                 this.props.changeSorting("date");
-                this.props.booksFetch("date");
+                this.props.isSearching
+                  ? this.props.booksSearch("date", this.props.searchText)
+                  : this.props.booksFetch("date");
                 this.setState({ isModalVisible: !this.state.isModalVisible });
               }}
             />
@@ -62,9 +71,9 @@ class ModifySearch extends Component {
 }
 
 const mapStateToProps = state => {
-  const { sorting } = state.books;
+  const { sorting, isSearching, searchText } = state.books;
 
-  return { sorting };
+  return { sorting, isSearching, searchText };
 };
 
 const styles = {
@@ -100,5 +109,5 @@ const styles = {
 
 export default connect(
   mapStateToProps,
-  { changeSorting, booksFetch }
+  { changeSorting, booksFetch, booksSearch }
 )(ModifySearch);

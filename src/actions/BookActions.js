@@ -7,12 +7,12 @@ import {
   BOOK_CREATE,
   BOOKS_SEARCH_SUCCESS,
   SEARCH_UPDATE,
-  BOOKS_SORT_BY
+  BOOKS_SORT_BY,
+  BOOKS_IS_SEARCHING
 } from "./types";
 import NavigationService from "../navigation/NavigationService";
 
 export const booksFetch = sorting => {
-  console.log("sorting: " + sorting);
   return dispatch => {
     firebase
       .database()
@@ -59,6 +59,13 @@ export const searchUpdate = searchTitle => {
   return {
     type: SEARCH_UPDATE,
     payload: searchTitle
+  };
+};
+
+export const toggleSearch = (isSearching, searchText) => {
+  return {
+    type: BOOKS_IS_SEARCHING,
+    payload: { isSearching: isSearching, searchText: searchText }
   };
 };
 

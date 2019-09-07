@@ -14,3 +14,4 @@ export const BOOKS_SEARCH_SUCCESS = "books_search_success";
 export const SEARCH_UPDATE = "search_update";
 export const BOOKS_PROFILE_FETCH_SUCCESS = "books_profile_fetch_success";
 export const BOOKS_SORT_BY = "sort_by";
+export const BOOKS_IS_SEARCHING = "is_searching";

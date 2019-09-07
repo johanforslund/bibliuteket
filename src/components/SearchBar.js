@@ -2,12 +2,18 @@ import React, { Component } from "react";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { View, TextInput } from "react-native";
 import { connect } from "react-redux";
-import { booksSearch, booksFetch } from "../actions";
+import { booksSearch, booksFetch, toggleSearch } from "../actions";
 
 class SearchInput extends Component {
   onSearchText(value) {
-    if (value.length === 0) this.props.booksFetch(this.props.sorting);
-    if (value.length > 2) this.props.booksSearch(this.props.sorting, value);
+    if (value.length === 0) {
+      this.props.booksFetch(this.props.sorting);
+      this.props.toggleSearch(false, value);
+    }
+    if (value.length > 2) {
+      this.props.booksSearch(this.props.sorting, value);
+      this.props.toggleSearch(true, value);
+    }
   }
 
   render() {
@@ -53,5 +59,5 @@ const styles = {
 
 export default connect(
   mapStateToProps,
-  { booksSearch, booksFetch }
+  { booksSearch, booksFetch, toggleSearch }
 )(SearchInput);
