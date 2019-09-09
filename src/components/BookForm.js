@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import { View } from "react-native";
-import { Input } from "react-native-elements";
+
+import { View, Text } from "react-native";
+import { Input, Tooltip, Icon } from "react-native-elements";
+
 import { connect } from "react-redux";
 import firebase from "@firebase/app"; //eslint-disable-line
 import "@firebase/auth"; //eslint-disable-line
@@ -99,10 +101,40 @@ class BookForm extends Component {
               placeholder="Namn"
               editable={false}
               onSubmitEditing={() => {
-                this.refs.Email.focus();
+                this.refs.Messenger.focus();
               }}
               value={this.props.user.displayName}
             />
+          </CardSection>
+
+          <CardSection>
+            <View style={{ display: "flex", flexDirection: "row" }}>
+              <Input
+                ref="Messenger"
+                returnKeyType="next"
+                placeholder="Messenger-användarnamn"
+                maxLength={40}
+                onSubmitEditing={() => {
+                  this.refs.Email.focus();
+                }}
+                value={this.props.messengerName}
+                rightIcon={
+                  <Tooltip
+                    height={100}
+                    popover={
+                      <Text>
+                        Detta hittar du under "profil" på facebook messenger
+                      </Text>
+                    }
+                  >
+                    <Icon name="info" size={20} color="#373737" />
+                  </Tooltip>
+                }
+                onChangeText={value =>
+                  this.props.bookUpdate({ prop: "messengerName", value })
+                }
+              />
+            </View>
           </CardSection>
 
           <CardSection>
@@ -150,12 +182,23 @@ const mapStateToProps = state => {
     phone,
     pictureUrl,
     price,
-    title
+    title,
+    messengerName
   } = state.bookForm;
 
   const { user } = state.auth;
 
-  return { author, description, email, phone, pictureUrl, price, title, user };
+  return {
+    author,
+    description,
+    email,
+    phone,
+    pictureUrl,
+    price,
+    title,
+    user,
+    messengerName
+  };
 };
 
 export default connect(

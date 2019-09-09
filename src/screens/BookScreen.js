@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { ScrollView, View, Text, Image } from "react-native";
+import {
+  ScrollView,
+  View,
+  Text,
+  Image,
+  Linking,
+  TouchableOpacity
+} from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import moment from "moment";
 import firebase from "@firebase/app"; //eslint-disable-line
@@ -9,6 +16,8 @@ import { Button } from "react-native-elements";
 import Card from "../components/Card";
 import CardSection from "../components/CardSection";
 import { bookDelete } from "../actions";
+
+const messengerLogo = require("../images/messenger_logo.png");
 
 class BookScreen extends Component {
   renderDeleteButton() {
@@ -38,7 +47,8 @@ class BookScreen extends Component {
       phone,
       pictureUrl,
       price,
-      title
+      title,
+      messengerName
     } = this.props.navigation.getParam("book");
     const formattedDate = moment(date).fromNow();
 
@@ -73,6 +83,20 @@ class BookScreen extends Component {
         </Card>
         <Card>
           <CardSection>
+            <View
+              style={{
+                flexDirection: "row",
+                marginBottom: 3
+              }}
+            >
+              <Icon
+                name="access-time"
+                size={20}
+                color="#373737"
+                style={styles.iconStyle}
+              />
+              <Text style={styles.infoStyle}>{formattedDate}</Text>
+            </View>
             <View style={{ flexDirection: "row", marginBottom: 3 }}>
               <Icon
                 name="person"
@@ -100,17 +124,24 @@ class BookScreen extends Component {
               />
               <Text style={styles.infoStyle}>{phone}</Text>
             </View>
-            <View style={{ flexDirection: "row", marginBottom: 3 }}>
-              <Icon
-                name="access-time"
-                size={20}
-                color="#373737"
-                style={styles.iconStyle}
+            <TouchableOpacity
+              style={styles.messengerStyle}
+              onPress={() => {
+                Linking.openURL("https://m.me/" + messengerName);
+              }}
+            >
+              <Image
+                source={messengerLogo}
+                style={{
+                  marginRight: 8,
+                  height: 20,
+                  width: 20
+                }}
               />
-              <Text style={styles.infoStyle}>{formattedDate}</Text>
-            </View>
+              <Text style={styles.infoStyle}>Kontakta {name}</Text>
+            </TouchableOpacity>
           </CardSection>
-          <CardSection>{this.renderDeleteButton()}</CardSection>
+          {this.renderDeleteButton()}
         </Card>
       </ScrollView>
     );
@@ -157,6 +188,21 @@ const styles = {
   },
   iconStyle: {
     marginRight: 8
+  },
+  messengerStyle: {
+    shadowColor: "rgba(0,0,0, .4)",
+    shadowOffset: { height: 1, width: 1 },
+    shadowOpacity: 1,
+    shadowRadius: 1,
+    backgroundColor: "#fff",
+    elevation: 2,
+    alignSelf: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    borderRadius: 10,
+    padding: 8,
+    marginTop: 5
   }
 };
 
