@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { View, Text } from "react-native";
-import { Input, Tooltip, Icon } from "react-native-elements";
+import { Input, Tooltip, Icon, Button } from "react-native-elements";
 import { connect } from "react-redux";
 import firebase from "@firebase/app"; //eslint-disable-line
 import "@firebase/auth"; //eslint-disable-line
@@ -20,11 +20,11 @@ class BookForm extends Component {
     price: "",
     name: "",
     title: "",
-    imageURL: null
+    imageURL: null,
+    messengerName: ""
   };
 
   componentWillMount() {
-    console.log(firebase.auth().currentUser);
     this.setState({ email: firebase.auth().currentUser.email });
   }
 
@@ -153,7 +153,7 @@ class BookForm extends Component {
                 onSubmitEditing={() => {
                   this.refs.Email.focus();
                 }}
-                value={this.props.messengerName}
+                value={this.state.messengerName}
                 rightIcon={
                   <Tooltip
                     height={100}
@@ -166,9 +166,7 @@ class BookForm extends Component {
                     <Icon name="info" size={20} color="#373737" />
                   </Tooltip>
                 }
-                onChangeText={value =>
-                  this.props.bookUpdate({ prop: "messengerName", value })
-                }
+                onChangeText={value => this.setState({ messengerName: value })}
               />
             </View>
           </CardSection>
