@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import { ListItem } from 'react-native-elements';
-import { View, Text, TouchableOpacity } from 'react-native';
-import firebase from '@firebase/app';//eslint-disable-line
-import '@firebase/auth';//eslint-disable-line
-import { connect } from 'react-redux';
-import moment from 'moment';
-import Card from '../components/Card';
-import CardSection from '../components/CardSection';
-import { profileBooksFetch } from '../actions';
+import React, { Component } from "react";
+import { ListItem } from "react-native-elements";
+import { View, Text, TouchableOpacity } from "react-native";
+import firebase from "@firebase/app"; //eslint-disable-line
+import "@firebase/auth"; //eslint-disable-line
+import { connect } from "react-redux";
+import moment from "moment";
+import Card from "../components/Card";
+import CardSection from "../components/CardSection";
+import { profileBooksFetch } from "../actions";
 
 class ProfileScreen extends Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.profileBooksFetch();
   }
 
@@ -18,23 +18,20 @@ class ProfileScreen extends Component {
     firebase.auth().signOut();
   }
 
-  handlePress = (book) => {
-    this.props.navigation.navigate('Book', { book });
-  }
+  handlePress = book => {
+    this.props.navigation.navigate("Book", { book });
+  };
 
   authStatus() {
-    if (this.props.user.emailVerified) {
-      return (
-        <Text>Verifierad mail: ja</Text>
-      );
-    }
     return (
-      <Text>Verifierad mail: nej</Text>
+      <Text>
+        Verifierad mail: {this.props.user.emailVerified ? "ja" : "nej"}
+      </Text>
     );
   }
 
   renderProfileBooks() {
-    return this.props.profileBooks.map(profileBook =>
+    return this.props.profileBooks.map(profileBook => (
       <TouchableOpacity
         key={profileBook.date}
         delayPressIn={50}
@@ -43,18 +40,19 @@ class ProfileScreen extends Component {
         <Card>
           <CardSection>
             <Text>
-              {profileBook.title} - ({moment(profileBook.date).format('YYYY-MM-DD | HH:SS')})
+              {profileBook.title} - (
+              {moment(profileBook.date).format("YYYY-MM-DD | HH:SS")})
             </Text>
           </CardSection>
         </Card>
       </TouchableOpacity>
-    );
+    ));
   }
 
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: '#CFE3E9' }}>
-        <Card style={{ alignSelf: 'flex-end', marginBottom: 30 }}>
+      <View style={{ flex: 1, backgroundColor: "#CFE3E9" }}>
+        <Card style={{ alignSelf: "flex-end", marginBottom: 30 }}>
           <CardSection>
             <Text>*TEMPORÄR INFO*</Text>
             <Text>{this.props.user.displayName}</Text>
@@ -63,25 +61,15 @@ class ProfileScreen extends Component {
           </CardSection>
         </Card>
         <Card>
-          <CardSection>
-            {this.renderProfileBooks()}
-          </CardSection>
+          <CardSection>{this.renderProfileBooks()}</CardSection>
         </Card>
         <View>
-          <ListItem
-            title='Kontakt'
-            leftIcon={{ name: 'mail' }}
-            bottomDivider
-          />
-          <ListItem
-            title='Hjälp'
-            leftIcon={{ name: 'help' }}
-            bottomDivider
-          />
+          <ListItem title="Kontakt" leftIcon={{ name: "mail" }} bottomDivider />
+          <ListItem title="Hjälp" leftIcon={{ name: "help" }} bottomDivider />
           <TouchableOpacity onPress={this.onLogout}>
             <ListItem
-              title='Logga ut'
-              leftIcon={{ name: 'log-out', type: 'entypo' }}
+              title="Logga ut"
+              leftIcon={{ name: "log-out", type: "entypo" }}
               bottomDivider
             />
           </TouchableOpacity>
@@ -91,11 +79,14 @@ class ProfileScreen extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const { profileBooks } = state.profile;
   const { user } = state.auth;
 
   return { profileBooks, user };
 };
 
-export default connect(mapStateToProps, { profileBooksFetch })(ProfileScreen);
+export default connect(
+  mapStateToProps,
+  { profileBooksFetch }
+)(ProfileScreen);
