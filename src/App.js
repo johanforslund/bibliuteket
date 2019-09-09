@@ -7,9 +7,12 @@ import { Provider } from "react-redux";
 import AppContainer from "./navigation/Navigator";
 import reducers from "./reducers";
 import NavigationService from "./navigation/NavigationService";
+import { useScreens } from "react-native-screens";
 const keys = require("./config/keys");
 
 const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
+
+useScreens();
 
 class App extends Component {
   constructor(props) {

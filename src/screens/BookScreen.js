@@ -36,7 +36,7 @@ class BookScreen extends Component {
       email,
       name,
       phone,
-      pictureUrl,
+      imageURL,
       price,
       title
     } = this.props.navigation.getParam("book");
@@ -45,7 +45,7 @@ class BookScreen extends Component {
     return (
       <ScrollView>
         <Card>
-          <Image style={styles.imageStyle} source={{ uri: pictureUrl }} />
+          <Image style={styles.imageStyle} source={{ uri: imageURL }} />
           <CardSection>
             <Text style={styles.headingStyle}>{title}</Text>
             <Text style={styles.subHeadingStyle}>{author}</Text>
