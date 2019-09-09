@@ -25,7 +25,8 @@ class AddBookScreen extends Component {
       pictureUrl,
       price,
       name,
-      title
+      title,
+      messengerName
     } = this.props;
     const date = new Date().getTime();
 
@@ -39,7 +40,8 @@ class AddBookScreen extends Component {
       pictureUrl,
       price,
       name,
-      title
+      title,
+      messengerName
     });
   }
 
@@ -108,7 +110,8 @@ const mapStateToProps = state => {
     pictureUrl,
     price,
     name,
-    title
+    title,
+    messengerName
   } = state.bookForm;
 
   return {
@@ -120,7 +123,8 @@ const mapStateToProps = state => {
     pictureUrl,
     price,
     name,
-    title
+    title,
+    messengerName
   };
 };
 

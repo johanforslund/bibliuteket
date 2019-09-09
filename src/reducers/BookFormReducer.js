@@ -1,19 +1,17 @@
-import {
-  BOOK_UPDATE,
-  BOOK_CREATE
-} from '../actions/types';
+import { BOOK_UPDATE, BOOK_CREATE } from "../actions/types";
 
 const INITIAL_STATE = {
-  author: '',
-  date: '',
-  description: '',
-  email: '',
-  location: '',
-  phone: '',
+  author: "",
+  date: "",
+  description: "",
+  email: "",
+  location: "",
+  phone: "",
   pictureUrl: null,
-  price: '',
-  searchTitle: '',
-  title: ''
+  price: "",
+  searchTitle: "",
+  title: "",
+  messengerName: ""
 };
 
 export default (state = INITIAL_STATE, action) => {
