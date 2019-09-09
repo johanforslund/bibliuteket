@@ -5,8 +5,10 @@ import {
   Text,
   Image,
   Linking,
-  TouchableOpacity
+  TouchableOpacity,
+  ToastAndroid
 } from "react-native";
+import Toast from "react-native-root-toast";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import moment from "moment";
 import firebase from "@firebase/app"; //eslint-disable-line
@@ -31,7 +33,10 @@ class BookScreen extends Component {
           textStyle={{ textAlign: "center" }}
           backgroundColor="red"
           title={"Ta bort"}
-          onPress={() => this.props.bookDelete({ uid })}
+          onPress={() => {
+            this.props.bookDelete({ uid });
+            Toast.show("Din bok har tagits bort");
+          }}
         />
       );
     }
@@ -69,7 +74,7 @@ class BookScreen extends Component {
                 style={[styles.iconStyle, { marginTop: 5 }]}
               />
               <Text style={[styles.subHeadingStyle, { alignSelf: "center" }]}>
-                TNM093
+                Norrköping
               </Text>
             </View>
             <Text style={styles.priceStyle}>{price} kr</Text>
@@ -115,15 +120,18 @@ class BookScreen extends Component {
               />
               <Text style={styles.infoStyle}>{email}</Text>
             </View>
-            <View style={{ flexDirection: "row", marginBottom: 3 }}>
-              <Icon
-                name="phone"
-                size={20}
-                color="#373737"
-                style={styles.iconStyle}
-              />
-              <Text style={styles.infoStyle}>{phone}</Text>
-            </View>
+            {phone ? (
+              <View style={{ flexDirection: "row", marginBottom: 3 }}>
+                <Icon
+                  name="phone"
+                  size={20}
+                  color="#373737"
+                  style={styles.iconStyle}
+                />
+                <Text style={styles.infoStyle}>{phone}</Text>
+              </View>
+            ) : null}
+
             <TouchableOpacity
               style={styles.messengerStyle}
               onPress={() => {
