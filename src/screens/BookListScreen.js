@@ -1,17 +1,17 @@
 import React, { Component } from "react";
-import { ScrollView, TouchableOpacity } from "react-native";
+import { TouchableOpacity, FlatList } from "react-native";
 import { connect } from "react-redux";
 import firebase from "@firebase/app"; //eslint-disable-line
 import "@firebase/auth"; //eslint-disable-line
 import { booksFetch, fetchUser } from "../actions";
 import BookDetail from "../components/BookDetail";
 import SearchBar from "../components/SearchBar";
-import ModifySearsh from "../components/ModifySearch";
+import ModifySearch from "../components/ModifySearch";
 
 class BookListScreen extends Component {
   static navigationOptions = {
     headerLeft: <SearchBar />,
-    headerRight: <ModifySearsh />
+    headerRight: <ModifySearch />
   };
 
   componentWillMount() {
@@ -25,23 +25,24 @@ class BookListScreen extends Component {
     this.props.navigation.navigate("Book", { book });
   };
 
-  renderBooks() {
-    return this.props.books.map(book => (
-      <TouchableOpacity
-        key={book.date}
-        delayPressIn={50}
-        onPress={() => this.handlePress(book)}
-      >
-        <BookDetail book={book} />
+  renderBook = ({ item }) => {
+    return (
+      <TouchableOpacity onPress={() => this.handlePress(item)}>
+        <BookDetail book={item} />
       </TouchableOpacity>
-    ));
-  }
+    );
+  };
+
+  keyExtractor = item => item.date.toString();
 
   render() {
     return (
-      <ScrollView style={{ flex: 1, backgroundColor: "#CFE3E9" }}>
-        {this.renderBooks()}
-      </ScrollView>
+      <FlatList
+        data={this.props.books}
+        renderItem={this.renderBook}
+        keyExtractor={this.keyExtractor}
+        style={{ flex: 1, backgroundColor: "#CFE3E9" }}
+      />
     );
   }
 }

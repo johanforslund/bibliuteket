@@ -27,7 +27,7 @@ class BookScreen extends Component {
       return (
         <Button
           raised
-          buttonStyle={{ backgroundColor: "#F44336", marginBottom: 15 }}
+          buttonStyle={{ backgroundColor: "#F44336" }}
           textStyle={{ textAlign: "center" }}
           backgroundColor="red"
           title={"Ta bort"}

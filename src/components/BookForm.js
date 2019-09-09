@@ -1,6 +1,8 @@
 import React, { Component } from "react";
+
 import { View, Text } from "react-native";
 import { Input, Tooltip, Icon } from "react-native-elements";
+
 import { connect } from "react-redux";
 import firebase from "@firebase/app"; //eslint-disable-line
 import "@firebase/auth"; //eslint-disable-line
@@ -8,6 +10,7 @@ import "@firebase/auth"; //eslint-disable-line
 import { bookUpdate } from "../actions";
 import CardSection from "./CardSection";
 import Card from "./Card";
+import BookTagList from "./BookTagList";
 
 class BookForm extends Component {
   componentWillMount() {
@@ -161,6 +164,9 @@ class BookForm extends Component {
                 this.props.bookUpdate({ prop: "phone", value })
               }
             />
+          </CardSection>
+          <CardSection>
+            <BookTagList />
           </CardSection>
         </Card>
       </View>
