@@ -5,7 +5,7 @@ import {
   BOOKS_FETCH_SUCCESS,
   BOOK_CREATE,
   BOOKS_SEARCH_SUCCESS,
-  SEARCH_UPDATE,
+  BOOKS_SEARCH_UPDATE,
   BOOKS_SORT_BY,
   BOOKS_IS_SEARCHING
 } from "./types";
@@ -56,7 +56,7 @@ export const booksSearch = (sorting, value) => {
 
 export const searchUpdate = searchTitle => {
   return {
-    type: SEARCH_UPDATE,
+    type: BOOKS_SEARCH_UPDATE,
     payload: searchTitle
   };
 };
@@ -84,7 +84,8 @@ export const bookCreate = ({
   phone,
   imageURL,
   price,
-  title
+  title,
+  messengerName
 }) => {
   const { currentUser } = firebase.auth();
   const name = currentUser.displayName;
@@ -104,7 +105,8 @@ export const bookCreate = ({
         imageURL,
         price,
         name,
-        title
+        title,
+        messengerName
       })
       .then(() => {
         dispatch({ type: BOOK_CREATE });

@@ -1,10 +1,9 @@
 import React, { Component } from "react";
-import { View } from "react-native";
-import { Input, Button } from "react-native-elements";
+import { View, Text } from "react-native";
+import { Input, Tooltip, Icon } from "react-native-elements";
 import { connect } from "react-redux";
 import firebase from "@firebase/app"; //eslint-disable-line
 import "@firebase/auth"; //eslint-disable-line
-//import ModalSelector from 'react-native-modal-selector';
 import { bookUpdate, bookCreate } from "../actions";
 import CardSection from "./CardSection";
 import Card from "./Card";
@@ -138,10 +137,40 @@ class BookForm extends Component {
               placeholder="Namn"
               editable={false}
               onSubmitEditing={() => {
-                this.refs.Email.focus();
+                this.refs.Messenger.focus();
               }}
               value={this.props.user.displayName}
             />
+          </CardSection>
+
+          <CardSection>
+            <View style={{ display: "flex", flexDirection: "row" }}>
+              <Input
+                ref="Messenger"
+                returnKeyType="next"
+                placeholder="Messenger-användarnamn"
+                maxLength={40}
+                onSubmitEditing={() => {
+                  this.refs.Email.focus();
+                }}
+                value={this.props.messengerName}
+                rightIcon={
+                  <Tooltip
+                    height={100}
+                    popover={
+                      <Text>
+                        Detta hittar du under "profil" på facebook messenger
+                      </Text>
+                    }
+                  >
+                    <Icon name="info" size={20} color="#373737" />
+                  </Tooltip>
+                }
+                onChangeText={value =>
+                  this.props.bookUpdate({ prop: "messengerName", value })
+                }
+              />
+            </View>
           </CardSection>
 
           <CardSection>

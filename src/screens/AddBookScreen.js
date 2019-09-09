@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import { ScrollView, Text, TouchableOpacity } from "react-native";
-import { connect } from "react-redux";
-import { Button } from "react-native-elements";
 import firebase from "@firebase/app"; //eslint-disable-line
 import "@firebase/auth"; //eslint-disable-line
 import Card from "../components/Card";
