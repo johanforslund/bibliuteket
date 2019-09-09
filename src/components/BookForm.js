@@ -119,7 +119,7 @@ class BookForm extends Component {
                 }}
                 value={this.props.messengerName}
                 rightIcon={
-                  <Tooltip
+                  <Tooltip // Kanske behöver ändra yOffset i tooltip.js för rätt pos
                     height={100}
                     popover={
                       <Text>
