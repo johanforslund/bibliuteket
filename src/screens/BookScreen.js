@@ -128,7 +128,6 @@ class BookScreen extends Component {
               style={styles.messengerStyle}
               onPress={() => {
                 Linking.openURL("https://m.me/" + messengerName);
-                console.log(messengerName);
               }}
             >
               <Image
