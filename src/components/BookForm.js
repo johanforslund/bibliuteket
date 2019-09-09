@@ -8,9 +8,10 @@ import "@firebase/auth"; //eslint-disable-line
 import { bookUpdate } from "../actions";
 import CardSection from "./CardSection";
 import Card from "./Card";
+import BookTagList from "./BookTagList";
 
 class BookForm extends Component {
-  componentDidMount() {
+  componentWillMount() {
     this.props.bookUpdate({
       prop: "email",
       value: firebase.auth().currentUser.email
@@ -131,6 +132,9 @@ class BookForm extends Component {
                 this.props.bookUpdate({ prop: "phone", value })
               }
             />
+          </CardSection>
+          <CardSection>
+            <BookTagList />
           </CardSection>
         </Card>
       </View>
