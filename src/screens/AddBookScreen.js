@@ -12,8 +12,19 @@ import ImageUploader from "../components/ImageUploader";
 
 class AddBookScreen extends Component {
   state = {
-    emailVerified: false
+    emailVerified: false,
+    intervalId: -1
   };
+
+  componentDidMount() {
+    if (!firebase.auth().currentUser.emailVerified) {
+      this.setState({ intervalId: setInterval(this.retryEmail, 10000) });
+    }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.intervalId);
+  }
 
   onButtonPress() {
     const {
@@ -43,19 +54,20 @@ class AddBookScreen extends Component {
     });
   }
 
-  retryEmail() {
+  retryEmail = () => {
     firebase
       .auth()
       .currentUser.reload()
       .then(() => {
         if (firebase.auth().currentUser.emailVerified) {
           this.setState({ emailVerified: true });
+          clearInterval(this.state.intervalId);
         }
       });
-  }
+  };
 
   renderAddBookScreen() {
-    if (firebase.auth().currentUser.emailVerified) {
+    if (this.state.emailVerified || firebase.auth().currentUser.emailVerified) {
       return (
         <Card style={{ backgroundColor: "#CFE3E9" }}>
           <ImageUploader />

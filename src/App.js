@@ -7,21 +7,15 @@ import { Provider } from "react-redux";
 import AppContainer from "./navigation/Navigator";
 import reducers from "./reducers";
 import NavigationService from "./navigation/NavigationService";
+const keys = require("./config/keys");
 
 const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
 
 class App extends Component {
   constructor(props) {
     super(props);
-    const config = {
-      apiKey: "AIzaSyD04Ttv-pdfc6V9hlh2oBChnL_vtZOvk9E",
-      authDomain: "koma-26e03.firebaseapp.com",
-      databaseURL: "https://koma-26e03.firebaseio.com",
-      projectId: "koma-26e03",
-      storageBucket: "koma-26e03.appspot.com",
-      messagingSenderId: "943209967796"
-    };
-    firebase.initializeApp(config);
+
+    firebase.initializeApp(keys.firebaseConfig);
     console.disableYellowBox = true;
   }
 
