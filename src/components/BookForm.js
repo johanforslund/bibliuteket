@@ -38,7 +38,8 @@ class BookForm extends Component {
       price,
       name,
       title,
-      imageURL
+      imageURL,
+      messengerName
     } = this.state;
     const date = new Date().getTime();
 
@@ -52,7 +53,8 @@ class BookForm extends Component {
       price,
       name,
       title,
-      imageURL
+      imageURL,
+      messengerName
     });
   }
 
