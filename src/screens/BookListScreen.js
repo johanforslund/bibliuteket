@@ -6,24 +6,16 @@ import "@firebase/auth"; //eslint-disable-line
 import { booksFetch, fetchUser } from "../actions";
 import BookDetail from "../components/BookDetail";
 import SearchBar from "../components/SearchBar";
-import React, { Component } from "react";
-import { TouchableOpacity } from "react-native";
-import { connect } from "react-redux";
-import firebase from "@firebase/app"; //eslint-disable-line
-import "@firebase/auth"; //eslint-disable-line
-import { booksFetch, fetchUser } from "../actions";
-import BookDetail from "../components/BookDetail";
-import SearchBar from "../components/SearchBar";
-import ModifySearsh from "../components/ModifySearch";
+import ModifySearch from "../components/ModifySearch";
 
 class BookListScreen extends Component {
   static navigationOptions = {
     headerLeft: <SearchBar />,
-    headerRight: <ModifySearsh />
+    headerRight: <ModifySearch />
   };
 
-  componentDidMount() {
-    this.props.booksFetch();
+  componentWillMount() {
+    this.props.booksFetch(this.props.sorting);
     if (this.props.user.displayName === undefined) {
       this.props.fetchUser(firebase.auth().currentUser);
     }
@@ -56,13 +48,15 @@ class BookListScreen extends Component {
 }
 
 const mapStateToProps = state => {
-  const books = Object.keys(state.books).map(key => {
-    return state.books[key];
+  const books = Object.keys(state.books.books).map(key => {
+    return state.books.books[key];
   });
+
+  const { sorting } = state.books;
 
   const { user } = state.auth;
 
-  return { books, user };
+  return { sorting, books, user };
 };
 
 export default connect(

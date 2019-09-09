@@ -6,16 +6,18 @@ import {
   BOOK_UPDATE,
   BOOK_CREATE,
   BOOKS_SEARCH_SUCCESS,
-  SEARCH_UPDATE
+  SEARCH_UPDATE,
+  BOOKS_SORT_BY,
+  BOOKS_IS_SEARCHING
 } from "./types";
 import NavigationService from "../navigation/NavigationService";
 
-export const booksFetch = () => {
+export const booksFetch = sorting => {
   return dispatch => {
     firebase
       .database()
       .ref("books")
-      .orderByChild("date")
+      .orderByChild(sorting)
       .on("value", snapshot => {
         const books = [];
         snapshot.forEach(child => {
@@ -28,12 +30,12 @@ export const booksFetch = () => {
   };
 };
 
-export const booksSearch = value => {
+export const booksSearch = (sorting, value) => {
   return dispatch => {
     firebase
       .database()
       .ref("books")
-      .orderByChild("date")
+      .orderByChild(sorting)
       .once("value", snapshot => {
         const books = [];
         snapshot.forEach(child => {
@@ -57,6 +59,20 @@ export const searchUpdate = searchTitle => {
   return {
     type: SEARCH_UPDATE,
     payload: searchTitle
+  };
+};
+
+export const toggleSearch = (isSearching, searchText) => {
+  return {
+    type: BOOKS_IS_SEARCHING,
+    payload: { isSearching: isSearching, searchText: searchText }
+  };
+};
+
+export const changeSorting = sorting => {
+  return {
+    type: BOOKS_SORT_BY,
+    payload: sorting
   };
 };
 
