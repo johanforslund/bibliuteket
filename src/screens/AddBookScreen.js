@@ -1,14 +1,10 @@
 import React, { Component } from "react";
 import { ScrollView, Text, TouchableOpacity } from "react-native";
-import { connect } from "react-redux";
-import { Button } from "react-native-elements";
 import firebase from "@firebase/app"; //eslint-disable-line
 import "@firebase/auth"; //eslint-disable-line
-import { bookUpdate, bookCreate } from "../actions";
 import Card from "../components/Card";
 import CardSection from "../components/CardSection";
 import BookForm from "../components/BookForm";
-import ImageUploader from "../components/ImageUploader";
 
 class AddBookScreen extends Component {
   state = {
@@ -24,36 +20,6 @@ class AddBookScreen extends Component {
 
   componentWillUnmount() {
     clearInterval(this.state.intervalId);
-  }
-
-  onButtonPress() {
-    const {
-      author,
-      description,
-      email,
-      location,
-      phone,
-      pictureUrl,
-      price,
-      name,
-      title,
-      messengerName
-    } = this.props;
-    const date = new Date().getTime();
-
-    this.props.bookCreate({
-      author,
-      date,
-      description,
-      email,
-      location,
-      phone,
-      pictureUrl,
-      price,
-      name,
-      title,
-      messengerName
-    });
   }
 
   retryEmail = () => {
@@ -72,18 +38,7 @@ class AddBookScreen extends Component {
     if (this.state.emailVerified || firebase.auth().currentUser.emailVerified) {
       return (
         <Card style={{ backgroundColor: "#CFE3E9" }}>
-          <ImageUploader />
           <BookForm />
-          <CardSection>
-            <Button
-              raised
-              buttonStyle={{ backgroundColor: "#2ecc71" }}
-              textStyle={{ textAlign: "center" }}
-              backgroundColor="red"
-              title={"Lägg upp"}
-              onPress={this.onButtonPress.bind(this)}
-            />
-          </CardSection>
         </Card>
       );
     }
@@ -112,38 +67,4 @@ class AddBookScreen extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  const {
-    author,
-    description,
-    email,
-    location,
-    phone,
-    pictureUrl,
-    price,
-    name,
-    title,
-    messengerName
-  } = state.bookForm;
-
-  return {
-    author,
-    description,
-    email,
-    location,
-    phone,
-    pictureUrl,
-    price,
-    name,
-    title,
-    messengerName
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  {
-    bookUpdate,
-    bookCreate
-  }
-)(AddBookScreen);
+export default AddBookScreen;

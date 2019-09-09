@@ -3,7 +3,6 @@ import "@firebase/auth"; //eslint-disable-line
 import "@firebase/database"; //eslint-disable-line
 import {
   BOOKS_FETCH_SUCCESS,
-  BOOK_UPDATE,
   BOOK_CREATE,
   BOOKS_SEARCH_SUCCESS,
   BOOKS_SEARCH_UPDATE,
@@ -76,13 +75,6 @@ export const changeSorting = sorting => {
   };
 };
 
-export const bookUpdate = ({ prop, value }) => {
-  return {
-    type: BOOK_UPDATE,
-    payload: { prop, value }
-  };
-};
-
 export const bookCreate = ({
   author,
   date,
@@ -90,7 +82,7 @@ export const bookCreate = ({
   email,
   location,
   phone,
-  pictureUrl,
+  imageURL,
   price,
   title,
   messengerName
@@ -110,7 +102,7 @@ export const bookCreate = ({
         email,
         location,
         phone,
-        pictureUrl,
+        imageURL,
         price,
         name,
         title,

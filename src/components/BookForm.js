@@ -1,28 +1,72 @@
 import React, { Component } from "react";
-
 import { View, Text } from "react-native";
-import { Input, Tooltip, Icon } from "react-native-elements";
-
+import { Input, Tooltip, Icon, Button } from "react-native-elements";
 import { connect } from "react-redux";
 import firebase from "@firebase/app"; //eslint-disable-line
 import "@firebase/auth"; //eslint-disable-line
-//import ModalSelector from 'react-native-modal-selector';
-import { bookUpdate } from "../actions";
+import { bookUpdate, bookCreate } from "../actions";
 import CardSection from "./CardSection";
 import Card from "./Card";
 import BookTagList from "./BookTagList";
+import ImageUploader from "./ImageUploader";
 
 class BookForm extends Component {
+  state = {
+    author: "",
+    description: "",
+    email: firebase.auth().currentUser.email,
+    location: "",
+    phone: "",
+    price: "",
+    name: "",
+    title: "",
+    imageURL: null,
+    messengerName: ""
+  };
+
   componentWillMount() {
-    this.props.bookUpdate({
-      prop: "email",
-      value: firebase.auth().currentUser.email
+    this.setState({ email: firebase.auth().currentUser.email });
+  }
+
+  onButtonPress() {
+    const {
+      author,
+      description,
+      email,
+      location,
+      phone,
+      price,
+      name,
+      title,
+      imageURL
+    } = this.state;
+    const date = new Date().getTime();
+
+    this.props.bookCreate({
+      author,
+      date,
+      description,
+      email,
+      location,
+      phone,
+      price,
+      name,
+      title,
+      imageURL
     });
   }
+
+  setImageURL = url => {
+    this.setState({ imageURL: url });
+  };
 
   render() {
     return (
       <View>
+        <ImageUploader
+          setImageURL={this.setImageURL}
+          imageURL={this.state.imageURL}
+        />
         <Card style={{ marginBottom: 10 }}>
           <CardSection>
             <Input
@@ -33,10 +77,8 @@ class BookForm extends Component {
               onSubmitEditing={() => {
                 this.refs.Author.focus();
               }}
-              value={this.props.title}
-              onChangeText={value =>
-                this.props.bookUpdate({ prop: "title", value })
-              }
+              value={this.state.title}
+              onChangeText={value => this.setState({ title: value })}
             />
           </CardSection>
 
@@ -50,10 +92,8 @@ class BookForm extends Component {
               onSubmitEditing={() => {
                 this.refs.Price.focus();
               }}
-              value={this.props.author}
-              onChangeText={value =>
-                this.props.bookUpdate({ prop: "author", value })
-              }
+              value={this.state.author}
+              onChangeText={value => this.setState({ author: value })}
             />
           </CardSection>
 
@@ -67,10 +107,8 @@ class BookForm extends Component {
               onSubmitEditing={() => {
                 this.refs.Description.focus();
               }}
-              value={this.props.price}
-              onChangeText={value =>
-                this.props.bookUpdate({ prop: "price", value })
-              }
+              value={this.state.price}
+              onChangeText={value => this.setState({ price: value })}
             />
           </CardSection>
 
@@ -85,10 +123,8 @@ class BookForm extends Component {
               onSubmitEditing={() => {
                 this.refs.Name.focus();
               }}
-              value={this.props.description}
-              onChangeText={value =>
-                this.props.bookUpdate({ prop: "description", value })
-              }
+              value={this.state.description}
+              onChangeText={value => this.setState({ description: value })}
             />
           </CardSection>
         </Card>
@@ -117,7 +153,7 @@ class BookForm extends Component {
                 onSubmitEditing={() => {
                   this.refs.Email.focus();
                 }}
-                value={this.props.messengerName}
+                value={this.state.messengerName}
                 rightIcon={
                   <Tooltip // Kanske behöver ändra yOffset i tooltip.js för rätt pos
                     height={100}
@@ -130,9 +166,7 @@ class BookForm extends Component {
                     <Icon name="info" size={20} color="#373737" />
                   </Tooltip>
                 }
-                onChangeText={value =>
-                  this.props.bookUpdate({ prop: "messengerName", value })
-                }
+                onChangeText={value => this.setState({ messengerName: value })}
               />
             </View>
           </CardSection>
@@ -146,10 +180,8 @@ class BookForm extends Component {
               onSubmitEditing={() => {
                 this.refs.Number.focus();
               }}
-              value={this.props.email}
-              onChangeText={value =>
-                this.props.bookUpdate({ prop: "email", value })
-              }
+              value={this.state.email}
+              onChangeText={value => this.setState({ email: value })}
             />
           </CardSection>
 
@@ -159,49 +191,36 @@ class BookForm extends Component {
               keyboardType="numeric"
               placeholder="Telefonnummer (frivilligt)"
               maxLength={15}
-              value={this.props.phone}
-              onChangeText={value =>
-                this.props.bookUpdate({ prop: "phone", value })
-              }
+              value={this.state.phone}
+              onChangeText={value => this.setState({ phone: value })}
             />
           </CardSection>
           <CardSection>
             <BookTagList />
           </CardSection>
         </Card>
+        <CardSection>
+          <Button
+            raised
+            buttonStyle={{ backgroundColor: "#2ecc71" }}
+            textStyle={{ textAlign: "center" }}
+            backgroundColor="red"
+            title={"Lägg upp"}
+            onPress={this.onButtonPress.bind(this)}
+          />
+        </CardSection>
       </View>
     );
   }
 }
 
 const mapStateToProps = state => {
-  const {
-    author,
-    description,
-    email,
-    phone,
-    pictureUrl,
-    price,
-    title,
-    messengerName
-  } = state.bookForm;
-
   const { user } = state.auth;
 
-  return {
-    author,
-    description,
-    email,
-    phone,
-    pictureUrl,
-    price,
-    title,
-    user,
-    messengerName
-  };
+  return { user };
 };
 
 export default connect(
   mapStateToProps,
-  { bookUpdate }
+  { bookUpdate, bookCreate }
 )(BookForm);
