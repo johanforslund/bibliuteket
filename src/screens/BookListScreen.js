@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { TouchableOpacity, FlatList } from "react-native";
+import { TouchableOpacity, FlatList, StyleSheet } from "react-native";
 import { connect } from "react-redux";
 import firebase from "@firebase/app"; //eslint-disable-line
 import "@firebase/auth"; //eslint-disable-line
@@ -41,11 +41,18 @@ class BookListScreen extends Component {
         data={this.props.books}
         renderItem={this.renderBook}
         keyExtractor={this.keyExtractor}
-        style={{ flex: 1, backgroundColor: "#CFE3E9" }}
+        style={styles.bookList}
       />
     );
   }
 }
+
+const styles = StyleSheet.create({
+  bookList: {
+    flex: 1,
+    backgroundColor: "#CFE3E9"
+  }
+});
 
 const mapStateToProps = state => {
   const books = Object.keys(state.books.books).map(key => {
