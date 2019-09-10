@@ -6,7 +6,7 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
-    "shake":"adb shell input keyevent 82"
+    "shake": "adb shell input keyevent 82"
   },
   "dependencies": {
     "@welldone-software/why-did-you-render": "^3.3.3",
@@ -19,6 +19,7 @@
     "react-native-image-picker": "^1.1.0",
     "react-native-modal": "^11.3.1",
     "react-native-reanimated": "^1.2.0",
+    "react-native-root-toast": "^3.1.2",
     "react-native-screens": "^2.0.0-alpha.2",
     "react-native-vector-icons": "^6.6.0",
     "react-navigation": "^4.0.0",

@@ -38,7 +38,8 @@ class BookForm extends PureComponent {
       price,
       name,
       title,
-      imageURL
+      imageURL,
+      messengerName
     } = this.state;
     const date = new Date().getTime();
 
@@ -52,7 +53,8 @@ class BookForm extends PureComponent {
       price,
       name,
       title,
-      imageURL
+      imageURL,
+      messengerName
     });
   }
 
@@ -155,7 +157,7 @@ class BookForm extends PureComponent {
                 }}
                 value={this.state.messengerName}
                 rightIcon={
-                  <Tooltip
+                  <Tooltip // Kanske behöver ändra yOffset i tooltip.js för rätt pos
                     height={100}
                     popover={
                       <Text>
