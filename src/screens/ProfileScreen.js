@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { ListItem } from "react-native-elements";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Image } from "react-native";
 import firebase from "@firebase/app"; //eslint-disable-line
 import "@firebase/auth"; //eslint-disable-line
 import { connect } from "react-redux";
@@ -33,18 +33,23 @@ class ProfileScreen extends Component {
   renderProfileBooks() {
     return this.props.profileBooks.map(profileBook => (
       <TouchableOpacity
+        style={styles.rowCardStyle}
         key={profileBook.date}
         delayPressIn={50}
         onPress={() => this.handlePress(profileBook)}
       >
-        <Card>
-          <CardSection>
-            <Text>
-              {profileBook.title} - (
-              {moment(profileBook.date).format("YYYY-MM-DD | HH:SS")})
-            </Text>
-          </CardSection>
-        </Card>
+        <View style={styles.textContainer}>
+          <Text style={styles.textStyle}>Titel: {profileBook.title}</Text>
+          <Text style={styles.textStyle}>
+            Skapad: {moment(profileBook.date).format("YYYY-MM-DD | HH:SS")}
+          </Text>
+        </View>
+        <View style={styles.imageConatiner}>
+          <Image
+            style={styles.imageStyle}
+            source={{ uri: profileBook.imageURL }}
+          />
+        </View>
       </TouchableOpacity>
     ));
   }
@@ -60,9 +65,14 @@ class ProfileScreen extends Component {
             {this.authStatus()}
           </CardSection>
         </Card>
-        <Card style={{ marginBottom: 30 }}>
-          <CardSection>{this.renderProfileBooks()}</CardSection>
-        </Card>
+        {this.props.profileBooks.length > 0 ? (
+          <Card style={{ marginBottom: 30 }}>
+            <Text style={{ textAlign: "center", fontSize: 20 }}>
+              Dina böcker
+            </Text>
+            <CardSection>{this.renderProfileBooks()}</CardSection>
+          </Card>
+        ) : null}
         <View>
           <ListItem
             title="Bevaka bok"
@@ -96,6 +106,38 @@ const mapStateToProps = state => {
   const { user } = state.auth;
 
   return { profileBooks, user };
+};
+
+const styles = {
+  rowCardStyle: {
+    backgroundColor: "red",
+    display: "flex",
+    flexDirection: "row",
+    shadowColor: "rgba(0,0,0, .4)",
+    shadowOffset: { height: 1, width: 1 },
+    shadowOpacity: 1,
+    shadowRadius: 1,
+    backgroundColor: "#fff",
+    elevation: 2,
+    borderRadius: 10,
+    padding: 8,
+    marginTop: 5,
+    width: "100%"
+  },
+  textContainer: {
+    alignSelf: "center"
+  },
+  textStyle: {
+    fontWeight: "bold"
+  },
+  imageConatiner: {
+    flex: 1,
+    alignItems: "flex-end"
+  },
+  imageStyle: {
+    height: 60,
+    width: 60
+  }
 };
 
 export default connect(

@@ -1,5 +1,6 @@
 import firebase from "@firebase/app"; //eslint-disable-line
 import "@firebase/auth"; //eslint-disable-line
+import Toast from "react-native-root-toast";
 import {
   FETCH_USER,
   USER_UPDATE,
@@ -69,9 +70,10 @@ export const deleteUser = () => {
     firebase
       .auth()
       .currentUser.delete()
-      .then(() => console.log("User deleted"))
-      .catch(() => {
-        console.log("Logged in too long ago");
+      .then(() => Toast.show("Ditt konto har tagits bort"))
+
+      .catch(error => {
+        console.log(error);
       });
   };
 };
