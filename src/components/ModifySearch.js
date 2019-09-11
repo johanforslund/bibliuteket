@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, PureComponent } from "react";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { View, TouchableOpacity, Text } from "react-native";
 import { CheckBox, Button } from "react-native-elements";
@@ -7,7 +7,7 @@ import { changeSorting, booksFetch, booksSearch } from "../actions/BookActions";
 
 import { connect } from "react-redux";
 
-class ModifySearch extends Component {
+class ModifySearch extends PureComponent {
   state = {
     isModalVisible: false
   };
@@ -55,8 +55,6 @@ class ModifySearch extends Component {
                 title="Datum"
                 checked={this.props.sorting === "date"}
                 onPress={() => {
-                  console.log("is searching: " + this.props.isSearching);
-
                   this.props.changeSorting("date");
                   this.props.isSearching
                     ? this.props.booksSearch("date", this.props.searchText)
