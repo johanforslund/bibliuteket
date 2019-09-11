@@ -88,6 +88,7 @@ export const bookCreate = ({
   messengerName,
   tags
 }) => {
+  price ? (price = parseInt(price)) : null;
   const { currentUser } = firebase.auth();
   const name = currentUser.displayName;
 
@@ -119,22 +120,24 @@ export const bookCreate = ({
 
 export const bookDelete = ({ uid, imageURL }) => {
   return () => {
-    const image = firebase.storage().refFromURL(imageURL);
-
     firebase
       .database()
       .ref(`books/${uid}`)
       .remove()
       .then(() => {
         NavigationService.navigate("BookList");
-
-        image
-          .delete()
-          .then(function() {})
-          .catch(function(error) {
-            console.log(error);
-            // Uh-oh, an error occurred!
-          });
       });
+
+    if (imageURL) {
+      const image = firebase.storage().refFromURL(imageURL);
+
+      image
+        .delete()
+        .then(function() {})
+        .catch(function(error) {
+          console.log(error);
+          // Uh-oh, an error occurred!
+        });
+    }
   };
 };
