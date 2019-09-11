@@ -5,8 +5,7 @@ import {
   Text,
   Image,
   Linking,
-  TouchableOpacity,
-  ToastAndroid
+  TouchableOpacity
 } from "react-native";
 import Toast from "react-native-root-toast";
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -17,6 +16,7 @@ import { connect } from "react-redux";
 import { Button } from "react-native-elements";
 import Card from "../components/Card";
 import CardSection from "../components/CardSection";
+import BookTag from "../components/BookTag";
 import { bookDelete } from "../actions";
 
 const messengerLogo = require("../images/messenger_logo.png");
@@ -53,7 +53,8 @@ class BookScreen extends Component {
       imageURL,
       price,
       title,
-      messengerName
+      messengerName,
+      tags
     } = this.props.navigation.getParam("book");
     const formattedDate = moment(date).fromNow();
 
@@ -148,6 +149,9 @@ class BookScreen extends Component {
               />
               <Text style={styles.infoStyle}>Kontakta {name}</Text>
             </TouchableOpacity>
+            {tags.map(tag => {
+              return <BookTag name={tag}></BookTag>;
+            })}
           </CardSection>
           {this.renderDeleteButton()}
         </Card>
