@@ -149,9 +149,11 @@ class BookScreen extends Component {
               />
               <Text style={styles.infoStyle}>Kontakta {name}</Text>
             </TouchableOpacity>
-            {tags.map(tag => {
-              return <BookTag name={tag}></BookTag>;
-            })}
+            {tags
+              ? tags.map(tag => {
+                  return <BookTag name={tag}></BookTag>;
+                })
+              : null}
           </CardSection>
           {this.renderDeleteButton()}
         </Card>

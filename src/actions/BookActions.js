@@ -88,6 +88,7 @@ export const bookCreate = ({
   messengerName,
   tags
 }) => {
+  price ? (price = parseInt(price)) : null;
   const { currentUser } = firebase.auth();
   const name = currentUser.displayName;
 
