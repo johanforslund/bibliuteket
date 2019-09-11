@@ -21,7 +21,8 @@ class BookForm extends PureComponent {
     name: "",
     title: "",
     imageURL: null,
-    messengerName: ""
+    messengerName: "",
+    tags: []
   };
 
   componentWillMount() {
@@ -39,7 +40,8 @@ class BookForm extends PureComponent {
       name,
       title,
       imageURL,
-      messengerName
+      messengerName,
+      tags
     } = this.state;
     const date = new Date().getTime();
 
@@ -54,12 +56,17 @@ class BookForm extends PureComponent {
       name,
       title,
       imageURL,
-      messengerName
+      messengerName,
+      tags
     });
   }
 
   setImageURL = url => {
     this.setState({ imageURL: url });
+  };
+
+  setTag = tag => {
+    this.setState({ tags: [...this.state.tags, tag] });
   };
 
   render() {
@@ -198,7 +205,7 @@ class BookForm extends PureComponent {
             />
           </CardSection>
           <CardSection>
-            <BookTagList />
+            <BookTagList setTag={this.setTag} tags={this.state.tags} />
           </CardSection>
         </Card>
         <CardSection>

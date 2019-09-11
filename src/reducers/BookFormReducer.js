@@ -11,7 +11,8 @@ const INITIAL_STATE = {
   price: "",
   searchTitle: "",
   title: "",
-  messengerName: ""
+  messengerName: "",
+  tags: []
 };
 
 export default (state = INITIAL_STATE, action) => {
