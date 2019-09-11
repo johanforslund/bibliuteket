@@ -60,12 +60,24 @@ class ProfileScreen extends Component {
             {this.authStatus()}
           </CardSection>
         </Card>
-        <Card>
+        <Card style={{ marginBottom: 30 }}>
           <CardSection>{this.renderProfileBooks()}</CardSection>
         </Card>
         <View>
-          <ListItem title="Kontakt" leftIcon={{ name: "mail" }} bottomDivider />
-          <ListItem title="Hjälp" leftIcon={{ name: "help" }} bottomDivider />
+          <ListItem
+            title="Bevaka bok"
+            leftIcon={{ name: "book" }}
+            bottomDivider
+          />
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate("Settings")}
+          >
+            <ListItem
+              title="Inställningar"
+              leftIcon={{ name: "settings" }}
+              bottomDivider
+            />
+          </TouchableOpacity>
           <TouchableOpacity onPress={this.onLogout}>
             <ListItem
               title="Logga ut"
