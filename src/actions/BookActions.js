@@ -85,7 +85,8 @@ export const bookCreate = ({
   imageURL,
   price,
   title,
-  messengerName
+  messengerName,
+  tags
 }) => {
   const { currentUser } = firebase.auth();
   const name = currentUser.displayName;
@@ -106,7 +107,8 @@ export const bookCreate = ({
         price,
         name,
         title,
-        messengerName
+        messengerName,
+        tags
       })
       .then(() => {
         dispatch({ type: BOOK_CREATE });

@@ -1,4 +1,4 @@
-import React, { Component, PureComponent } from "react";
+import React, { PureComponent } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { Input, Tooltip, Icon, Button } from "react-native-elements";
 import { connect } from "react-redux";
@@ -29,7 +29,8 @@ class BookForm extends PureComponent {
       title: false,
       author: false,
       price: false
-    }
+    },
+    tags: []
   };
 
   componentWillMount() {
@@ -71,7 +72,8 @@ class BookForm extends PureComponent {
       name,
       title,
       imageURL,
-      messengerName
+      messengerName,
+      tags
     } = this.state;
     const date = new Date().getTime();
 
@@ -99,12 +101,17 @@ class BookForm extends PureComponent {
       name,
       title,
       imageURL,
-      messengerName
+      messengerName,
+      tags
     });
   }
 
   setImageURL = url => {
     this.setState({ imageURL: url });
+  };
+
+  setTag = tag => {
+    this.setState({ tags: [...this.state.tags, tag] });
   };
 
   render() {
@@ -262,7 +269,7 @@ class BookForm extends PureComponent {
             </CardSection>
           )}
           <CardSection>
-            <BookTagList />
+            <BookTagList setTag={this.setTag} tags={this.state.tags} />
           </CardSection>
         </Card>
         <CardSection style={{ flex: 1, justifyContent: "flex-end" }}>
