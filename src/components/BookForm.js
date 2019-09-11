@@ -1,5 +1,5 @@
 import React, { Component, PureComponent } from "react";
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { Input, Tooltip, Icon, Button } from "react-native-elements";
 import { connect } from "react-redux";
 import firebase from "@firebase/app"; //eslint-disable-line
@@ -22,7 +22,14 @@ class BookForm extends PureComponent {
     name: "",
     title: "",
     imageURL: null,
-    messengerName: ""
+    messengerName: "",
+    hasPhone: false,
+    hasMessengerName: false,
+    touched: {
+      title: false,
+      author: false,
+      price: false
+    }
   };
 
   componentWillMount() {
@@ -36,10 +43,22 @@ class BookForm extends PureComponent {
         this.setState({
           email: firebase.auth().currentUser.email,
           phone,
-          messengerName
+          messengerName,
+          hasPhone: phone !== "",
+          hasMessengerName: messengerName !== ""
         });
       });
   }
+
+  validate = () => {
+    const reg = new RegExp("^[0-9]+$");
+    return {
+      title: this.state.title.length === 0,
+      author: this.state.author.length === 0,
+      price: this.state.price.length === 0 || !reg.test(this.state.price),
+      imageURL: !this.state.imageURL
+    };
+  };
 
   onButtonPress() {
     const {
@@ -64,6 +83,11 @@ class BookForm extends PureComponent {
         messengerName
       });
 
+    this.setState({
+      hasPhone: phone !== "",
+      hasMessengerName: messengerName !== ""
+    });
+
     this.props.bookCreate({
       author,
       date,
@@ -84,24 +108,47 @@ class BookForm extends PureComponent {
   };
 
   render() {
+    const errors = this.validate();
+    const shouldMarkError = field => {
+      const hasError = errors[field];
+      const shouldShow = this.state.touched[field];
+
+      return hasError ? shouldShow : false;
+    };
+
     return (
-      <View>
-        <ImageUploader
-          setImageURL={this.setImageURL}
-          imageURL={this.state.imageURL}
-        />
+      <ScrollView
+        style={{ backgroundColor: "#CFE3E9" }}
+        contentContainerStyle={{ flexGrow: 1 }}
+        keyboardShouldPersistTaps="handled"
+      >
+        <Card style={{ marginBottom: 0 }}>
+          <ImageUploader
+            setImageURL={this.setImageURL}
+            imageURL={this.state.imageURL}
+          />
+        </Card>
         <Card style={{ marginBottom: 10 }}>
           <CardSection>
             <Input
               returnKeyType="next"
               autoCapitalize="sentences"
-              placeholder="Bokens Titel"
+              label="Bokens Titel"
+              errorMessage={
+                shouldMarkError("title") ? "Obligatoriskt fält" : ""
+              }
+              inputStyle={styles.inputStyle}
               maxLength={35}
               onSubmitEditing={() => {
                 this.refs.Author.focus();
               }}
               value={this.state.title}
               onChangeText={value => this.setState({ title: value })}
+              onBlur={() =>
+                this.setState({
+                  touched: { ...this.state.touched, title: true }
+                })
+              }
             />
           </CardSection>
 
@@ -110,28 +157,44 @@ class BookForm extends PureComponent {
               ref="Author"
               autoCapitalize="words"
               returnKeyType="next"
-              placeholder="Författare"
+              label="Författare"
+              errorMessage={
+                shouldMarkError("author") ? "Obligatoriskt fält" : ""
+              }
+              inputStyle={styles.inputStyle}
               maxLength={35}
               onSubmitEditing={() => {
                 this.refs.Price.focus();
               }}
               value={this.state.author}
               onChangeText={value => this.setState({ author: value })}
+              onBlur={() =>
+                this.setState({
+                  touched: { ...this.state.touched, author: true }
+                })
+              }
             />
           </CardSection>
 
-          <CardSection style={{ flex: 1 }}>
+          <CardSection>
             <Input
               ref="Price"
               returnKeyType="next"
               keyboardType="numeric"
-              placeholder="Pris"
+              label="Pris"
+              errorMessage={shouldMarkError("price") ? "Felaktigt pris" : ""}
+              inputStyle={styles.inputStyle}
               maxLength={4}
               onSubmitEditing={() => {
                 this.refs.Description.focus();
               }}
               value={this.state.price}
               onChangeText={value => this.setState({ price: value })}
+              onBlur={() =>
+                this.setState({
+                  touched: { ...this.state.touched, price: true }
+                })
+              }
             />
           </CardSection>
 
@@ -140,7 +203,8 @@ class BookForm extends PureComponent {
               ref="Description"
               returnKeyType="next"
               autoCapitalize="sentences"
-              placeholder="Beskrivning"
+              label="Beskrivning"
+              inputStyle={styles.inputStyle}
               numberOfLines={3}
               multiline
               onSubmitEditing={() => {
@@ -152,90 +216,75 @@ class BookForm extends PureComponent {
           </CardSection>
         </Card>
         <Card>
-          <CardSection>
-            <Input
-              ref="Name"
-              returnKeyType="next"
-              autoCapitalize="words"
-              placeholder="Namn"
-              editable={false}
-              onSubmitEditing={() => {
-                this.refs.Messenger.focus();
-              }}
-              value={this.props.user.displayName}
-            />
-          </CardSection>
-
-          <CardSection>
-            <View style={{ display: "flex", flexDirection: "row" }}>
+          {!this.state.hasMessengerName && (
+            <CardSection>
+              <View style={{ display: "flex", flexDirection: "row" }}>
+                <Input
+                  ref="Messenger"
+                  returnKeyType="next"
+                  label="Messenger-användarnamn"
+                  maxLength={40}
+                  inputStyle={styles.inputStyle}
+                  onSubmitEditing={() => {
+                    this.refs.Email.focus();
+                  }}
+                  value={this.state.messengerName}
+                  rightIcon={
+                    <Tooltip // Kanske behöver ändra yOffset i tooltip.js för rätt pos
+                      height={100}
+                      popover={
+                        <Text>
+                          Detta hittar du under "profil" på facebook messenger
+                        </Text>
+                      }
+                    >
+                      <Icon name="info" size={20} color="#373737" />
+                    </Tooltip>
+                  }
+                  onChangeText={value =>
+                    this.setState({ messengerName: value })
+                  }
+                />
+              </View>
+            </CardSection>
+          )}
+          {!this.state.hasPhone && (
+            <CardSection>
               <Input
-                ref="Messenger"
-                returnKeyType="next"
-                placeholder="Messenger-användarnamn"
-                maxLength={40}
-                onSubmitEditing={() => {
-                  this.refs.Email.focus();
-                }}
-                value={this.state.messengerName}
-                rightIcon={
-                  <Tooltip // Kanske behöver ändra yOffset i tooltip.js för rätt pos
-                    height={100}
-                    popover={
-                      <Text>
-                        Detta hittar du under "profil" på facebook messenger
-                      </Text>
-                    }
-                  >
-                    <Icon name="info" size={20} color="#373737" />
-                  </Tooltip>
-                }
-                onChangeText={value => this.setState({ messengerName: value })}
+                ref="Number"
+                keyboardType="numeric"
+                label="Telefonnummer"
+                maxLength={15}
+                inputStyle={styles.inputStyle}
+                value={this.state.phone}
+                onChangeText={value => this.setState({ phone: value })}
               />
-            </View>
-          </CardSection>
-
-          <CardSection>
-            <Input
-              ref="Email"
-              returnKeyType="next"
-              placeholder="Email"
-              maxLength={40}
-              onSubmitEditing={() => {
-                this.refs.Number.focus();
-              }}
-              value={this.state.email}
-              onChangeText={value => this.setState({ email: value })}
-            />
-          </CardSection>
-
-          <CardSection>
-            <Input
-              ref="Number"
-              keyboardType="numeric"
-              placeholder="Telefonnummer (frivilligt)"
-              maxLength={15}
-              value={this.state.phone}
-              onChangeText={value => this.setState({ phone: value })}
-            />
-          </CardSection>
+            </CardSection>
+          )}
           <CardSection>
             <BookTagList />
           </CardSection>
         </Card>
-        <CardSection>
+        <CardSection style={{ flex: 1, justifyContent: "flex-end" }}>
           <Button
             raised
             buttonStyle={{ backgroundColor: "#2ecc71" }}
             textStyle={{ textAlign: "center" }}
-            backgroundColor="red"
             title={"Lägg upp"}
             onPress={this.onButtonPress.bind(this)}
+            disabled={
+              errors.title || errors.author || errors.price || errors.imageURL
+            }
           />
         </CardSection>
-      </View>
+      </ScrollView>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  inputStyle: { paddingVertical: 0 }
+});
 
 const mapStateToProps = state => {
   const { user } = state.auth;

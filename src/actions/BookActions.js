@@ -117,8 +117,6 @@ export const bookCreate = ({
 
 export const bookDelete = ({ uid, imageURL }) => {
   return () => {
-    const image = firebase.storage().refFromURL(imageURL);
-
     firebase
       .database()
       .ref(`books/${uid}`)
@@ -126,6 +124,7 @@ export const bookDelete = ({ uid, imageURL }) => {
       .then(() => {
         NavigationService.navigate("BookList");
 
+        const image = firebase.storage().refFromURL(imageURL);
         image
           .delete()
           .then(function() {})
