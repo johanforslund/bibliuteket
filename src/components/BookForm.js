@@ -4,6 +4,7 @@ import { Input, Tooltip, Icon, Button } from "react-native-elements";
 import { connect } from "react-redux";
 import firebase from "@firebase/app"; //eslint-disable-line
 import "@firebase/auth"; //eslint-disable-line
+import "@firebase/database";
 import { bookCreate } from "../actions";
 import CardSection from "./CardSection";
 import Card from "./Card";
@@ -14,7 +15,7 @@ class BookForm extends PureComponent {
   state = {
     author: "",
     description: "",
-    email: firebase.auth().currentUser.email,
+    email: "",
     location: "",
     phone: "",
     price: "",
@@ -25,7 +26,19 @@ class BookForm extends PureComponent {
   };
 
   componentWillMount() {
-    this.setState({ email: firebase.auth().currentUser.email });
+    firebase
+      .database()
+      .ref("/users/" + firebase.auth().currentUser.uid)
+      .once("value")
+      .then(snapshot => {
+        phone = (snapshot.val() && snapshot.val().phone) || "";
+        messengerName = (snapshot.val() && snapshot.val().messengerName) || "";
+        this.setState({
+          email: firebase.auth().currentUser.email,
+          phone,
+          messengerName
+        });
+      });
   }
 
   onButtonPress() {
@@ -42,6 +55,14 @@ class BookForm extends PureComponent {
       messengerName
     } = this.state;
     const date = new Date().getTime();
+
+    firebase
+      .database()
+      .ref("users/" + firebase.auth().currentUser.uid)
+      .set({
+        phone,
+        messengerName
+      });
 
     this.props.bookCreate({
       author,
