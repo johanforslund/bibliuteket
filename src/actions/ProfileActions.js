@@ -1,14 +1,18 @@
-import firebase from 'firebase';
-import {
-  BOOKS_PROFILE_FETCH_SUCCESS
-} from './types';
+import firebase from "@firebase/app"; //eslint-disable-line
+import "@firebase/auth"; //eslint-disable-line
+import "@firebase/database"; //eslint-disable-line
+import { BOOKS_PROFILE_FETCH_SUCCESS } from "./types";
 
 export const profileBooksFetch = () => {
   const { currentUser } = firebase.auth();
 
-  return (dispatch) => {
-    firebase.database().ref('books').orderByChild('user').equalTo(currentUser.uid)
-      .on('value', snapshot => {
+  return dispatch => {
+    firebase
+      .database()
+      .ref("books")
+      .orderByChild("user")
+      .equalTo(currentUser.uid)
+      .on("value", snapshot => {
         const profileBooks = [];
         snapshot.forEach(child => {
           const childWithUid = { ...child.val(), uid: child.key };

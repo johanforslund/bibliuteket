@@ -1,67 +1,72 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import firebase from 'firebase';
-import { ScrollView, TouchableOpacity } from 'react-native';
-import { booksFetch, fetchUser } from '../actions';
-import BookDetail from '../components/BookDetail';
+import React, { Component } from "react";
+import { TouchableOpacity, FlatList, StyleSheet } from "react-native";
+import { connect } from "react-redux";
+import firebase from "@firebase/app"; //eslint-disable-line
+import "@firebase/auth"; //eslint-disable-line
+import { booksFetch, fetchUser } from "../actions";
+import BookDetail from "../components/BookDetail";
+import SearchBar from "../components/SearchBar";
+import ModifySearch from "../components/ModifySearch";
 
 class BookListScreen extends Component {
-  constructor(props) {
-    super(props);
-    this.props.navigator.setStyle({
-      navBarCustomView: 'SearchBar',
-      navBarCustomViewInitialProps: {
-        store: this.props.store
-      }
-    });
-  }
+  static navigationOptions = {
+    headerLeft: <SearchBar />,
+    headerRight: <ModifySearch />
+  };
 
   componentWillMount() {
-    this.props.booksFetch();
+    this.props.booksFetch(this.props.sorting);
     if (this.props.user.displayName === undefined) {
       this.props.fetchUser(firebase.auth().currentUser);
     }
   }
 
-  handlePress = (book) => {
-    this.props.navigator.push({
-      screen: 'BookScreen',
-      passProps: { book },
-      navigatorStyle: {
-        tabBarHidden: true
-      }
-    });
-  }
+  handlePress = book => {
+    this.props.navigation.navigate("Book", { book });
+  };
 
-  renderBooks() {
-    return this.props.books.map(book =>
-      <TouchableOpacity
-        key={book.date}
-        delayPressIn={50}
-        onPress={() => this.handlePress(book)}
-      >
-        <BookDetail book={book} />
+  renderBook = ({ item }) => {
+    return (
+      <TouchableOpacity onPress={() => this.handlePress(item)}>
+        <BookDetail book={item} />
       </TouchableOpacity>
     );
-  }
+  };
+
+  keyExtractor = item => item.date.toString();
 
   render() {
     return (
-      <ScrollView style={{ flex: 1, backgroundColor: '#CFE3E9' }}>
-        {this.renderBooks()}
-      </ScrollView>
+      <FlatList
+        data={this.props.books}
+        renderItem={this.renderBook}
+        keyExtractor={this.keyExtractor}
+        style={styles.bookList}
+      />
     );
   }
 }
 
+const styles = StyleSheet.create({
+  bookList: {
+    flex: 1,
+    backgroundColor: "#CFE3E9"
+  }
+});
+
 const mapStateToProps = state => {
-  const books = Object.keys(state.books).map((key) => {
-    return state.books[key];
+  const books = Object.keys(state.books.books).map(key => {
+    return state.books.books[key];
   });
+
+  const { sorting } = state.books;
 
   const { user } = state.auth;
 
-  return { books, user };
+  return { sorting, books, user };
 };
 
-export default connect(mapStateToProps, { booksFetch, fetchUser })(BookListScreen);
+export default connect(
+  mapStateToProps,
+  { booksFetch, fetchUser }
+)(BookListScreen);

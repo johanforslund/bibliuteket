@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { Text, View } from 'react-native';
-import { FormInput, Button } from 'react-native-elements';
-import { connect } from 'react-redux';
-import { userUpdate, registerUser } from '../actions';
+import React, { Component } from "react";
+import { Text, View } from "react-native";
+import { Input, Button, CheckBox } from "react-native-elements";
+import { connect } from "react-redux";
+import { userUpdate, registerUser } from "../actions";
 
-class LoginScreen extends Component {
+class RegisterScreen extends Component {
   onRegisterPress() {
     const { name, liuid, password } = this.props;
     this.props.registerUser({ name, liuid, password });
@@ -13,36 +13,49 @@ class LoginScreen extends Component {
   render() {
     return (
       <View>
-        <FormInput
+        <Input
           placeholder="Ditt namn"
           value={this.props.name}
-          onChangeText={value => this.props.userUpdate({ prop: 'name', value })}
+          onChangeText={value => this.props.userUpdate({ prop: "name", value })}
         />
-        <FormInput
+        <Input
           placeholder="LiU-ID"
           value={this.props.liuid}
-          onChangeText={value => this.props.userUpdate({ prop: 'liuid', value })}
+          onChangeText={value =>
+            this.props.userUpdate({ prop: "liuid", value })
+          }
           maxLength={8}
         />
-        <FormInput
+        <Input
           placeholder="Lösenord"
           value={this.props.password}
           autoCorrect={false}
           secureTextEntry
-          onChangeText={value => this.props.userUpdate({ prop: 'password', value })}
+          onChangeText={value =>
+            this.props.userUpdate({ prop: "password", value })
+          }
         />
+        <View>
+          <CheckBox
+            size={20}
+            center
+            title="I agree to GDPR"
+            onPress={() => {
+              console.log("");
+            }}
+            checked={true}
+          />
+        </View>
         <Button
           raised
-          buttonStyle={{ backgroundColor: '#2ecc71' }}
-          textStyle={{ textAlign: 'center' }}
-          backgroundColor='red'
-          title={'Registrera'}
+          buttonStyle={{ backgroundColor: "#2ecc71" }}
+          textStyle={{ textAlign: "center" }}
+          backgroundColor="red"
+          title={"Registrera"}
           onPress={this.onRegisterPress.bind(this)}
         />
 
-        <Text style={styles.errorTextStyle}>
-          {this.props.error}
-        </Text>
+        <Text style={styles.errorTextStyle}>{this.props.error}</Text>
       </View>
     );
   }
@@ -51,17 +64,21 @@ class LoginScreen extends Component {
 const styles = {
   errorTextStyle: {
     fontSize: 15,
-    alignSelf: 'center',
-    color: 'red'
+    alignSelf: "center",
+    color: "red"
   }
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const { name, liuid, password, error, loading } = state.auth;
 
   return { name, liuid, password, error, loading };
 };
 
-export default connect(mapStateToProps, {
-  userUpdate, registerUser
-})(LoginScreen);
+export default connect(
+  mapStateToProps,
+  {
+    userUpdate,
+    registerUser
+  }
+)(RegisterScreen);

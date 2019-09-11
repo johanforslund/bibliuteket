@@ -1,34 +1,49 @@
-import firebase from 'firebase';
+import firebase from "@firebase/app"; //eslint-disable-line
+import "@firebase/auth"; //eslint-disable-line
+import "@firebase/database"; //eslint-disable-line
 import {
   BOOKS_FETCH_SUCCESS,
-  BOOK_UPDATE,
   BOOK_CREATE,
   BOOKS_SEARCH_SUCCESS,
-  SEARCH_UPDATE
-} from './types';
+  BOOKS_SEARCH_UPDATE,
+  BOOKS_SORT_BY,
+  BOOKS_IS_SEARCHING
+} from "./types";
+import NavigationService from "../navigation/NavigationService";
 
-export const booksFetch = () => {
-  return (dispatch) => {
-    firebase.database().ref('books').orderByChild('date')
-      .on('value', snapshot => {
-      const books = [];
-      snapshot.forEach(child => {
-        const childWithUid = { ...child.val(), uid: child.key };
-        books.push(childWithUid);
+export const booksFetch = sorting => {
+  return dispatch => {
+    firebase
+      .database()
+      .ref("books")
+      .orderByChild(sorting)
+      .on("value", snapshot => {
+        const books = [];
+        snapshot.forEach(child => {
+          const childWithUid = { ...child.val(), uid: child.key };
+          books.push(childWithUid);
+        });
+        books.reverse();
+        dispatch({ type: BOOKS_FETCH_SUCCESS, payload: books });
       });
-      books.reverse();
-      dispatch({ type: BOOKS_FETCH_SUCCESS, payload: books });
-    });
   };
 };
 
-export const booksSearch = (value) => {
-  return (dispatch) => {
-    firebase.database().ref('books').orderByChild('date')
-      .once('value', snapshot => {
+export const booksSearch = (sorting, value) => {
+  return dispatch => {
+    firebase
+      .database()
+      .ref("books")
+      .orderByChild(sorting)
+      .once("value", snapshot => {
         const books = [];
         snapshot.forEach(child => {
-          if (child.val().title.toLowerCase().includes(value.toLowerCase().trim())) {
+          if (
+            child
+              .val()
+              .title.toLowerCase()
+              .includes(value.toLowerCase().trim())
+          ) {
             const childWithUid = { ...child.val(), uid: child.key };
             books.push(childWithUid);
           }
@@ -39,28 +54,48 @@ export const booksSearch = (value) => {
   };
 };
 
-export const searchUpdate = (searchTitle) => {
+export const searchUpdate = searchTitle => {
   return {
-    type: SEARCH_UPDATE,
+    type: BOOKS_SEARCH_UPDATE,
     payload: searchTitle
   };
 };
 
-export const bookUpdate = ({ prop, value }) => {
+export const toggleSearch = (isSearching, searchText) => {
   return {
-    type: BOOK_UPDATE,
-    payload: { prop, value }
+    type: BOOKS_IS_SEARCHING,
+    payload: { isSearching: isSearching, searchText: searchText }
+  };
+};
+
+export const changeSorting = sorting => {
+  return {
+    type: BOOKS_SORT_BY,
+    payload: sorting
   };
 };
 
 export const bookCreate = ({
-  author, date, description, email, location, phone, pictureUrl, price, title, navigator
+  author,
+  date,
+  description,
+  email,
+  location,
+  phone,
+  imageURL,
+  price,
+  title,
+  messengerName,
+  tags
 }) => {
+  price ? (price = parseInt(price)) : null;
   const { currentUser } = firebase.auth();
   const name = currentUser.displayName;
 
-  return (dispatch) => {
-    firebase.database().ref('/books')
+  return dispatch => {
+    firebase
+      .database()
+      .ref("/books")
       .push({
         author,
         date,
@@ -69,26 +104,37 @@ export const bookCreate = ({
         email,
         location,
         phone,
-        pictureUrl,
+        imageURL,
         price,
         name,
-        title
+        title,
+        messengerName,
+        tags
       })
       .then(() => {
         dispatch({ type: BOOK_CREATE });
-        navigator.switchToTab({
-          tabIndex: 0
-        });
+        NavigationService.navigate("BookList");
       });
   };
 };
 
-export const bookDelete = ({ uid, navigator }) => {
+export const bookDelete = ({ uid, imageURL }) => {
   return () => {
-    firebase.database().ref(`books/${uid}`)
+    firebase
+      .database()
+      .ref(`books/${uid}`)
       .remove()
       .then(() => {
-        navigator.popToRoot({});
+        NavigationService.navigate("BookList");
+
+        const image = firebase.storage().refFromURL(imageURL);
+        image
+          .delete()
+          .then(function() {})
+          .catch(function(error) {
+            console.log(error);
+            // Uh-oh, an error occurred!
+          });
       });
   };
 };

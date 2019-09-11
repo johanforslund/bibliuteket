@@ -17,10 +17,9 @@ const ListImage = (props) => {
 //Style
 const styles = {
   imageStyle: {
-    height: 130,
-    width: 150,
-    resizeMode: 'contain',
-    backgroundColor: '#373737'
+    height: 100,
+    width: 100,
+    borderRadius: 5
   }
 };
 
