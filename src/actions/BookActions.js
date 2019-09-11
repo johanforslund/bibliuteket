@@ -115,12 +115,24 @@ export const bookCreate = ({
   };
 };
 
-export const bookDelete = ({ uid }) => {
+export const bookDelete = ({ uid, imageURL }) => {
   return () => {
+    const image = firebase.storage().refFromURL(imageURL);
+
     firebase
       .database()
       .ref(`books/${uid}`)
       .remove()
-      .then(() => NavigationService.navigate("BookList"));
+      .then(() => {
+        NavigationService.navigate("BookList");
+
+        image
+          .delete()
+          .then(function() {})
+          .catch(function(error) {
+            console.log(error);
+            // Uh-oh, an error occurred!
+          });
+      });
   };
 };

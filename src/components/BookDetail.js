@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { Text, View } from "react-native";
 import moment from "moment";
 import "moment/locale/sv";
@@ -6,7 +6,7 @@ import Card from "./Card";
 import CardSection from "./CardSection";
 import ListImage from "./ListImage";
 
-class BookDetail extends Component {
+class BookDetail extends PureComponent {
   render() {
     const { imageURL, title, author, price, date } = this.props.book;
     const dateFormatted = moment(date).format("YYYY-MM-DD");

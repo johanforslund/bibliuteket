@@ -6,7 +6,7 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
-    "shake":"adb shell input keyevent 82"
+    "shake": "adb shell input keyevent 82"
   },
   "dependencies": {
     "@welldone-software/why-did-you-render": "^3.3.3",

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import {
   View,
   TouchableOpacity,
@@ -13,7 +13,7 @@ import firebase from "firebase";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import CardSection from "./CardSection";
 
-class ImageUploader extends Component {
+class ImageUploader extends PureComponent {
   uploadImage(uri, mime = "application/octet-stream") {
     return new Promise((resolve, reject) => {
       const Blob = RNFetchBlob.polyfill.Blob;

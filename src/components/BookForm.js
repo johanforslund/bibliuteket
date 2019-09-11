@@ -1,16 +1,16 @@
-import React, { Component } from "react";
+import React, { Component, PureComponent } from "react";
 import { View, Text } from "react-native";
 import { Input, Tooltip, Icon, Button } from "react-native-elements";
 import { connect } from "react-redux";
 import firebase from "@firebase/app"; //eslint-disable-line
 import "@firebase/auth"; //eslint-disable-line
-import { bookUpdate, bookCreate } from "../actions";
+import { bookCreate } from "../actions";
 import CardSection from "./CardSection";
 import Card from "./Card";
 import BookTagList from "./BookTagList";
 import ImageUploader from "./ImageUploader";
 
-class BookForm extends Component {
+class BookForm extends PureComponent {
   state = {
     author: "",
     description: "",
@@ -224,5 +224,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { bookUpdate, bookCreate }
+  { bookCreate }
 )(BookForm);

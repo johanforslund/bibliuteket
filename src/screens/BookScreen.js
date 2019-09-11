@@ -24,7 +24,7 @@ const messengerLogo = require("../images/messenger_logo.png");
 class BookScreen extends Component {
   renderDeleteButton() {
     const { currentUser } = firebase.auth();
-    const { uid, user } = this.props.navigation.getParam("book");
+    const { uid, user, imageURL } = this.props.navigation.getParam("book");
     if (currentUser && currentUser.uid === user) {
       return (
         <Button
@@ -34,7 +34,7 @@ class BookScreen extends Component {
           backgroundColor="red"
           title={"Ta bort"}
           onPress={() => {
-            this.props.bookDelete({ uid });
+            this.props.bookDelete({ uid, imageURL });
             Toast.show("Din bok har tagits bort");
           }}
         />
