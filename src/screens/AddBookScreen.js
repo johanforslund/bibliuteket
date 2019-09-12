@@ -34,26 +34,6 @@ class AddBookScreen extends Component {
       });
   };
 
-  renderAddBookScreen() {
-    if (this.state.emailVerified || firebase.auth().currentUser.emailVerified) {
-      return <BookForm />;
-    }
-
-    return (
-      <Card style={{ backgroundColor: "#CFE3E9" }}>
-        <CardSection>
-          <Text>
-            För att lägga upp en bok behöver du verifiera din email först. Ett
-            mail har skickats till: {firebase.auth().currentUser.email}
-          </Text>
-          <TouchableOpacity onPress={() => this.retryEmail()}>
-            <Text>Testa igen</Text>
-          </TouchableOpacity>
-        </CardSection>
-      </Card>
-    );
-  }
-
   render() {
     if (this.state.emailVerified || firebase.auth().currentUser.emailVerified) {
       return <BookForm />;

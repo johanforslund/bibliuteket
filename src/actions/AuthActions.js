@@ -6,10 +6,10 @@ import {
   USER_UPDATE,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAIL,
-  LOGIN_USER,
+  LOGIN_USER_REQUEST,
   REGISTER_USER_SUCCESS,
   REGISTER_USER_FAIL,
-  REGISTER_USER,
+  REGISTER_USER_REQUEST,
   DELETE_USER
 } from "./types";
 
@@ -29,7 +29,7 @@ export const userUpdate = ({ prop, value }) => {
 
 export const loginUser = ({ liuid, password }) => {
   return dispatch => {
-    dispatch({ type: LOGIN_USER });
+    dispatch({ type: LOGIN_USER_REQUEST });
     const email = `${liuid}@student.liu.se`;
     firebase
       .auth()
@@ -41,7 +41,7 @@ export const loginUser = ({ liuid, password }) => {
 
 export const registerUser = ({ name, liuid, password }) => {
   return dispatch => {
-    dispatch({ type: REGISTER_USER });
+    dispatch({ type: REGISTER_USER_REQUEST });
     const email = `${liuid}@student.liu.se`;
     firebase
       .auth()

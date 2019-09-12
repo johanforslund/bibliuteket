@@ -3,6 +3,7 @@ import { Text, View } from "react-native";
 import { Input, Button, CheckBox } from "react-native-elements";
 import { connect } from "react-redux";
 import { userUpdate, registerUser } from "../actions";
+import { isLoading } from "../selectors/bookSelectors";
 
 class RegisterScreen extends Component {
   onRegisterPress() {
@@ -52,6 +53,7 @@ class RegisterScreen extends Component {
           textStyle={{ textAlign: "center" }}
           backgroundColor="red"
           title={"Registrera"}
+          loading={this.props.loading}
           onPress={this.onRegisterPress.bind(this)}
         />
 
@@ -70,7 +72,9 @@ const styles = {
 };
 
 const mapStateToProps = state => {
-  const { name, liuid, password, error, loading } = state.auth;
+  const { name, liuid, password, error } = state.auth;
+
+  const loading = isLoading(["REGISTER_USER"], state);
 
   return { name, liuid, password, error, loading };
 };
