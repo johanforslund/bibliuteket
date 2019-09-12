@@ -7,7 +7,7 @@ import {
 
 const INITIAL_STATE = {
   books: [],
-  sorting: "date",
+  sorting: "dateASC",
   isSearching: false,
   searchText: ""
 };

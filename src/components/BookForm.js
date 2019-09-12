@@ -223,6 +223,9 @@ class BookForm extends PureComponent {
               onChangeText={value => this.setState({ description: value })}
             />
           </CardSection>
+          <CardSection>
+            <BookTagList setTag={this.setTag} tags={this.state.tags} />
+          </CardSection>
         </Card>
         <Card>
           {!this.state.hasMessengerName && (
@@ -271,9 +274,6 @@ class BookForm extends PureComponent {
               />
             </CardSection>
           )}
-          <CardSection>
-            <BookTagList setTag={this.setTag} tags={this.state.tags} />
-          </CardSection>
         </Card>
         <CardSection style={{ flex: 1, justifyContent: "flex-end" }}>
           <Button

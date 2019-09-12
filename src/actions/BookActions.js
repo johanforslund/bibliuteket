@@ -11,19 +11,26 @@ import {
 } from "./types";
 import NavigationService from "../navigation/NavigationService";
 
+let sortType = "";
+
 export const booksFetch = sorting => {
+  if (sorting === "priceASC" || sorting === "priceDSC") {
+    sortType = "price";
+  } else sortType = "date";
+
   return dispatch => {
     firebase
       .database()
       .ref("books")
-      .orderByChild(sorting)
+      .orderByChild(sortType)
       .on("value", snapshot => {
         const books = [];
         snapshot.forEach(child => {
           const childWithUid = { ...child.val(), uid: child.key };
           books.push(childWithUid);
         });
-        books.reverse();
+        if (sorting === "priceDSC" || sorting === "dateASC") books.reverse();
+
         dispatch({ type: BOOKS_FETCH_SUCCESS, payload: books });
       });
   };
