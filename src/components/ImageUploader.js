@@ -50,7 +50,15 @@ class ImageUploader extends PureComponent {
   }
 
   pickImage() {
-    ImagePicker.showImagePicker({ maxWidth: 500, quality: 0.5 }, response => {
+    const options = {
+      title: "Välj Bild",
+      takePhotoButtonTitle: "Ta Foto",
+      chooseFromLibraryButtonTitle: "Välj Från Galleri",
+      maxWidth: 500,
+      quality: 0.5
+    };
+
+    ImagePicker.showImagePicker(options, response => {
       this.uploadImage(response.uri)
         .then(url => this.props.setImageURL(url))
         .catch(error => console.log(error));
@@ -106,7 +114,6 @@ class ImageUploader extends PureComponent {
 
 const styles = {
   container: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     marginTop: 15

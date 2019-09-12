@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ScrollView, Text, TouchableOpacity } from "react-native";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import firebase from "@firebase/app"; //eslint-disable-line
 import "@firebase/auth"; //eslint-disable-line
 import Card from "../components/Card";
@@ -36,11 +36,7 @@ class AddBookScreen extends Component {
 
   renderAddBookScreen() {
     if (this.state.emailVerified || firebase.auth().currentUser.emailVerified) {
-      return (
-        <Card style={{ backgroundColor: "#CFE3E9" }}>
-          <BookForm />
-        </Card>
-      );
+      return <BookForm />;
     }
 
     return (
@@ -59,10 +55,22 @@ class AddBookScreen extends Component {
   }
 
   render() {
+    if (this.state.emailVerified || firebase.auth().currentUser.emailVerified) {
+      return <BookForm />;
+    }
+
     return (
-      <ScrollView keyboardShouldPersistTaps="handled">
-        {this.renderAddBookScreen()}
-      </ScrollView>
+      <Card style={{ backgroundColor: "#CFE3E9" }}>
+        <CardSection>
+          <Text>
+            För att lägga upp en bok behöver du verifiera din email först. Ett
+            mail har skickats till: {firebase.auth().currentUser.email}
+          </Text>
+          <TouchableOpacity onPress={() => this.retryEmail()}>
+            <Text>Testa igen</Text>
+          </TouchableOpacity>
+        </CardSection>
+      </Card>
     );
   }
 }

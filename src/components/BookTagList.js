@@ -33,7 +33,8 @@ class BookTagList extends Component {
           ref="Tags"
           returnKeyType="next"
           autoCapitalize="sentences"
-          placeholder="Lägg till tags"
+          label="Lägg till tags"
+          inputStyle={{ paddingVertical: 0 }}
           maxLength={35}
           onSubmitEditing={() => {
             this.refs.Tags.focus();
