@@ -10,6 +10,7 @@ import ProfileScreen from "../screens/ProfileScreen";
 import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import AuthLoadingScreen from "../screens/AuthLoadingScreen";
+import SettingsScreen from "../screens/SettingsScreen";
 
 const BookListStack = createStackNavigator({
   BookList: {
@@ -57,6 +58,15 @@ const ProfileStack = createStackNavigator({
       headerStyle: {
         backgroundColor: "#29749D"
       }
+    }
+  },
+  Settings: {
+    screen: SettingsScreen,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: "#29749D"
+      },
+      headerTintColor: "white"
     }
   }
 });

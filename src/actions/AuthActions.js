@@ -1,5 +1,6 @@
-import firebase from '@firebase/app'; //eslint-disable-line
-import '@firebase/auth'; //eslint-disable-line
+import firebase from "@firebase/app"; //eslint-disable-line
+import "@firebase/auth"; //eslint-disable-line
+import Toast from "react-native-root-toast";
 import {
   FETCH_USER,
   USER_UPDATE,
@@ -8,10 +9,11 @@ import {
   LOGIN_USER,
   REGISTER_USER_SUCCESS,
   REGISTER_USER_FAIL,
-  REGISTER_USER
-} from './types';
+  REGISTER_USER,
+  DELETE_USER
+} from "./types";
 
-export const fetchUser = (user) => {
+export const fetchUser = user => {
   return {
     type: FETCH_USER,
     payload: user
@@ -26,34 +28,53 @@ export const userUpdate = ({ prop, value }) => {
 };
 
 export const loginUser = ({ liuid, password }) => {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({ type: LOGIN_USER });
     const email = `${liuid}@student.liu.se`;
-    firebase.auth().signInWithEmailAndPassword(email, password)
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
       .then(user => loginUserSuccess(dispatch, user))
       .catch(error => loginUserFail(error.message, dispatch));
   };
 };
 
 export const registerUser = ({ name, liuid, password }) => {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({ type: REGISTER_USER });
     const email = `${liuid}@student.liu.se`;
-    firebase.auth().createUserWithEmailAndPassword(email, password)
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
       .then(userInfo => {
-        userInfo.user.updateProfile({
-          displayName: name
-        })
-        .then(() => {
-          userInfo.user.sendEmailVerification()
-          .then(() => console.log('Sent email confirmation'))
-          .catch(error => console.log(error));
-        })
-        .then(() => {
-          registerUserSuccess(dispatch, userInfo.user);
-        });
+        userInfo.user
+          .updateProfile({
+            displayName: name
+          })
+          .then(() => {
+            userInfo.user
+              .sendEmailVerification()
+              .then(() => console.log("Sent email confirmation"))
+              .catch(error => console.log(error));
+          })
+          .then(() => {
+            registerUserSuccess(dispatch, userInfo.user);
+          });
       })
       .catch(error => registerUserFail(error.message, dispatch));
+  };
+};
+export const deleteUser = () => {
+  return dispatch => {
+    dispatch({ type: DELETE_USER });
+    firebase
+      .auth()
+      .currentUser.delete()
+      .then(() => Toast.show("Ditt konto har tagits bort"))
+
+      .catch(error => {
+        console.log(error);
+      });
   };
 };
 

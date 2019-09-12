@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { ListItem } from "react-native-elements";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, ScrollView, Text, TouchableOpacity, Image } from "react-native";
 import firebase from "@firebase/app"; //eslint-disable-line
 import "@firebase/auth"; //eslint-disable-line
 import { connect } from "react-redux";
@@ -33,25 +33,30 @@ class ProfileScreen extends Component {
   renderProfileBooks() {
     return this.props.profileBooks.map(profileBook => (
       <TouchableOpacity
+        style={styles.rowCardStyle}
         key={profileBook.date}
         delayPressIn={50}
         onPress={() => this.handlePress(profileBook)}
       >
-        <Card>
-          <CardSection>
-            <Text>
-              {profileBook.title} - (
-              {moment(profileBook.date).format("YYYY-MM-DD | HH:SS")})
-            </Text>
-          </CardSection>
-        </Card>
+        <View style={styles.textContainer}>
+          <Text style={styles.textStyle}>Titel: {profileBook.title}</Text>
+          <Text style={styles.textStyle}>
+            Skapad: {moment(profileBook.date).format("YYYY-MM-DD | HH:SS")}
+          </Text>
+        </View>
+        <View style={styles.imageConatiner}>
+          <Image
+            style={styles.imageStyle}
+            source={{ uri: profileBook.imageURL }}
+          />
+        </View>
       </TouchableOpacity>
     ));
   }
 
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: "#CFE3E9" }}>
+      <ScrollView style={{ flex: 1, backgroundColor: "#CFE3E9" }}>
         <Card style={{ alignSelf: "flex-end", marginBottom: 30 }}>
           <CardSection>
             <Text>*TEMPORÄR INFO*</Text>
@@ -60,12 +65,31 @@ class ProfileScreen extends Component {
             {this.authStatus()}
           </CardSection>
         </Card>
-        <Card>
-          <CardSection>{this.renderProfileBooks()}</CardSection>
-        </Card>
+        {this.props.profileBooks.length > 0 ? (
+          <Card style={{ marginBottom: 30, backgroundColor: "#CFE3E9" }}>
+            <Text
+              style={{ textAlign: "center", fontSize: 20, fontWeight: "bold" }}
+            >
+              Dina böcker
+            </Text>
+            <CardSection>{this.renderProfileBooks()}</CardSection>
+          </Card>
+        ) : null}
         <View>
-          <ListItem title="Kontakt" leftIcon={{ name: "mail" }} bottomDivider />
-          <ListItem title="Hjälp" leftIcon={{ name: "help" }} bottomDivider />
+          <ListItem
+            title="Bevaka bok"
+            leftIcon={{ name: "book" }}
+            bottomDivider
+          />
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate("Settings")}
+          >
+            <ListItem
+              title="Inställningar"
+              leftIcon={{ name: "settings" }}
+              bottomDivider
+            />
+          </TouchableOpacity>
           <TouchableOpacity onPress={this.onLogout}>
             <ListItem
               title="Logga ut"
@@ -74,7 +98,7 @@ class ProfileScreen extends Component {
             />
           </TouchableOpacity>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -84,6 +108,38 @@ const mapStateToProps = state => {
   const { user } = state.auth;
 
   return { profileBooks, user };
+};
+
+const styles = {
+  rowCardStyle: {
+    backgroundColor: "red",
+    display: "flex",
+    flexDirection: "row",
+    shadowColor: "rgba(0,0,0, .4)",
+    shadowOffset: { height: 1, width: 1 },
+    shadowOpacity: 1,
+    shadowRadius: 1,
+    backgroundColor: "#fff",
+    elevation: 2,
+    borderRadius: 10,
+    padding: 8,
+    marginTop: 5,
+    width: "100%"
+  },
+  textContainer: {
+    alignSelf: "center"
+  },
+  textStyle: {
+    fontWeight: "bold"
+  },
+  imageConatiner: {
+    flex: 1,
+    alignItems: "flex-end"
+  },
+  imageStyle: {
+    height: 60,
+    width: 60
+  }
 };
 
 export default connect(
