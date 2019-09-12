@@ -97,10 +97,7 @@ class ImageUploader extends PureComponent {
                       name="close"
                       size={30}
                       color="white"
-                      style={{
-                        alignSelf: "flex-end",
-                        backgroundColor: "#e53935"
-                      }}
+                      style={styles.deleteButtonStyle}
                     />
                   </ImageBackground>
                 </View>
@@ -131,6 +128,17 @@ const styles = {
     marginBottom: 5,
     borderWidth: 1,
     borderColor: "gray"
+  },
+  deleteButtonStyle: {
+    shadowColor: "rgba(0,0,0, .4)",
+    shadowOffset: { height: 1, width: 1 },
+    shadowOpacity: 1,
+    shadowRadius: 1,
+    elevation: 2,
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    alignSelf: "flex-end"
   }
 };
 
