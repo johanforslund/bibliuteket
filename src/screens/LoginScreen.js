@@ -24,6 +24,10 @@ class LoginScreen extends Component {
     this.props.navigation.navigate("Register");
   }
 
+  handleForgotPWButtonPress() {
+    this.props.navigation.navigate("ForgotPW");
+  }
+
   render() {
     return (
       <ScrollView keyboardShouldPersistTaps="handled">
@@ -75,6 +79,16 @@ class LoginScreen extends Component {
                 {" "}
                 Registrera ditt konto här
               </Text>
+            </View>
+          </TouchableWithoutFeedback>
+        </CardSection>
+        <CardSection style={{ flexDirection: "row", justifyContent: "center" }}>
+          <Text style={{ alignSelf: "center" }}>Glömt lösenord?</Text>
+          <TouchableWithoutFeedback
+            onPress={this.handleForgotPWButtonPress.bind(this)}
+          >
+            <View>
+              <Text style={{ color: "#a5a5a5" }}> Klicka här</Text>
             </View>
           </TouchableWithoutFeedback>
         </CardSection>

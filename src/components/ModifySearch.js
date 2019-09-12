@@ -33,36 +33,69 @@ class ModifySearch extends PureComponent {
             <Text style={styles.titleStyle}>Sortera efter...</Text>
             <View>
               <CheckBox
-                size={40}
-                center
-                title="Pris"
+                size={20}
+                title="Nyast först"
+                checked={this.props.sorting === "dateASC"}
+                onPress={() => {
+                  this.props.changeSorting("dateASC");
+                  this.props.isSearching
+                    ? this.props.booksSearch("dateASC", this.props.searchText)
+                    : this.props.booksFetch("dateASC");
+                  this.setState({ isModalVisible: !this.state.isModalVisible });
+                }}
+              />
+              <CheckBox
+                size={20}
+                title="Äldst först"
+                checked={this.props.sorting === "dateDSC"}
+                onPress={() => {
+                  this.props.changeSorting("dateDSC");
+                  this.props.isSearching
+                    ? this.props.booksSearch("dateDSC", this.props.searchText)
+                    : this.props.booksFetch("dateDSC");
+                  this.setState({ isModalVisible: !this.state.isModalVisible });
+                }}
+              />
+              <CheckBox
+                size={20}
+                title="Pris lägst till högst"
                 onPress={() => {
                   {
-                    this.props.changeSorting("price");
+                    this.props.changeSorting("priceASC");
                     this.props.isSearching
-                      ? this.props.booksSearch("price", this.props.searchText)
-                      : this.props.booksFetch("price");
+                      ? this.props.booksSearch(
+                          "priceASC",
+                          this.props.searchText
+                        )
+                      : this.props.booksFetch("priceASC");
                     this.setState({
                       isModalVisible: !this.state.isModalVisible
                     });
                   }
                 }}
-                checked={this.props.sorting === "price"}
+                checked={this.props.sorting === "priceASC"}
               />
               <CheckBox
-                size={40}
-                center
-                title="Datum"
-                checked={this.props.sorting === "date"}
+                size={20}
+                title="Pris högst till lägst"
                 onPress={() => {
-                  this.props.changeSorting("date");
-                  this.props.isSearching
-                    ? this.props.booksSearch("date", this.props.searchText)
-                    : this.props.booksFetch("date");
-                  this.setState({ isModalVisible: !this.state.isModalVisible });
+                  {
+                    this.props.changeSorting("priceDSC");
+                    this.props.isSearching
+                      ? this.props.booksSearch(
+                          "priceDSC",
+                          this.props.searchText
+                        )
+                      : this.props.booksFetch("priceDSC");
+                    this.setState({
+                      isModalVisible: !this.state.isModalVisible
+                    });
+                  }
                 }}
+                checked={this.props.sorting === "priceDSC"}
               />
             </View>
+
             <Button title="Avbryt" onPress={this.toggleModal} type="clear" />
           </View>
         </Modal>

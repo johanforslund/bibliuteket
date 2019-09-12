@@ -92,8 +92,7 @@ class SettingsScreen extends Component {
                         "Ange korrekt uppgifter för att ta bort konto",
                         [
                           {
-                            text: "OK",
-                            onPress: () => console.log("OK Pressed")
+                            text: "OK"
                           }
                         ]
                       );
