@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ListItem } from "react-native-elements";
+import { ListItem, Icon } from "react-native-elements";
 import { View, ScrollView, Text, TouchableOpacity, Image } from "react-native";
 import firebase from "@firebase/app"; //eslint-disable-line
 import "@firebase/auth"; //eslint-disable-line
@@ -23,11 +23,29 @@ class ProfileScreen extends Component {
   };
 
   authStatus() {
-    return (
-      <Text>
-        Verifierad mail: {this.props.user.emailVerified ? "ja" : "nej"}
-      </Text>
-    );
+    if (this.props.user.emailVerified) {
+      return (
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginTop: 20
+          }}
+        >
+          <Text>Verifierad</Text>
+          <Icon
+            containerStyle={{
+              backgroundColor: "powderblue",
+              borderRadius: 30,
+              marginLeft: 10
+            }}
+            name="check"
+            size={20}
+            color="white"
+          />
+        </View>
+      );
+    }
   }
 
   renderProfileBooks() {
@@ -54,50 +72,71 @@ class ProfileScreen extends Component {
     ));
   }
 
+  renderProfile() {
+    return (
+      <View>
+        <View style={styles.makeRow}>
+          <Text style={{ fontSize: 15 }}>{this.props.user.email}</Text>
+        </View>
+        <View style={styles.makeRow}>
+          <Text style={{ fontSize: 15 }}>{this.props.user.displayName}</Text>
+        </View>
+        <View style={styles.makeRow}>
+          <Text style={{ fontSize: 15 }}>goran.goransson.11</Text>
+        </View>
+        <View style={styles.makeRow}>
+          <Text style={{ fontSize: 15 }}>0706784644</Text>
+        </View>
+      </View>
+    );
+  }
+
   render() {
     return (
       <ScrollView style={{ flex: 1, backgroundColor: "#CFE3E9" }}>
-        <Card style={{ alignSelf: "flex-end", marginBottom: 30 }}>
+        <Card>
           <CardSection>
-            <Text>*TEMPORÄR INFO*</Text>
-            <Text>{this.props.user.displayName}</Text>
-            <Text>{this.props.user.email}</Text>
+            <Text style={styles.textHeader}>Användaruppgifter</Text>
+            {this.renderProfile()}
             {this.authStatus()}
           </CardSection>
         </Card>
         {this.props.profileBooks.length > 0 ? (
-          <Card style={{ marginBottom: 30, backgroundColor: "#CFE3E9" }}>
-            <Text
-              style={{ textAlign: "center", fontSize: 20, fontWeight: "bold" }}
-            >
-              Dina böcker
-            </Text>
-            <CardSection>{this.renderProfileBooks()}</CardSection>
+          <Card>
+            <CardSection>
+              <Text style={styles.textHeader}>Dina böcker</Text>
+              <CardSection>{this.renderProfileBooks()}</CardSection>
+            </CardSection>
           </Card>
         ) : null}
-        <View>
-          <ListItem
-            title="Bevaka bok"
-            leftIcon={{ name: "book" }}
-            bottomDivider
-          />
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("Settings")}
-          >
-            <ListItem
-              title="Inställningar"
-              leftIcon={{ name: "settings" }}
-              bottomDivider
-            />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={this.onLogout}>
-            <ListItem
-              title="Logga ut"
-              leftIcon={{ name: "log-out", type: "entypo" }}
-              bottomDivider
-            />
-          </TouchableOpacity>
-        </View>
+        <Card>
+          <CardSection>
+            <Text style={styles.textHeader}>Övrigt</Text>
+            <TouchableOpacity>
+              <ListItem
+                style={styles.listItemStyle}
+                title="Bevaka bok"
+                leftIcon={{ name: "book" }}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate("Settings")}
+            >
+              <ListItem
+                style={styles.listItemStyle}
+                title="Inställningar"
+                leftIcon={{ name: "settings" }}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this.onLogout}>
+              <ListItem
+                style={styles.listItemStyle}
+                title="Logga ut"
+                leftIcon={{ name: "log-out", type: "entypo" }}
+              />
+            </TouchableOpacity>
+          </CardSection>
+        </Card>
       </ScrollView>
     );
   }
@@ -112,7 +151,6 @@ const mapStateToProps = state => {
 
 const styles = {
   rowCardStyle: {
-    backgroundColor: "red",
     display: "flex",
     flexDirection: "row",
     shadowColor: "rgba(0,0,0, .4)",
@@ -123,7 +161,22 @@ const styles = {
     elevation: 2,
     borderRadius: 10,
     padding: 8,
-    marginTop: 5,
+    marginBottom: 5,
+    width: "100%"
+  },
+  textHeader: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 10
+  },
+  listItemStyle: {
+    shadowColor: "rgba(0,0,0, .4)",
+    shadowOffset: { height: 1, width: 1 },
+    shadowOpacity: 1,
+    shadowRadius: 1,
+    backgroundColor: "#fff",
+    elevation: 2,
+    marginBottom: 5,
     width: "100%"
   },
   textContainer: {
@@ -139,6 +192,9 @@ const styles = {
   imageStyle: {
     height: 60,
     width: 60
+  },
+  makeRow: {
+    margin: 2
   }
 };
 

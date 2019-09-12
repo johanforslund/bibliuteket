@@ -19,11 +19,10 @@ class SearchInput extends Component {
   render() {
     return (
       <View style={styles.searchStyle}>
-        <Icon name="search" style={styles.iconStyle} />
         <TextInput
           style={styles.textInputStyle}
           placeholderTextColor="gray"
-          placeholder="Sök bok..."
+          placeholder="Sök"
           onChangeText={value => this.onSearchText(value)}
         />
       </View>
@@ -40,25 +39,20 @@ const mapStateToProps = state => {
 const styles = {
   searchStyle: {
     flex: 1,
-    width: 270,
-    display: "flex",
+    alignItems: "center",
     flexDirection: "row",
+    width: 300,
     marginLeft: 8
   },
-  iconStyle: {
-    marginRight: 8,
-    color: "white",
-    fontSize: 30,
-    alignSelf: "center",
-    justifySelf: "center"
-  },
   textInputStyle: {
+    height: 36,
     width: "100%",
+    alingSelf: "center",
     color: "black",
-    fontSize: 18,
-    paddingHorizontal: 8,
+    fontSize: 12,
+    padding: 10,
     backgroundColor: "white",
-    borderRadius: 10
+    borderRadius: 20
   }
 };
 
