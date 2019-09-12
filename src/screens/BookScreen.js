@@ -63,7 +63,7 @@ class BookScreen extends Component {
     );
     const { currentUser } = firebase.auth();
 
-    if (currentUser && currentUser.uid != user) {
+    if (currentUser && currentUser.uid !== user) {
       if (messengerName.trim() != "") {
         return (
           <TouchableOpacity
