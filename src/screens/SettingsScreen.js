@@ -5,9 +5,7 @@ import Modal from "react-native-modal";
 import firebase from "@firebase/app"; //eslint-disable-line
 import "@firebase/auth"; //eslint-disable-line
 import { connect } from "react-redux";
-import moment from "moment";
-import Card from "../components/Card";
-import CardSection from "../components/CardSection";
+import Icon from "react-native-vector-icons/MaterialIcons";
 import { deleteUser } from "../actions";
 
 class SettingsScreen extends Component {
@@ -50,28 +48,29 @@ class SettingsScreen extends Component {
               <Text style={styles.titleStyle}>
                 Ange dina uppgifter för att ta bort kontot
               </Text>
-              <View>
-                <Input
-                  ref="LiuId"
-                  returnKeyType="next"
-                  label="LIU ID"
-                  inputStyle={styles.inputStyle}
-                  onSubmitEditing={() => {
-                    this.refs.Password.focus();
-                  }}
-                  value={this.state.liuId}
-                  onChangeText={value => this.setState({ liuId: value })}
-                />
-                <Input
-                  ref="Password"
-                  returnKeyType="next"
-                  secureTextEntry
-                  label="Lösenord"
-                  inputStyle={styles.inputStyle}
-                  value={this.state.password}
-                  onChangeText={value => this.setState({ password: value })}
-                />
-              </View>
+
+              <Input
+                ref="LiuId"
+                returnKeyType="next"
+                leftIcon={<Icon color="#a5a5a5" name="person" size={20} />}
+                placeholder="LiU-ID"
+                onSubmitEditing={() => {
+                  this.refs.Password.focus();
+                }}
+                value={this.state.liuId}
+                onChangeText={value => this.setState({ liuId: value })}
+              />
+              <Input
+                ref="Password"
+                returnKeyType="next"
+                secureTextEntry
+                placeholder="Lösenord"
+                leftIcon={<Icon color="#a5a5a5" name="lock" size={20} />}
+                inputStyle={styles.inputStyle}
+                value={this.state.password}
+                onChangeText={value => this.setState({ password: value })}
+              />
+
               <Button
                 title="Ta bort konto"
                 onPress={() => {
@@ -158,7 +157,9 @@ const styles = {
     borderRadius: 20,
     borderColor: "rgba(0, 0, 0, 0.1)"
   },
-  inputStyle: { paddingVertical: 0 },
+  inputStyle: {
+    paddingVertical: 0
+  },
   buttonStyle: {
     backgroundColor: "red",
     marginTop: 40

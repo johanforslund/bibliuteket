@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { ListItem } from "react-native-elements";
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, ScrollView, Text, TouchableOpacity, Image } from "react-native";
 import firebase from "@firebase/app"; //eslint-disable-line
 import "@firebase/auth"; //eslint-disable-line
 import { connect } from "react-redux";
@@ -56,7 +56,7 @@ class ProfileScreen extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: "#CFE3E9" }}>
+      <ScrollView style={{ flex: 1, backgroundColor: "#CFE3E9" }}>
         <Card style={{ alignSelf: "flex-end", marginBottom: 30 }}>
           <CardSection>
             <Text>*TEMPORÄR INFO*</Text>
@@ -66,8 +66,10 @@ class ProfileScreen extends Component {
           </CardSection>
         </Card>
         {this.props.profileBooks.length > 0 ? (
-          <Card style={{ marginBottom: 30 }}>
-            <Text style={{ textAlign: "center", fontSize: 20 }}>
+          <Card style={{ marginBottom: 30, backgroundColor: "#CFE3E9" }}>
+            <Text
+              style={{ textAlign: "center", fontSize: 20, fontWeight: "bold" }}
+            >
               Dina böcker
             </Text>
             <CardSection>{this.renderProfileBooks()}</CardSection>
@@ -96,7 +98,7 @@ class ProfileScreen extends Component {
             />
           </TouchableOpacity>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }

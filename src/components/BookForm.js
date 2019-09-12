@@ -239,8 +239,9 @@ class BookForm extends PureComponent {
                   rightIcon={
                     <Tooltip // Kanske behöver ändra yOffset i tooltip.js för rätt pos
                       height={100}
+                      backgroundColor="#29749D"
                       popover={
-                        <Text>
+                        <Text style={{ color: "white" }}>
                           Detta hittar du under "profil" på facebook messenger
                         </Text>
                       }

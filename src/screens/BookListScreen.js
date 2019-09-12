@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { TouchableOpacity, FlatList, StyleSheet } from "react-native";
+import {
+  TouchableOpacity,
+  FlatList,
+  StyleSheet,
+  View,
+  Text
+} from "react-native";
 import { connect } from "react-redux";
 import firebase from "@firebase/app"; //eslint-disable-line
 import "@firebase/auth"; //eslint-disable-line
@@ -36,13 +42,21 @@ class BookListScreen extends Component {
   keyExtractor = item => item.date.toString();
 
   render() {
-    return (
+    return this.props.books.length > 0 ? (
       <FlatList
         data={this.props.books}
         renderItem={this.renderBook}
         keyExtractor={this.keyExtractor}
         style={styles.bookList}
       />
+    ) : (
+      <View style={styles.noBooksStyle}>
+        <Text style={{ fontWeight: "bold", marginBottom: 20 }}>
+          Inga böcker kunde hittas
+        </Text>
+        <Text>Testa att söka på:</Text>
+        <Text>kurskod, titel, författare, program m.m...</Text>
+      </View>
     );
   }
 }
@@ -51,6 +65,13 @@ const styles = StyleSheet.create({
   bookList: {
     flex: 1,
     backgroundColor: "#CFE3E9"
+  },
+  noBooksStyle: {
+    flex: 1,
+    backgroundColor: "#CFE3E9",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: "10%"
   }
 });
 
