@@ -16,7 +16,7 @@ class BookTagList extends Component {
           rightIcon={
             <TouchableOpacity
               onPress={() => {
-                this.state.tagName
+                this.state.tagName.trim()
                   ? this.props.setTag(this.state.tagName)
                   : null;
                 this.setState({ tagName: "" });
@@ -31,18 +31,20 @@ class BookTagList extends Component {
             </TouchableOpacity>
           }
           ref="Tags"
-          returnKeyType="next"
+          returnKeyType="go"
           autoCapitalize="sentences"
           label="Lägg till tags"
           inputStyle={{ paddingVertical: 0 }}
           maxLength={35}
           onSubmitEditing={() => {
-            this.refs.Tags.focus();
+            this.state.tagName.trim()
+              ? this.props.setTag(this.state.tagName)
+              : null;
+            this.setState({ tagName: "" });
           }}
           value={this.state.tagName}
           onChangeText={value => this.setState({ tagName: value })}
         />
-
         {this.props.tags.map(tag => {
           return <BookTag name={tag}></BookTag>;
         })}

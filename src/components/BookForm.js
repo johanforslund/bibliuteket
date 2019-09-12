@@ -130,10 +130,12 @@ class BookForm extends PureComponent {
         keyboardShouldPersistTaps="handled"
       >
         <Card style={{ marginBottom: 0 }}>
-          <ImageUploader
-            setImageURL={this.setImageURL}
-            imageURL={this.state.imageURL}
-          />
+          <CardSection>
+            <ImageUploader
+              setImageURL={this.setImageURL}
+              imageURL={this.state.imageURL}
+            />
+          </CardSection>
         </Card>
         <Card style={{ marginBottom: 10 }}>
           <CardSection>

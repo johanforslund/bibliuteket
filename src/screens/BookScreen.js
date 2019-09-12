@@ -42,19 +42,78 @@ class BookScreen extends Component {
     }
   }
 
+  renderDescription() {
+    const { description } = this.props.navigation.getParam("book");
+
+    if (description.trim() != "") {
+      return (
+        <Card>
+          <CardSection>
+            <Text style={styles.descriptionHeadingStyle}>Beskrivning</Text>
+            <Text style={styles.descriptionTextStyle}>{description}</Text>
+          </CardSection>
+        </Card>
+      );
+    }
+  }
+
+  renderMessengerButton() {
+    const { messengerName, name, user } = this.props.navigation.getParam(
+      "book"
+    );
+    const { currentUser } = firebase.auth();
+
+    if (currentUser && currentUser.uid != user) {
+      if (messengerName.trim() != "") {
+        return (
+          <TouchableOpacity
+            style={styles.messengerStyle}
+            onPress={() => {
+              Linking.openURL("https://m.me/" + messengerName);
+            }}
+          >
+            <Image
+              source={messengerLogo}
+              style={{
+                marginRight: 8,
+                height: 20,
+                width: 20
+              }}
+            />
+            <Text style={styles.infoStyle}>Kontakta {name}</Text>
+          </TouchableOpacity>
+        );
+      }
+    }
+  }
+
+  renderPhoneNumber() {
+    const { phone } = this.props.navigation.getParam("book");
+
+    if (phone.trim() != "") {
+      return (
+        <View style={{ flexDirection: "row", marginBottom: 3 }}>
+          <Icon
+            name="phone"
+            size={20}
+            color="#373737"
+            style={styles.iconStyle}
+          />
+          <Text style={styles.infoStyle}>{phone}</Text>
+        </View>
+      );
+    }
+  }
+
   render() {
     const {
       author,
       date,
-      description,
       email,
       name,
-      phone,
       imageURL,
       price,
-      title,
-      messengerName,
-      tags
+      title
     } = this.props.navigation.getParam("book");
     const formattedDate = moment(date).fromNow();
 
@@ -81,12 +140,7 @@ class BookScreen extends Component {
             <Text style={styles.priceStyle}>{price} kr</Text>
           </CardSection>
         </Card>
-        <Card>
-          <CardSection>
-            <Text style={styles.descriptionHeadingStyle}>Beskrivning</Text>
-            <Text style={styles.descriptionTextStyle}>{description}</Text>
-          </CardSection>
-        </Card>
+        {this.renderDescription()}
         <Card>
           <CardSection>
             <View
@@ -121,41 +175,10 @@ class BookScreen extends Component {
               />
               <Text style={styles.infoStyle}>{email}</Text>
             </View>
-            {phone ? (
-              <View style={{ flexDirection: "row", marginBottom: 3 }}>
-                <Icon
-                  name="phone"
-                  size={20}
-                  color="#373737"
-                  style={styles.iconStyle}
-                />
-                <Text style={styles.infoStyle}>{phone}</Text>
-              </View>
-            ) : null}
-
-            <TouchableOpacity
-              style={styles.messengerStyle}
-              onPress={() => {
-                Linking.openURL("https://m.me/" + messengerName);
-              }}
-            >
-              <Image
-                source={messengerLogo}
-                style={{
-                  marginRight: 8,
-                  height: 20,
-                  width: 20
-                }}
-              />
-              <Text style={styles.infoStyle}>Kontakta {name}</Text>
-            </TouchableOpacity>
-            {tags
-              ? tags.map(tag => {
-                  return <BookTag name={tag}></BookTag>;
-                })
-              : null}
+            {this.renderPhoneNumber()}
           </CardSection>
-          {this.renderDeleteButton()}
+          <CardSection>{this.renderMessengerButton()}</CardSection>
+          <CardSection>{this.renderDeleteButton()}</CardSection>
         </Card>
       </ScrollView>
     );
