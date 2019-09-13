@@ -23,7 +23,7 @@ class ProfileScreen extends Component {
   };
 
   authStatus() {
-    if (this.props.user.emailVerified) {
+    if (firebase.auth().currentUser.emailVerified) {
       return (
         <View
           style={{
@@ -76,16 +76,14 @@ class ProfileScreen extends Component {
     return (
       <View>
         <View style={styles.makeRow}>
-          <Text style={{ fontSize: 15 }}>{this.props.user.email}</Text>
+          <Text style={{ fontSize: 15 }}>
+            {firebase.auth().currentUser.email}
+          </Text>
         </View>
         <View style={styles.makeRow}>
-          <Text style={{ fontSize: 15 }}>{this.props.user.displayName}</Text>
-        </View>
-        <View style={styles.makeRow}>
-          <Text style={{ fontSize: 15 }}>goran.goransson.11</Text>
-        </View>
-        <View style={styles.makeRow}>
-          <Text style={{ fontSize: 15 }}>0706784644</Text>
+          <Text style={{ fontSize: 15 }}>
+            {firebase.auth().currentUser.displayName}
+          </Text>
         </View>
       </View>
     );

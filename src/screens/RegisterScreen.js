@@ -4,6 +4,8 @@ import { Input, Button, CheckBox } from "react-native-elements";
 import { connect } from "react-redux";
 import { userUpdate, registerUser } from "../actions";
 import { isLoading } from "../selectors/utilSelectors";
+import Card from "../components/Card";
+import CardSection from "../components/CardSection";
 
 class RegisterScreen extends Component {
   state = {
