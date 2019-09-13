@@ -18,6 +18,7 @@ import Card from "../components/Card";
 import CardSection from "../components/CardSection";
 import BookTag from "../components/BookTag";
 import { bookDelete } from "../actions";
+import { isLoading } from "../selectors/bookSelectors";
 
 const messengerLogo = require("../images/messenger_logo.png");
 
@@ -33,6 +34,7 @@ class BookScreen extends Component {
           textStyle={{ textAlign: "center" }}
           backgroundColor="red"
           title={"Ta bort"}
+          loading={this.props.loading}
           onPress={() => {
             this.props.bookDelete({ uid, imageURL });
             Toast.show("Din bok har tagits bort");
@@ -243,7 +245,13 @@ const styles = {
   }
 };
 
+const mapStateToProps = state => {
+  const loading = isLoading(["BOOK_DELETE"], state);
+
+  return { loading };
+};
+
 export default connect(
-  null,
+  mapStateToProps,
   { bookDelete }
 )(BookScreen);

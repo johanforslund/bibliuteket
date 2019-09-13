@@ -3,7 +3,14 @@ import "@firebase/auth"; //eslint-disable-line
 import "@firebase/database"; //eslint-disable-line
 import {
   BOOKS_FETCH_SUCCESS,
-  BOOK_CREATE,
+  BOOKS_FETCH_FAIL,
+  BOOKS_FETCH_REQUEST,
+  BOOK_CREATE_SUCCESS,
+  BOOK_CREATE_FAIL,
+  BOOK_CREATE_REQUEST,
+  BOOK_DELETE_SUCCESS,
+  BOOK_DELETE_FAIL,
+  BOOK_DELETE_REQUEST,
   BOOKS_SEARCH_SUCCESS,
   BOOKS_SEARCH_UPDATE,
   BOOKS_SORT_BY,
@@ -19,6 +26,7 @@ export const booksFetch = sorting => {
   } else sortType = "date";
 
   return dispatch => {
+    dispatch({ type: BOOKS_FETCH_REQUEST });
     firebase
       .database()
       .ref("books")
@@ -100,6 +108,7 @@ export const bookCreate = ({
   const name = currentUser.displayName;
 
   return dispatch => {
+    dispatch({ type: BOOK_CREATE_REQUEST });
     firebase
       .database()
       .ref("/books")
@@ -119,20 +128,23 @@ export const bookCreate = ({
         tags
       })
       .then(() => {
-        dispatch({ type: BOOK_CREATE });
+        dispatch({ type: BOOK_CREATE_SUCCESS });
         NavigationService.navigate("BookList");
-      });
+      })
+      .catch(err => dispatch({ type: BOOK_CREATE_FAIL, payload: err.message }));
   };
 };
 
 export const bookDelete = ({ uid, imageURL }) => {
-  return () => {
+  return dispatch => {
+    dispatch({ type: BOOK_DELETE_REQUEST });
     firebase
       .database()
       .ref(`books/${uid}`)
       .remove()
       .then(() => {
         NavigationService.navigate("BookList");
+        dispatch({ type: BOOK_DELETE_SUCCESS });
 
         const image = firebase.storage().refFromURL(imageURL);
         image
@@ -142,6 +154,7 @@ export const bookDelete = ({ uid, imageURL }) => {
             console.log(error);
             // Uh-oh, an error occurred!
           });
-      });
+      })
+      .catch(err => dispatch({ type: BOOK_DELETE_FAIL, payload: err.message }));
   };
 };

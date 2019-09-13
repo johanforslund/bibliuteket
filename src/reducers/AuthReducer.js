@@ -3,10 +3,10 @@ import {
   USER_UPDATE,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAIL,
-  LOGIN_USER,
+  LOGIN_USER_REQUEST,
   REGISTER_USER_SUCCESS,
   REGISTER_USER_FAIL,
-  REGISTER_USER
+  REGISTER_USER_REQUEST
 } from "../actions/types";
 
 const INITIAL_STATE = {
@@ -14,8 +14,7 @@ const INITIAL_STATE = {
   liuid: "",
   password: "",
   user: {},
-  error: "",
-  loading: false
+  error: ""
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -24,18 +23,18 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, user: action.payload };
     case USER_UPDATE:
       return { ...state, [action.payload.prop]: action.payload.value };
-    case LOGIN_USER:
-      return { ...state, loading: true, error: "" };
+    case LOGIN_USER_REQUEST:
+      return { ...state, error: "" };
     case LOGIN_USER_SUCCESS:
       return { ...state, ...INITIAL_STATE, user: action.payload };
     case LOGIN_USER_FAIL:
-      return { ...state, error: action.payload, password: "", loading: false };
-    case REGISTER_USER:
-      return { ...state, loading: true, error: "" };
+      return { ...state, error: action.payload, password: "" };
+    case REGISTER_USER_REQUEST:
+      return { ...state, error: "" };
     case REGISTER_USER_SUCCESS:
       return { ...state, ...INITIAL_STATE, user: action.payload };
     case REGISTER_USER_FAIL:
-      return { ...state, error: action.payload, password: "", loading: false };
+      return { ...state, error: action.payload, password: "" };
     default:
       return state;
   }

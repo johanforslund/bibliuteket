@@ -47,7 +47,6 @@ const styles = {
   textInputStyle: {
     height: 36,
     width: "100%",
-    alingSelf: "center",
     color: "black",
     fontSize: 12,
     padding: 10,

@@ -4,7 +4,8 @@ import {
   FlatList,
   StyleSheet,
   View,
-  Text
+  Text,
+  ActivityIndicator
 } from "react-native";
 import { connect } from "react-redux";
 import firebase from "@firebase/app"; //eslint-disable-line
@@ -13,6 +14,8 @@ import { booksFetch, fetchUser } from "../actions";
 import BookDetail from "../components/BookDetail";
 import SearchBar from "../components/SearchBar";
 import ModifySearch from "../components/ModifySearch";
+import { isLoading } from "../selectors/bookSelectors";
+import { BOOKS_FETCH_REQUEST } from "../actions/types";
 
 class BookListScreen extends Component {
   static navigationOptions = {
@@ -42,6 +45,14 @@ class BookListScreen extends Component {
   keyExtractor = item => item.date.toString();
 
   render() {
+    if (this.props.loading) {
+      return (
+        <View style={{ flex: 1, justifyContent: "center" }}>
+          <Text style={{ textAlign: "center" }}>Loading books...</Text>
+          <ActivityIndicator />
+        </View>
+      );
+    }
     return this.props.books.length > 0 ? (
       <FlatList
         data={this.props.books}
@@ -84,7 +95,9 @@ const mapStateToProps = state => {
 
   const { user } = state.auth;
 
-  return { sorting, books, user };
+  const loading = isLoading(["BOOKS_FETCH"], state);
+
+  return { sorting, books, user, loading };
 };
 
 export default connect(
