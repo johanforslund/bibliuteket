@@ -1,31 +1,12 @@
 import React, { Component } from "react";
-import Icon from "react-native-vector-icons/MaterialIcons";
-import { View, TextInput } from "react-native";
+import { View } from "react-native";
 import { connect } from "react-redux";
-import { booksSearch, booksFetch, toggleSearch } from "../actions";
+import { booksFetch, searchUpdate } from "../actions";
 import { SearchBar } from "react-native-elements";
 import ModifySearch from "../components/ModifySearch";
 
 class SearchInput extends Component {
-  state = {
-    search: ""
-  };
-
-  onSearchText(value) {
-    this.setState({ search: value });
-
-    if (value.length === 0) {
-      this.props.booksFetch(this.props.sorting);
-      this.props.toggleSearch(false, value);
-    }
-    if (value.length > 2) {
-      this.props.booksSearch(this.props.sorting, value);
-      this.props.toggleSearch(true, value);
-    }
-  }
-
   render() {
-    const { search } = this.state;
     return (
       <View
         style={{
@@ -37,8 +18,8 @@ class SearchInput extends Component {
       >
         <SearchBar
           placeholder="Sök"
-          onChangeText={value => this.onSearchText(value)}
-          value={search}
+          value={this.props.searchText}
+          onChangeText={value => this.props.searchUpdate(value)}
           containerStyle={{
             width: "90%",
             height: "100%",
@@ -62,12 +43,12 @@ class SearchInput extends Component {
 }
 
 const mapStateToProps = state => {
-  const { searchTitle, sorting } = state.books;
+  const { searchText, sorting } = state.books;
 
-  return { searchTitle, sorting };
+  return { searchText, sorting };
 };
 
 export default connect(
   mapStateToProps,
-  { booksSearch, booksFetch, toggleSearch }
+  { booksFetch, searchUpdate }
 )(SearchInput);

@@ -11,7 +11,7 @@ import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { userUpdate, loginUser } from "../actions";
 import CardSection from "../components/CardSection";
-import { isLoading } from "../selectors/bookSelectors";
+import { isLoading } from "../selectors/utilSelectors";
 
 const logo = require("../images/inAppLogo.png");
 

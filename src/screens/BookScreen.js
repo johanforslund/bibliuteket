@@ -18,7 +18,7 @@ import Card from "../components/Card";
 import CardSection from "../components/CardSection";
 import BookTag from "../components/BookTag";
 import { bookDelete } from "../actions";
-import { isLoading } from "../selectors/bookSelectors";
+import { isLoading } from "../selectors/utilSelectors";
 
 const messengerLogo = require("../images/messenger_logo.png");
 

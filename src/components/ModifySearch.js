@@ -1,4 +1,4 @@
-import React, { Component, PureComponent } from "react";
+import React, { PureComponent } from "react";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { View, TouchableOpacity, Text } from "react-native";
 import { CheckBox, Button } from "react-native-elements";
@@ -35,24 +35,18 @@ class ModifySearch extends PureComponent {
               <CheckBox
                 size={20}
                 title="Nyast först"
-                checked={this.props.sorting === "dateASC"}
+                checked={this.props.sorting === "dateDESC"}
                 onPress={() => {
-                  this.props.changeSorting("dateASC");
-                  this.props.isSearching
-                    ? this.props.booksSearch("dateASC", this.props.searchText)
-                    : this.props.booksFetch("dateASC");
+                  this.props.changeSorting("dateDESC");
                   this.setState({ isModalVisible: !this.state.isModalVisible });
                 }}
               />
               <CheckBox
                 size={20}
                 title="Äldst först"
-                checked={this.props.sorting === "dateDSC"}
+                checked={this.props.sorting === "dateASC"}
                 onPress={() => {
-                  this.props.changeSorting("dateDSC");
-                  this.props.isSearching
-                    ? this.props.booksSearch("dateDSC", this.props.searchText)
-                    : this.props.booksFetch("dateDSC");
+                  this.props.changeSorting("dateASC");
                   this.setState({ isModalVisible: !this.state.isModalVisible });
                 }}
               />
@@ -62,12 +56,6 @@ class ModifySearch extends PureComponent {
                 onPress={() => {
                   {
                     this.props.changeSorting("priceASC");
-                    this.props.isSearching
-                      ? this.props.booksSearch(
-                          "priceASC",
-                          this.props.searchText
-                        )
-                      : this.props.booksFetch("priceASC");
                     this.setState({
                       isModalVisible: !this.state.isModalVisible
                     });
@@ -80,19 +68,13 @@ class ModifySearch extends PureComponent {
                 title="Pris högst till lägst"
                 onPress={() => {
                   {
-                    this.props.changeSorting("priceDSC");
-                    this.props.isSearching
-                      ? this.props.booksSearch(
-                          "priceDSC",
-                          this.props.searchText
-                        )
-                      : this.props.booksFetch("priceDSC");
+                    this.props.changeSorting("priceDESC");
                     this.setState({
                       isModalVisible: !this.state.isModalVisible
                     });
                   }
                 }}
-                checked={this.props.sorting === "priceDSC"}
+                checked={this.props.sorting === "priceDESC"}
               />
             </View>
 
@@ -105,9 +87,9 @@ class ModifySearch extends PureComponent {
 }
 
 const mapStateToProps = state => {
-  const { sorting, isSearching, searchText } = state.books;
+  const { sorting } = state.books;
 
-  return { sorting, isSearching, searchText };
+  return { sorting };
 };
 
 const styles = {

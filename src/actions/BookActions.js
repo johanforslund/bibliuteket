@@ -11,75 +11,33 @@ import {
   BOOK_DELETE_SUCCESS,
   BOOK_DELETE_FAIL,
   BOOK_DELETE_REQUEST,
-  BOOKS_SEARCH_SUCCESS,
   BOOKS_SEARCH_UPDATE,
-  BOOKS_SORT_BY,
-  BOOKS_IS_SEARCHING
+  BOOKS_SORT_BY
 } from "./types";
 import NavigationService from "../navigation/NavigationService";
 
-let sortType = "";
-
-export const booksFetch = sorting => {
-  if (sorting === "priceASC" || sorting === "priceDSC") {
-    sortType = "price";
-  } else sortType = "date";
-
+export const booksFetch = () => {
   return dispatch => {
     dispatch({ type: BOOKS_FETCH_REQUEST });
     firebase
       .database()
       .ref("books")
-      .orderByChild(sortType)
       .on("value", snapshot => {
         const books = [];
         snapshot.forEach(child => {
           const childWithUid = { ...child.val(), uid: child.key };
           books.push(childWithUid);
         });
-        if (sorting === "priceDSC" || sorting === "dateASC") books.reverse();
 
         dispatch({ type: BOOKS_FETCH_SUCCESS, payload: books });
       });
   };
 };
 
-export const booksSearch = (sorting, value) => {
-  return dispatch => {
-    firebase
-      .database()
-      .ref("books")
-      .orderByChild(sorting)
-      .once("value", snapshot => {
-        const books = [];
-        snapshot.forEach(child => {
-          if (
-            child
-              .val()
-              .title.toLowerCase()
-              .includes(value.toLowerCase().trim())
-          ) {
-            const childWithUid = { ...child.val(), uid: child.key };
-            books.push(childWithUid);
-          }
-        });
-        books.reverse();
-        dispatch({ type: BOOKS_SEARCH_SUCCESS, payload: books });
-      });
-  };
-};
-
-export const searchUpdate = searchTitle => {
+export const searchUpdate = searchText => {
   return {
     type: BOOKS_SEARCH_UPDATE,
-    payload: searchTitle
-  };
-};
-
-export const toggleSearch = (isSearching, searchText) => {
-  return {
-    type: BOOKS_IS_SEARCHING,
-    payload: { isSearching: isSearching, searchText: searchText }
+    payload: searchText
   };
 };
 
