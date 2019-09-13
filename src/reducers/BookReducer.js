@@ -1,15 +1,12 @@
 import {
   BOOKS_FETCH_SUCCESS,
-  BOOKS_SEARCH_SUCCESS,
   BOOKS_SORT_BY,
-  BOOKS_IS_SEARCHING,
   BOOKS_SEARCH_UPDATE
 } from "../actions/types";
 
 const INITIAL_STATE = {
   bookList: [],
-  sorting: "dateASC",
-  isSearching: false,
+  sorting: "dateDESC",
   searchText: ""
 };
 
@@ -17,18 +14,10 @@ export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case BOOKS_FETCH_SUCCESS:
       return { ...state, bookList: action.payload };
-    case BOOKS_SEARCH_SUCCESS:
-      return { ...state, bookList: action.payload };
     case BOOKS_SORT_BY:
       return { ...state, sorting: action.payload };
     case BOOKS_SEARCH_UPDATE:
       return { ...state, searchText: action.payload };
-    case BOOKS_IS_SEARCHING:
-      return {
-        ...state,
-        isSearching: action.payload.isSearching,
-        searchText: action.payload.searchText
-      };
     default:
       return state;
   }
