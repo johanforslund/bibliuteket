@@ -63,6 +63,7 @@ class RemoveAccount extends Component {
               ref="Password"
               returnKeyType="next"
               secureTextEntry
+              autoCapitalize="none"
               placeholder="Lösenord"
               leftIcon={<Icon color="#a5a5a5" name="lock" size={20} />}
               inputStyle={styles.inputStyle}

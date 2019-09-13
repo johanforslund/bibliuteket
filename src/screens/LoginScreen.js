@@ -55,6 +55,7 @@ class LoginScreen extends Component {
             value={this.props.password}
             autoCorrect={false}
             secureTextEntry
+            autoCapitalize="none"
             onChangeText={value =>
               this.props.userUpdate({ prop: "password", value })
             }
