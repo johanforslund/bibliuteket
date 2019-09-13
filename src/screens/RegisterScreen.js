@@ -45,6 +45,7 @@ class RegisterScreen extends Component {
               placeholder="Lösenord"
               value={this.props.password}
               autoCorrect={false}
+              autoCapitalize="none"
               secureTextEntry
               onChangeText={value =>
                 this.props.userUpdate({ prop: "password", value })
