@@ -10,7 +10,7 @@ import {
 import { connect } from "react-redux";
 import firebase from "@firebase/app"; //eslint-disable-line
 import "@firebase/auth"; //eslint-disable-line
-import { booksFetch, fetchUser } from "../actions";
+import { booksFetch } from "../actions";
 import BookDetail from "../components/BookDetail";
 import SearchBar from "../components/SearchBar";
 import { isLoading } from "../selectors/utilSelectors";
@@ -24,9 +24,6 @@ class BookListScreen extends Component {
 
   componentWillMount() {
     this.props.booksFetch(this.props.sorting);
-    if (this.props.user.displayName === undefined) {
-      this.props.fetchUser(firebase.auth().currentUser);
-    }
   }
 
   handlePress = book => {
@@ -99,5 +96,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { booksFetch, fetchUser }
+  { booksFetch }
 )(BookListScreen);

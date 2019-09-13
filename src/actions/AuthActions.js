@@ -13,13 +13,6 @@ import {
   DELETE_USER
 } from "./types";
 
-export const fetchUser = user => {
-  return {
-    type: FETCH_USER,
-    payload: user
-  };
-};
-
 export const userUpdate = ({ prop, value }) => {
   return {
     type: USER_UPDATE,
@@ -34,7 +27,7 @@ export const loginUser = ({ liuid, password }) => {
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then(user => loginUserSuccess(dispatch, user))
+      .then(() => loginUserSuccess(dispatch))
       .catch(error => loginUserFail(error.message, dispatch));
   };
 };
@@ -58,7 +51,7 @@ export const registerUser = ({ name, liuid, password }) => {
               .catch(error => console.log(error));
           })
           .then(() => {
-            registerUserSuccess(dispatch, userInfo.user);
+            registerUserSuccess(dispatch);
           });
       })
       .catch(error => registerUserFail(error.message, dispatch));
@@ -85,10 +78,9 @@ const loginUserFail = (error, dispatch) => {
   });
 };
 
-const loginUserSuccess = (dispatch, user) => {
+const loginUserSuccess = dispatch => {
   dispatch({
-    type: LOGIN_USER_SUCCESS,
-    payload: user
+    type: LOGIN_USER_SUCCESS
   });
 };
 
@@ -99,9 +91,8 @@ const registerUserFail = (error, dispatch) => {
   });
 };
 
-const registerUserSuccess = (dispatch, user) => {
+const registerUserSuccess = dispatch => {
   dispatch({
-    type: REGISTER_USER_SUCCESS,
-    payload: user
+    type: REGISTER_USER_SUCCESS
   });
 };
