@@ -18,6 +18,7 @@ import Card from "../components/Card";
 import CardSection from "../components/CardSection";
 import BookTag from "../components/BookTag";
 import { bookDelete } from "../actions";
+import NavigationService from "../navigation/NavigationService";
 import { isLoading } from "../selectors/utilSelectors";
 
 const messengerLogo = require("../images/messenger_logo.png");
@@ -36,7 +37,8 @@ class BookScreen extends Component {
           title={"Ta bort"}
           loading={this.props.loading}
           onPress={() => {
-            this.props.bookDelete({ uid, imageURL });
+            this.props.bookDelete(uid, imageURL);
+            NavigationService.navigate("BookList");
             Toast.show("Din bok har tagits bort");
           }}
         />
