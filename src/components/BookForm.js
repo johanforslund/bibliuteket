@@ -2,63 +2,55 @@ import React, { PureComponent } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { Input, Tooltip, Icon, Button } from "react-native-elements";
 import { connect } from "react-redux";
-import firebase from "@firebase/app"; //eslint-disable-line
-import "@firebase/auth"; //eslint-disable-line
-import "@firebase/database";
 import { bookCreate } from "../actions";
 import CardSection from "./CardSection";
 import Card from "./Card";
 import BookTagList from "./BookTagList";
 import ImageUploader from "./ImageUploader";
 import { isLoading } from "../selectors/utilSelectors";
+import { changeMessengerName, changePhone } from "../actions/SettingsActions";
+
+let initialState;
 
 class BookForm extends PureComponent {
-  state = {
-    author: "",
-    description: "",
-    email: "",
-    location: "",
-    phone: "",
-    price: "",
-    name: "",
-    title: "",
-    imageURL: null,
-    messengerName: "",
-    hasPhone: false,
-    hasMessengerName: false,
-    touched: {
-      title: false,
-      author: false,
-      price: false
-    },
-    tags: []
-  };
+  state = initialState;
 
-  componentWillMount() {
-    firebase
-      .database()
-      .ref("/users/" + firebase.auth().currentUser.uid)
-      .once("value")
-      .then(snapshot => {
-        phone = (snapshot.val() && snapshot.val().phone) || "";
-        messengerName = (snapshot.val() && snapshot.val().messengerName) || "";
-        this.setState({
-          email: firebase.auth().currentUser.email,
-          phone,
-          messengerName,
-          hasPhone: phone !== "",
-          hasMessengerName: messengerName !== ""
-        });
-      });
+  constructor(props) {
+    super(props);
+    initialState = {
+      author: "",
+      description: "",
+      location: "",
+      phone: this.props.phone,
+      price: "",
+      name: "",
+      title: "",
+      imageURL: null,
+      messengerName: this.props.messengerName,
+      touched: {
+        title: false,
+        author: false,
+        price: false,
+        messengerName: false,
+        phone: false
+      },
+      tags: []
+    };
+    this.state = initialState;
   }
 
   validate = () => {
     const reg = new RegExp("^[0-9]+$");
+    const phoneReg = new RegExp(
+      "/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-s./0-9]*$/g"
+    );
     return {
       title: this.state.title.length === 0,
       author: this.state.author.length === 0,
       price: this.state.price.length === 0 || !reg.test(this.state.price),
-      imageURL: !this.state.imageURL
+      imageURL: !this.state.imageURL,
+      contact:
+        this.state.messengerName.length === 0 && this.state.phone.length === 0
     };
   };
 
@@ -66,7 +58,6 @@ class BookForm extends PureComponent {
     const {
       author,
       description,
-      email,
       location,
       phone,
       price,
@@ -78,24 +69,13 @@ class BookForm extends PureComponent {
     } = this.state;
     const date = new Date().getTime();
 
-    firebase
-      .database()
-      .ref("users/" + firebase.auth().currentUser.uid)
-      .set({
-        phone,
-        messengerName
-      });
-
-    this.setState({
-      hasPhone: phone !== "",
-      hasMessengerName: messengerName !== ""
-    });
+    if (messengerName !== "") this.props.changeMessengerName(messengerName);
+    if (phone !== "") this.props.changePhone(phone);
 
     this.props.bookCreate({
       author,
       date,
       description,
-      email,
       location,
       phone,
       price,
@@ -105,6 +85,8 @@ class BookForm extends PureComponent {
       messengerName,
       tags
     });
+
+    this.setState(initialState);
   }
 
   setImageURL = url => {
@@ -229,52 +211,54 @@ class BookForm extends PureComponent {
           </CardSection>
         </Card>
         <Card>
-          {!this.state.hasMessengerName && (
-            <CardSection>
-              <View style={{ display: "flex", flexDirection: "row" }}>
-                <Input
-                  ref="Messenger"
-                  returnKeyType="next"
-                  label="Messenger-användarnamn"
-                  maxLength={40}
-                  inputStyle={styles.inputStyle}
-                  onSubmitEditing={() => {
-                    this.refs.Email.focus();
-                  }}
-                  value={this.state.messengerName}
-                  rightIcon={
-                    <Tooltip // Kanske behöver ändra yOffset i tooltip.js för rätt pos
-                      height={100}
-                      backgroundColor="#29749D"
-                      popover={
-                        <Text style={{ color: "white" }}>
-                          Detta hittar du under "profil" på facebook messenger
-                        </Text>
-                      }
-                    >
-                      <Icon name="info" size={20} color="#373737" />
-                    </Tooltip>
-                  }
-                  onChangeText={value =>
-                    this.setState({ messengerName: value })
-                  }
-                />
-              </View>
-            </CardSection>
-          )}
-          {!this.state.hasPhone && (
-            <CardSection>
+          <CardSection>
+            <Text style={{ left: 8, color: "#AAAAAA" }}>
+              Fyll i minst ett utav följande fält.
+            </Text>
+          </CardSection>
+          <CardSection>
+            <View style={{ display: "flex", flexDirection: "row" }}>
               <Input
-                ref="Number"
-                keyboardType="numeric"
-                label="Telefonnummer"
-                maxLength={15}
+                ref="Messenger"
+                returnKeyType="next"
+                label="Messenger-användarnamn"
+                errorMessage={
+                  shouldMarkError("title") ? "Obligatoriskt fält" : ""
+                }
+                maxLength={40}
                 inputStyle={styles.inputStyle}
-                value={this.state.phone}
-                onChangeText={value => this.setState({ phone: value })}
+                onSubmitEditing={() => {
+                  this.refs.Phone.focus();
+                }}
+                value={this.state.messengerName}
+                rightIcon={
+                  <Tooltip // Kanske behöver ändra yOffset i tooltip.js för rätt pos
+                    height={100}
+                    backgroundColor="#29749D"
+                    popover={
+                      <Text style={{ color: "white" }}>
+                        Detta hittar du under "profil" på facebook messenger
+                      </Text>
+                    }
+                  >
+                    <Icon name="info" size={20} color="#373737" />
+                  </Tooltip>
+                }
+                onChangeText={value => this.setState({ messengerName: value })}
               />
-            </CardSection>
-          )}
+            </View>
+          </CardSection>
+          <CardSection>
+            <Input
+              ref="Phone"
+              keyboardType="numeric"
+              label="Telefonnummer"
+              maxLength={15}
+              inputStyle={styles.inputStyle}
+              value={this.state.phone}
+              onChangeText={value => this.setState({ phone: value })}
+            />
+          </CardSection>
         </Card>
         <CardSection style={{ flex: 1, justifyContent: "flex-end" }}>
           <Button
@@ -285,7 +269,11 @@ class BookForm extends PureComponent {
             loading={this.props.loading}
             onPress={this.onButtonPress.bind(this)}
             disabled={
-              errors.title || errors.author || errors.price || errors.imageURL
+              errors.title ||
+              errors.author ||
+              errors.price ||
+              errors.imageURL ||
+              errors.contact
             }
           />
         </CardSection>
@@ -301,12 +289,14 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   const { user } = state.auth;
 
+  const { messengerName, phone } = state.settings;
+
   const loading = isLoading(["BOOK_CREATE"], state);
 
-  return { user, loading };
+  return { user, loading, messengerName, phone };
 };
 
 export default connect(
   mapStateToProps,
-  { bookCreate }
+  { bookCreate, changeMessengerName, changePhone }
 )(BookForm);
