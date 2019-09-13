@@ -63,7 +63,8 @@ const styles = {
     fontSize: 15,
     fontWeight: "bold",
     color: "#00C853",
-    alignSelf: "flex-end"
+    alignSelf: "flex-end",
+    paddingLeft: 10
   }
 };
 

@@ -4,7 +4,8 @@ import {
   FlatList,
   StyleSheet,
   View,
-  Text
+  Text,
+  ActivityIndicator
 } from "react-native";
 import { connect } from "react-redux";
 import firebase from "@firebase/app"; //eslint-disable-line
@@ -12,12 +13,13 @@ import "@firebase/auth"; //eslint-disable-line
 import { booksFetch, fetchUser } from "../actions";
 import BookDetail from "../components/BookDetail";
 import SearchBar from "../components/SearchBar";
-import ModifySearch from "../components/ModifySearch";
+import { isLoading } from "../selectors/utilSelectors";
+import { BOOKS_FETCH_REQUEST } from "../actions/types";
+import { getBooks } from "../selectors/bookSelectors";
 
 class BookListScreen extends Component {
   static navigationOptions = {
-    headerLeft: <SearchBar />,
-    headerRight: <ModifySearch />
+    header: <SearchBar />
   };
 
   componentWillMount() {
@@ -42,6 +44,14 @@ class BookListScreen extends Component {
   keyExtractor = item => item.date.toString();
 
   render() {
+    if (this.props.loading) {
+      return (
+        <View style={{ flex: 1, justifyContent: "center" }}>
+          <Text style={{ textAlign: "center" }}>Loading books...</Text>
+          <ActivityIndicator />
+        </View>
+      );
+    }
     return this.props.books.length > 0 ? (
       <FlatList
         data={this.props.books}
@@ -76,15 +86,15 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-  const books = Object.keys(state.books.books).map(key => {
-    return state.books.books[key];
-  });
+  const books = getBooks(state);
 
   const { sorting } = state.books;
 
   const { user } = state.auth;
 
-  return { sorting, books, user };
+  const loading = isLoading(["BOOKS_FETCH"], state);
+
+  return { sorting, books, user, loading };
 };
 
 export default connect(

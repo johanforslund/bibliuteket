@@ -1,62 +1,54 @@
 import React, { Component } from "react";
-import Icon from "react-native-vector-icons/MaterialIcons";
-import { View, TextInput } from "react-native";
+import { View } from "react-native";
 import { connect } from "react-redux";
-import { booksSearch, booksFetch, toggleSearch } from "../actions";
+import { booksFetch, searchUpdate } from "../actions";
+import { SearchBar } from "react-native-elements";
+import ModifySearch from "../components/ModifySearch";
 
 class SearchInput extends Component {
-  onSearchText(value) {
-    if (value.length === 0) {
-      this.props.booksFetch(this.props.sorting);
-      this.props.toggleSearch(false, value);
-    }
-    if (value.length > 2) {
-      this.props.booksSearch(this.props.sorting, value);
-      this.props.toggleSearch(true, value);
-    }
-  }
-
   render() {
     return (
-      <View style={styles.searchStyle}>
-        <TextInput
-          style={styles.textInputStyle}
-          placeholderTextColor="gray"
+      <View
+        style={{
+          height: 57,
+          flexDirection: "row",
+          alignItems: "center",
+          backgroundColor: "#29749D"
+        }}
+      >
+        <SearchBar
           placeholder="Sök"
-          onChangeText={value => this.onSearchText(value)}
+          value={this.props.searchText}
+          onChangeText={value => this.props.searchUpdate(value)}
+          containerStyle={{
+            width: "90%",
+            height: "100%",
+            backgroundColor: "#29749D",
+            borderBottomColor: "transparent",
+            borderTopColor: "transparent"
+          }}
+          inputContainerStyle={{
+            backgroundColor: "#F9FAFA"
+          }}
+          inputStyle={{
+            padding: 0,
+            textAlignVertical: "center"
+          }}
+          round={true}
         />
+        <ModifySearch />
       </View>
     );
   }
 }
 
 const mapStateToProps = state => {
-  const { searchTitle, sorting } = state.books;
+  const { searchText, sorting } = state.books;
 
-  return { searchTitle, sorting };
-};
-
-const styles = {
-  searchStyle: {
-    flex: 1,
-    alignItems: "center",
-    flexDirection: "row",
-    width: 300,
-    marginLeft: 8
-  },
-  textInputStyle: {
-    height: 36,
-    width: "100%",
-    alingSelf: "center",
-    color: "black",
-    fontSize: 12,
-    padding: 10,
-    backgroundColor: "white",
-    borderRadius: 20
-  }
+  return { searchText, sorting };
 };
 
 export default connect(
   mapStateToProps,
-  { booksSearch, booksFetch, toggleSearch }
+  { booksFetch, searchUpdate }
 )(SearchInput);

@@ -11,6 +11,7 @@ import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { userUpdate, loginUser } from "../actions";
 import CardSection from "../components/CardSection";
+import { isLoading } from "../selectors/utilSelectors";
 
 const logo = require("../images/inAppLogo.png");
 
@@ -65,6 +66,7 @@ class LoginScreen extends Component {
             textStyle={{ textAlign: "center" }}
             backgroundColor="red"
             title={"Logga in"}
+            loading={this.props.loading}
             onPress={this.onLoginPress.bind(this)}
           />
           <Text style={styles.errorTextStyle}>{this.props.error}</Text>
@@ -106,7 +108,9 @@ const styles = {
 };
 
 const mapStateToProps = state => {
-  const { liuid, password, error, loading } = state.auth;
+  const { liuid, password, error } = state.auth;
+
+  const loading = isLoading(["LOGIN_USER"], state);
 
   return { liuid, password, error, loading };
 };

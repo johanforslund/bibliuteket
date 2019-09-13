@@ -10,6 +10,7 @@ import CardSection from "./CardSection";
 import Card from "./Card";
 import BookTagList from "./BookTagList";
 import ImageUploader from "./ImageUploader";
+import { isLoading } from "../selectors/utilSelectors";
 
 class BookForm extends PureComponent {
   state = {
@@ -281,6 +282,7 @@ class BookForm extends PureComponent {
             buttonStyle={{ backgroundColor: "#2ecc71" }}
             textStyle={{ textAlign: "center" }}
             title={"Lägg upp"}
+            loading={this.props.loading}
             onPress={this.onButtonPress.bind(this)}
             disabled={
               errors.title || errors.author || errors.price || errors.imageURL
@@ -299,7 +301,9 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   const { user } = state.auth;
 
-  return { user };
+  const loading = isLoading(["BOOK_CREATE"], state);
+
+  return { user, loading };
 };
 
 export default connect(
