@@ -13,15 +13,13 @@ import "@firebase/auth"; //eslint-disable-line
 import { booksFetch, fetchUser } from "../actions";
 import BookDetail from "../components/BookDetail";
 import SearchBar from "../components/SearchBar";
-import ModifySearch from "../components/ModifySearch";
 import { isLoading } from "../selectors/utilSelectors";
 import { BOOKS_FETCH_REQUEST } from "../actions/types";
 import { getBooks } from "../selectors/bookSelectors";
 
 class BookListScreen extends Component {
   static navigationOptions = {
-    headerLeft: <SearchBar />,
-    headerRight: <ModifySearch />
+    header: <SearchBar />
   };
 
   componentWillMount() {

@@ -13,51 +13,57 @@ class RegisterScreen extends Component {
 
   render() {
     return (
-      <View>
-        <Input
-          placeholder="Ditt namn"
-          value={this.props.name}
-          onChangeText={value => this.props.userUpdate({ prop: "name", value })}
-        />
-        <Input
-          placeholder="LiU-ID"
-          value={this.props.liuid}
-          onChangeText={value =>
-            this.props.userUpdate({ prop: "liuid", value })
-          }
-          maxLength={8}
-        />
-        <Input
-          placeholder="Lösenord"
-          value={this.props.password}
-          autoCorrect={false}
-          secureTextEntry
-          onChangeText={value =>
-            this.props.userUpdate({ prop: "password", value })
-          }
-        />
-        <View>
-          <CheckBox
-            size={20}
-            center
-            title="I agree to GDPR"
-            onPress={() => {
-              console.log("");
-            }}
-            checked={true}
-          />
-        </View>
-        <Button
-          raised
-          buttonStyle={{ backgroundColor: "#2ecc71" }}
-          textStyle={{ textAlign: "center" }}
-          backgroundColor="red"
-          title={"Registrera"}
-          loading={this.props.loading}
-          onPress={this.onRegisterPress.bind(this)}
-        />
+      <View style={{ flex: 1, backgroundColor: "#CFE3E9" }}>
+        <Card>
+          <CardSection>
+            <Input
+              placeholder="Ditt namn"
+              value={this.props.name}
+              onChangeText={value =>
+                this.props.userUpdate({ prop: "name", value })
+              }
+            />
+            <Input
+              placeholder="LiU-ID"
+              value={this.props.liuid}
+              onChangeText={value =>
+                this.props.userUpdate({ prop: "liuid", value })
+              }
+              maxLength={8}
+            />
+            <Input
+              placeholder="Lösenord"
+              value={this.props.password}
+              autoCorrect={false}
+              secureTextEntry
+              onChangeText={value =>
+                this.props.userUpdate({ prop: "password", value })
+              }
+            />
+            <View>
+              <CheckBox
+                size={20}
+                center
+                title="I agree to GDPR"
+                onPress={() => {
+                  console.log("");
+                }}
+                checked={true}
+              />
+            </View>
+            <Button
+              raised
+              buttonStyle={{ backgroundColor: "#2ecc71" }}
+              textStyle={{ textAlign: "center" }}
+              backgroundColor="red"
+              title={"Registrera"}
+              loading={this.props.loading}
+              onPress={this.onRegisterPress.bind(this)}
+            />
 
-        <Text style={styles.errorTextStyle}>{this.props.error}</Text>
+            <Text style={styles.errorTextStyle}>{this.props.error}</Text>
+          </CardSection>
+        </Card>
       </View>
     );
   }

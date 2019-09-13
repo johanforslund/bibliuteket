@@ -1,24 +1,42 @@
 import React, { Component } from "react";
-import { View, TextInput } from "react-native";
+import { View } from "react-native";
 import { connect } from "react-redux";
 import { booksFetch, searchUpdate } from "../actions";
+import { SearchBar } from "react-native-elements";
+import ModifySearch from "../components/ModifySearch";
 
 class SearchInput extends Component {
-  onSearchText(value) {
-    // Should be some condition to check #of characters
-    this.props.searchUpdate(value);
-  }
-
   render() {
     return (
-      <View style={styles.searchStyle}>
-        <TextInput
-          style={styles.textInputStyle}
-          placeholderTextColor="gray"
+      <View
+        style={{
+          height: 57,
+          flexDirection: "row",
+          alignItems: "center",
+          backgroundColor: "#29749D"
+        }}
+      >
+        <SearchBar
           placeholder="Sök"
           value={this.props.searchText}
-          onChangeText={value => this.onSearchText(value)}
+          onChangeText={value => this.props.searchUpdate(value)}
+          containerStyle={{
+            width: "90%",
+            height: "100%",
+            backgroundColor: "#29749D",
+            borderBottomColor: "transparent",
+            borderTopColor: "transparent"
+          }}
+          inputContainerStyle={{
+            backgroundColor: "#F9FAFA"
+          }}
+          inputStyle={{
+            padding: 0,
+            textAlignVertical: "center"
+          }}
+          round={true}
         />
+        <ModifySearch />
       </View>
     );
   }
@@ -28,25 +46,6 @@ const mapStateToProps = state => {
   const { searchText, sorting } = state.books;
 
   return { searchText, sorting };
-};
-
-const styles = {
-  searchStyle: {
-    flex: 1,
-    alignItems: "center",
-    flexDirection: "row",
-    width: 300,
-    marginLeft: 8
-  },
-  textInputStyle: {
-    height: 36,
-    width: "100%",
-    color: "black",
-    fontSize: 12,
-    padding: 10,
-    backgroundColor: "white",
-    borderRadius: 20
-  }
 };
 
 export default connect(
