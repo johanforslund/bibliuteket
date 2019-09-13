@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View } from "react-native";
+import { Text, View, TouchableOpacity } from "react-native";
 import { Input, Button, CheckBox } from "react-native-elements";
 import { connect } from "react-redux";
 import { userUpdate, registerUser } from "../actions";
@@ -8,9 +8,17 @@ import Card from "../components/Card";
 import CardSection from "../components/CardSection";
 
 class RegisterScreen extends Component {
+  state = {
+    isChecked: false
+  };
+
   onRegisterPress() {
     const { name, liuid, password } = this.props;
     this.props.registerUser({ name, liuid, password });
+  }
+
+  handleTOSPress() {
+    this.props.navigation.navigate("TOS");
   }
 
   render() {
@@ -42,18 +50,37 @@ class RegisterScreen extends Component {
                 this.props.userUpdate({ prop: "password", value })
               }
             />
-            <View>
+            <Text style={styles.errorTextStyle}>{this.props.error}</Text>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                marginBottom: 20,
+                flexWrap: "wrap"
+              }}
+            >
               <CheckBox
                 size={20}
-                center
-                title="I agree to GDPR"
                 onPress={() => {
-                  console.log("");
+                  if (this.state.isChecked) this.setState({ isChecked: false });
+                  else this.setState({ isChecked: true });
                 }}
-                checked={true}
+                checkedColor="green"
+                checked={this.state.isChecked}
               />
+              <View style={{ flexDirection: "row", flexWrap: "wrap", flex: 1 }}>
+                <Text>Jag accepterar</Text>
+                <TouchableOpacity onPress={this.handleTOSPress.bind(this)}>
+                  <Text style={{ color: "#2ecc71" }}>
+                    {" "}
+                    Personuppgiftspolicyn{" "}
+                  </Text>
+                </TouchableOpacity>
+                <Text>för Bibliuteket</Text>
+              </View>
             </View>
             <Button
+              disabled={!this.state.isChecked}
               raised
               buttonStyle={{ backgroundColor: "#2ecc71" }}
               textStyle={{ textAlign: "center" }}
@@ -62,8 +89,6 @@ class RegisterScreen extends Component {
               loading={this.props.loading}
               onPress={this.onRegisterPress.bind(this)}
             />
-
-            <Text style={styles.errorTextStyle}>{this.props.error}</Text>
           </CardSection>
         </Card>
       </View>

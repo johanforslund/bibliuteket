@@ -10,6 +10,7 @@ import ProfileScreen from "../screens/ProfileScreen";
 import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import ForgotPWScreen from "../screens/ForgotPWScreen";
+import TermsScreen from "../screens/TermsScreen";
 import AuthLoadingScreen from "../screens/AuthLoadingScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 
@@ -102,6 +103,15 @@ const LoginStackProfile = createStackNavigator({
   },
   Register: {
     screen: RegisterScreen,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: "#29749D"
+      },
+      headerTintColor: "white"
+    }
+  },
+  TOS: {
+    screen: TermsScreen,
     navigationOptions: {
       headerStyle: {
         backgroundColor: "#29749D"
