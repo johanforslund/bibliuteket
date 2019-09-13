@@ -42,12 +42,12 @@ export const getBooks = createSelector(
 
     if (searchText === "") return sortedBooks;
 
-    var options = {
+    const options = {
       keys: ["title", "author"],
       shouldSort: false,
       threshold: 0.4
     };
-    var fuse = new Fuse(sortedBooks, options);
+    const fuse = new Fuse(sortedBooks, options);
     const search = fuse.search(searchText);
 
     return search;
