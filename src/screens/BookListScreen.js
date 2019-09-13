@@ -14,8 +14,9 @@ import { booksFetch, fetchUser } from "../actions";
 import BookDetail from "../components/BookDetail";
 import SearchBar from "../components/SearchBar";
 import ModifySearch from "../components/ModifySearch";
-import { isLoading } from "../selectors/bookSelectors";
+import { isLoading } from "../selectors/utilSelectors";
 import { BOOKS_FETCH_REQUEST } from "../actions/types";
+import { getBooks } from "../selectors/bookSelectors";
 
 class BookListScreen extends Component {
   static navigationOptions = {
@@ -87,9 +88,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-  const books = Object.keys(state.books.books).map(key => {
-    return state.books.books[key];
-  });
+  const books = getBooks(state);
 
   const { sorting } = state.books;
 

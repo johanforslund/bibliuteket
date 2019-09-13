@@ -1,19 +1,12 @@
 import React, { Component } from "react";
-import Icon from "react-native-vector-icons/MaterialIcons";
 import { View, TextInput } from "react-native";
 import { connect } from "react-redux";
-import { booksSearch, booksFetch, toggleSearch } from "../actions";
+import { booksFetch, searchUpdate } from "../actions";
 
 class SearchInput extends Component {
   onSearchText(value) {
-    if (value.length === 0) {
-      this.props.booksFetch(this.props.sorting);
-      this.props.toggleSearch(false, value);
-    }
-    if (value.length > 2) {
-      this.props.booksSearch(this.props.sorting, value);
-      this.props.toggleSearch(true, value);
-    }
+    // Should be some condition to check #of characters
+    this.props.searchUpdate(value);
   }
 
   render() {
@@ -23,6 +16,7 @@ class SearchInput extends Component {
           style={styles.textInputStyle}
           placeholderTextColor="gray"
           placeholder="Sök"
+          value={this.props.searchText}
           onChangeText={value => this.onSearchText(value)}
         />
       </View>
@@ -31,9 +25,9 @@ class SearchInput extends Component {
 }
 
 const mapStateToProps = state => {
-  const { searchTitle, sorting } = state.books;
+  const { searchText, sorting } = state.books;
 
-  return { searchTitle, sorting };
+  return { searchText, sorting };
 };
 
 const styles = {
@@ -57,5 +51,5 @@ const styles = {
 
 export default connect(
   mapStateToProps,
-  { booksSearch, booksFetch, toggleSearch }
+  { booksFetch, searchUpdate }
 )(SearchInput);

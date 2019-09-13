@@ -10,7 +10,7 @@ import CardSection from "./CardSection";
 import Card from "./Card";
 import BookTagList from "./BookTagList";
 import ImageUploader from "./ImageUploader";
-import { isLoading } from "../selectors/bookSelectors";
+import { isLoading } from "../selectors/utilSelectors";
 
 class BookForm extends PureComponent {
   state = {

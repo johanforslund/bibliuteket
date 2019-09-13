@@ -3,7 +3,7 @@ import { Text, View } from "react-native";
 import { Input, Button, CheckBox } from "react-native-elements";
 import { connect } from "react-redux";
 import { userUpdate, registerUser } from "../actions";
-import { isLoading } from "../selectors/bookSelectors";
+import { isLoading } from "../selectors/utilSelectors";
 
 class RegisterScreen extends Component {
   onRegisterPress() {
