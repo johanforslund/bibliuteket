@@ -5,7 +5,8 @@ import {
   Text,
   Image,
   Linking,
-  TouchableOpacity
+  TouchableOpacity,
+  Platform
 } from "react-native";
 import Toast from "react-native-root-toast";
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -67,13 +68,17 @@ class BookScreen extends Component {
     );
     const { currentUser } = firebase.auth();
 
-    if (currentUser && currentUser.uid !== user) {
+    if (!currentUser || (currentUser && currentUser.uid !== user)) {
       if (messengerName.trim() != "") {
         return (
           <TouchableOpacity
             style={styles.messengerStyle}
             onPress={() => {
-              Linking.openURL("https://m.me/" + messengerName);
+              if (firebase.auth().currentUser) {
+                Linking.openURL("https://m.me/" + messengerName);
+              } else {
+                this.props.navigation.navigate("Login");
+              }
             }}
           >
             <Image
@@ -84,28 +89,58 @@ class BookScreen extends Component {
                 width: 20
               }}
             />
-            <Text style={styles.infoStyle}>Kontakta {name}</Text>
+            <Text style={styles.infoStyle}>Kontakta {name.split(" ")[0]}</Text>
           </TouchableOpacity>
         );
       }
     }
   }
 
-  renderPhoneNumber() {
-    const { phone } = this.props.navigation.getParam("book");
+  renderPhoneButton() {
+    const { phone, name, title, user } = this.props.navigation.getParam("book");
+    const { currentUser } = firebase.auth();
 
-    if (phone.trim() != "") {
-      return (
-        <View style={{ flexDirection: "row", marginBottom: 3 }}>
-          <Icon
-            name="phone"
-            size={20}
-            color="#373737"
-            style={styles.iconStyle}
-          />
-          <Text style={styles.infoStyle}>{phone}</Text>
-        </View>
-      );
+    if (!currentUser || (currentUser && currentUser.uid !== user)) {
+      if (phone.trim() != "") {
+        return (
+          <TouchableOpacity
+            style={styles.messengerStyle}
+            onPress={() => {
+              if (firebase.auth().currentUser) {
+                if (Platform === "ios") {
+                  Linking.openURL(
+                    "sms:" +
+                      phone +
+                      "&body=" +
+                      "Hej! Jag är intresserad av att köpa " +
+                      title +
+                      "."
+                  ).catch(error => console.log(error));
+                } else {
+                  Linking.openURL(
+                    "sms:" +
+                      phone +
+                      "?body=" +
+                      "Hej! Jag är intresserad av att köpa " +
+                      title +
+                      "."
+                  ).catch(error => console.log(error));
+                }
+              } else {
+                this.props.navigation.navigate("Login");
+              }
+            }}
+          >
+            <Icon
+              name="phone"
+              size={20}
+              color="#373737"
+              style={styles.iconStyle}
+            />
+            <Text style={styles.infoStyle}>Sms:a {name.split(" ")[0]}</Text>
+          </TouchableOpacity>
+        );
+      }
     }
   }
 
@@ -113,7 +148,6 @@ class BookScreen extends Component {
     const {
       author,
       date,
-      email,
       name,
       imageURL,
       price,
@@ -122,7 +156,7 @@ class BookScreen extends Component {
     const formattedDate = moment(date).fromNow();
 
     return (
-      <ScrollView>
+      <ScrollView style={{ backgroundColor: "#CFE3E9" }}>
         <Card>
           <Image style={styles.imageStyle} source={{ uri: imageURL }} />
           <CardSection>
@@ -170,18 +204,15 @@ class BookScreen extends Component {
               />
               <Text style={styles.infoStyle}>{name}</Text>
             </View>
-            <View style={{ flexDirection: "row", marginBottom: 3 }}>
-              <Icon
-                name="email"
-                size={20}
-                color="#373737"
-                style={styles.iconStyle}
-              />
-              <Text style={styles.infoStyle}>{email}</Text>
-            </View>
-            {this.renderPhoneNumber()}
           </CardSection>
-          <CardSection>{this.renderMessengerButton()}</CardSection>
+          <CardSection>
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-around" }}
+            >
+              {this.renderMessengerButton()}
+              {this.renderPhoneButton()}
+            </View>
+          </CardSection>
           <CardSection>{this.renderDeleteButton()}</CardSection>
         </Card>
       </ScrollView>
@@ -243,7 +274,8 @@ const styles = {
     flexDirection: "row",
     borderRadius: 10,
     padding: 8,
-    marginTop: 5
+    marginTop: 5,
+    width: "40%"
   }
 };
 
