@@ -10,40 +10,29 @@ import ImageUploader from "./ImageUploader";
 import { isLoading } from "../selectors/utilSelectors";
 import { changeMessengerName, changePhone } from "../actions/SettingsActions";
 
-let initialState;
-
 class BookForm extends PureComponent {
-  state = initialState;
-
-  constructor(props) {
-    super(props);
-    initialState = {
-      author: "",
-      description: "",
-      location: "",
-      phone: this.props.phone,
-      price: "",
-      name: "",
-      title: "",
-      imageURL: null,
-      messengerName: this.props.messengerName,
-      touched: {
-        title: false,
-        author: false,
-        price: false,
-        messengerName: false,
-        phone: false
-      },
-      tags: []
-    };
-    this.state = initialState;
-  }
+  state = {
+    author: "",
+    description: "",
+    location: "",
+    phone: this.props.phone,
+    price: "",
+    name: "",
+    title: "",
+    imageURL: null,
+    messengerName: this.props.messengerName,
+    touched: {
+      title: false,
+      author: false,
+      price: false,
+      messengerName: false,
+      phone: false
+    },
+    tags: []
+  };
 
   validate = () => {
     const reg = new RegExp("^[0-9]+$");
-    const phoneReg = new RegExp(
-      "/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-s./0-9]*$/g"
-    );
     return {
       title: this.state.title.length === 0,
       author: this.state.author.length === 0,
@@ -86,7 +75,23 @@ class BookForm extends PureComponent {
       tags
     });
 
-    this.setState(initialState);
+    this.setState({
+      author: "",
+      description: "",
+      location: "",
+      price: "",
+      name: "",
+      title: "",
+      imageURL: null,
+      touched: {
+        title: false,
+        author: false,
+        price: false,
+        messengerName: false,
+        phone: false
+      },
+      tags: []
+    });
   }
 
   setImageURL = url => {
