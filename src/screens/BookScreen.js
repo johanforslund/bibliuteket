@@ -9,6 +9,7 @@ import {
   Platform
 } from "react-native";
 import Toast from "react-native-root-toast";
+import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import moment from "moment";
 import firebase from "@firebase/app"; //eslint-disable-line
@@ -25,24 +26,63 @@ import { isLoading } from "../selectors/utilSelectors";
 const messengerLogo = require("../images/messenger_logo.png");
 
 class BookScreen extends Component {
+  state = {
+    isModalVisible: false
+  };
   renderDeleteButton() {
     const { currentUser } = firebase.auth();
     const { uid, user, imageURL } = this.props.navigation.getParam("book");
     if (currentUser && currentUser.uid === user) {
       return (
-        <Button
-          raised
-          buttonStyle={{ backgroundColor: "#F44336" }}
-          textStyle={{ textAlign: "center" }}
-          backgroundColor="red"
-          title={"Ta bort"}
-          loading={this.props.loading}
-          onPress={() => {
-            this.props.bookDelete(uid, imageURL);
-            NavigationService.navigate("BookList");
-            Toast.show("Din bok har tagits bort");
-          }}
-        />
+        <View>
+          <Button
+            raised
+            buttonStyle={{ backgroundColor: "#F44336" }}
+            textStyle={{ textAlign: "center" }}
+            backgroundColor="red"
+            title={"Ta bort"}
+            loading={this.props.loading}
+            onPress={() => {
+              this.setState({
+                isModalVisible: !this.state.isModalVisible
+              });
+            }}
+          />
+          <Modal
+            useNativeDriver={true}
+            animationIn="slideInUp"
+            animationOut="slideOutDown"
+            isVisible={this.state.isModalVisible}
+            onBackdropPress={() =>
+              this.setState({
+                isModalVisible: !this.state.isModalVisible
+              })
+            }
+          >
+            <View style={styles.modalContainerStyle}>
+              <Text style={styles.titleStyle}>Är du säker?</Text>
+
+              <Button
+                title="Ja, ta bort min bok"
+                onPress={() => {
+                  this.props.bookDelete(uid, imageURL);
+                  NavigationService.navigate("BookList");
+                  Toast.show("Din bok har tagits bort");
+                }}
+                buttonStyle={{ backgroundColor: "red" }}
+              />
+              <Button
+                title="Avbryt"
+                onPress={() =>
+                  this.setState({
+                    isModalVisible: !this.state.isModalVisible
+                  })
+                }
+                type="clear"
+              />
+            </View>
+          </Modal>
+        </View>
       );
     }
   }
@@ -276,6 +316,21 @@ const styles = {
     padding: 8,
     marginTop: 5,
     width: "40%"
+  },
+  titleStyle: {
+    color: "black",
+    fontSize: 20,
+    marginBottom: 20,
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalContainerStyle: {
+    backgroundColor: "white",
+    padding: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 20,
+    borderColor: "rgba(0, 0, 0, 0.1)"
   }
 };
 
