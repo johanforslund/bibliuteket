@@ -4,7 +4,13 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 
 const BookTag = props => {
   return (
-    <TouchableOpacity style={styles.containerStyle}>
+    <TouchableOpacity
+      style={styles.containerStyle}
+      onPress={() => {
+        console.log("index: " + props.tagIndex);
+        props.removeTag(props.tagIndex);
+      }}
+    >
       <Text style={styles.textStyle}>#{props.name}</Text>
       <Icon color="#a5a5a5" name="close" size={12} style={{ marginLeft: 2 }} />
     </TouchableOpacity>
