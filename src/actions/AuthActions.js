@@ -10,7 +10,9 @@ import {
   REGISTER_USER_SUCCESS,
   REGISTER_USER_FAIL,
   REGISTER_USER_REQUEST,
-  DELETE_USER
+  DELETE_USER_REQUEST,
+  DELETE_USER_SUCCESS,
+  DELETE_USER_FAIL
 } from "./types";
 
 export const userUpdate = ({ prop, value }) => {
@@ -59,15 +61,15 @@ export const registerUser = ({ name, liuid, password }) => {
 };
 export const deleteUser = () => {
   return dispatch => {
-    dispatch({ type: DELETE_USER });
+    dispatch({ type: DELETE_USER_REQUEST });
     firebase
       .auth()
       .currentUser.delete()
-      .then(() => Toast.show("Ditt konto har tagits bort"))
-
-      .catch(error => {
-        console.log(error);
-      });
+      .then(() => {
+        deleteUserSuccess(dispatch);
+        Toast.show("Ditt konto har tagits bort");
+      })
+      .catch(error => deleteUserFail(error.message, dispatch));
   };
 };
 
@@ -94,5 +96,18 @@ const registerUserFail = (error, dispatch) => {
 const registerUserSuccess = dispatch => {
   dispatch({
     type: REGISTER_USER_SUCCESS
+  });
+};
+
+const deleteUserFail = (error, dispatch) => {
+  dispatch({
+    type: DELETE_USER_FAIL,
+    payload: error
+  });
+};
+
+const deleteUserSuccess = dispatch => {
+  dispatch({
+    type: DELETE_USER_SUCCESS
   });
 };

@@ -27,8 +27,58 @@ const messengerLogo = require("../images/messenger_logo.png");
 
 class BookScreen extends Component {
   state = {
-    isModalVisible: false
+    isModalVisible: false,
+    emailVerified: false,
+    intervalId: -1
   };
+
+  componentDidMount() {
+    if (
+      firebase.auth().currentUser &&
+      !firebase.auth().currentUser.emailVerified
+    ) {
+      this.setState({ intervalId: setInterval(this.retryEmail, 10000) });
+    }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.intervalId);
+  }
+
+  retryEmail = () => {
+    firebase
+      .auth()
+      .currentUser.reload()
+      .then(() => {
+        if (firebase.auth().currentUser.emailVerified) {
+          this.setState({ emailVerified: true });
+          clearInterval(this.state.intervalId);
+        }
+      });
+  };
+
+  sendSMS = (phone, title) => {
+    if (Platform === "ios") {
+      Linking.openURL(
+        "sms:" +
+          phone +
+          "&body=" +
+          "Hej! Jag är intresserad av att köpa " +
+          title +
+          "."
+      ).catch(error => console.log(error));
+    } else {
+      Linking.openURL(
+        "sms:" +
+          phone +
+          "?body=" +
+          "Hej! Jag är intresserad av att köpa " +
+          title +
+          "."
+      ).catch(error => console.log(error));
+    }
+  };
+
   renderDeleteButton() {
     const { currentUser } = firebase.auth();
     const { uid, user, imageURL } = this.props.navigation.getParam("book");
@@ -114,8 +164,16 @@ class BookScreen extends Component {
           <TouchableOpacity
             style={styles.messengerStyle}
             onPress={() => {
-              if (firebase.auth().currentUser) {
+              if (
+                firebase.auth().currentUser &&
+                firebase.auth().currentUser.emailVerified
+              ) {
                 Linking.openURL("https://m.me/" + messengerName);
+              } else if (firebase.auth().currentUser) {
+                this.retryEmail();
+                if (firebase.auth().currentUser.emailVerified) {
+                  Linking.openURL("https://m.me/" + messengerName);
+                } else Toast.show("Du måste vara verifierad för detta");
               } else {
                 this.props.navigation.navigate("Login");
               }
@@ -146,26 +204,16 @@ class BookScreen extends Component {
           <TouchableOpacity
             style={styles.messengerStyle}
             onPress={() => {
-              if (firebase.auth().currentUser) {
-                if (Platform === "ios") {
-                  Linking.openURL(
-                    "sms:" +
-                      phone +
-                      "&body=" +
-                      "Hej! Jag är intresserad av att köpa " +
-                      title +
-                      "."
-                  ).catch(error => console.log(error));
-                } else {
-                  Linking.openURL(
-                    "sms:" +
-                      phone +
-                      "?body=" +
-                      "Hej! Jag är intresserad av att köpa " +
-                      title +
-                      "."
-                  ).catch(error => console.log(error));
-                }
+              if (
+                firebase.auth().currentUser &&
+                firebase.auth().currentUser.emailVerified
+              ) {
+                this.sendSMS(phone, title);
+              } else if (firebase.auth().currentUser) {
+                this.retryEmail();
+                if (firebase.auth().currentUser.emailVerified) {
+                  this.sendSMS(phone, title);
+                } else Toast.show("Du måste vara verifierad för detta");
               } else {
                 this.props.navigation.navigate("Login");
               }
