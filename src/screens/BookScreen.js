@@ -9,6 +9,7 @@ import {
   Platform
 } from "react-native";
 import Toast from "react-native-root-toast";
+import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import moment from "moment";
 import firebase from "@firebase/app"; //eslint-disable-line
@@ -25,24 +26,113 @@ import { isLoading } from "../selectors/utilSelectors";
 const messengerLogo = require("../images/messenger_logo.png");
 
 class BookScreen extends Component {
+  state = {
+    isModalVisible: false,
+    emailVerified: false,
+    intervalId: -1
+  };
+
+  componentDidMount() {
+    if (
+      firebase.auth().currentUser &&
+      !firebase.auth().currentUser.emailVerified
+    ) {
+      this.setState({ intervalId: setInterval(this.retryEmail, 10000) });
+    }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.intervalId);
+  }
+
+  retryEmail = () => {
+    firebase
+      .auth()
+      .currentUser.reload()
+      .then(() => {
+        if (firebase.auth().currentUser.emailVerified) {
+          this.setState({ emailVerified: true });
+          clearInterval(this.state.intervalId);
+        }
+      });
+  };
+
+  sendSMS = (phone, title) => {
+    if (Platform === "ios") {
+      Linking.openURL(
+        "sms:" +
+          phone +
+          "&body=" +
+          "Hej! Jag är intresserad av att köpa " +
+          title +
+          "."
+      ).catch(error => console.log(error));
+    } else {
+      Linking.openURL(
+        "sms:" +
+          phone +
+          "?body=" +
+          "Hej! Jag är intresserad av att köpa " +
+          title +
+          "."
+      ).catch(error => console.log(error));
+    }
+  };
+
   renderDeleteButton() {
     const { currentUser } = firebase.auth();
     const { uid, user, imageURL } = this.props.navigation.getParam("book");
     if (currentUser && currentUser.uid === user) {
       return (
-        <Button
-          raised
-          buttonStyle={{ backgroundColor: "#F44336" }}
-          textStyle={{ textAlign: "center" }}
-          backgroundColor="red"
-          title={"Ta bort"}
-          loading={this.props.loading}
-          onPress={() => {
-            this.props.bookDelete(uid, imageURL);
-            NavigationService.navigate("BookList");
-            Toast.show("Din bok har tagits bort");
-          }}
-        />
+        <View>
+          <Button
+            raised
+            buttonStyle={{ backgroundColor: "#F44336" }}
+            textStyle={{ textAlign: "center" }}
+            backgroundColor="red"
+            title={"Ta bort"}
+            loading={this.props.loading}
+            onPress={() => {
+              this.setState({
+                isModalVisible: !this.state.isModalVisible
+              });
+            }}
+          />
+          <Modal
+            useNativeDriver={true}
+            animationIn="slideInUp"
+            animationOut="slideOutDown"
+            isVisible={this.state.isModalVisible}
+            onBackdropPress={() =>
+              this.setState({
+                isModalVisible: !this.state.isModalVisible
+              })
+            }
+          >
+            <View style={styles.modalContainerStyle}>
+              <Text style={styles.titleStyle}>Är du säker?</Text>
+
+              <Button
+                title="Ja, ta bort min bok"
+                onPress={() => {
+                  this.props.bookDelete(uid, imageURL);
+                  NavigationService.navigate("BookList");
+                  Toast.show("Din bok har tagits bort");
+                }}
+                buttonStyle={{ backgroundColor: "red" }}
+              />
+              <Button
+                title="Avbryt"
+                onPress={() =>
+                  this.setState({
+                    isModalVisible: !this.state.isModalVisible
+                  })
+                }
+                type="clear"
+              />
+            </View>
+          </Modal>
+        </View>
       );
     }
   }
@@ -74,8 +164,16 @@ class BookScreen extends Component {
           <TouchableOpacity
             style={styles.messengerStyle}
             onPress={() => {
-              if (firebase.auth().currentUser) {
+              if (
+                firebase.auth().currentUser &&
+                firebase.auth().currentUser.emailVerified
+              ) {
                 Linking.openURL("https://m.me/" + messengerName);
+              } else if (firebase.auth().currentUser) {
+                this.retryEmail();
+                if (firebase.auth().currentUser.emailVerified) {
+                  Linking.openURL("https://m.me/" + messengerName);
+                } else Toast.show("Du måste vara verifierad för detta");
               } else {
                 this.props.navigation.navigate("Login");
               }
@@ -106,26 +204,16 @@ class BookScreen extends Component {
           <TouchableOpacity
             style={styles.messengerStyle}
             onPress={() => {
-              if (firebase.auth().currentUser) {
-                if (Platform === "ios") {
-                  Linking.openURL(
-                    "sms:" +
-                      phone +
-                      "&body=" +
-                      "Hej! Jag är intresserad av att köpa " +
-                      title +
-                      "."
-                  ).catch(error => console.log(error));
-                } else {
-                  Linking.openURL(
-                    "sms:" +
-                      phone +
-                      "?body=" +
-                      "Hej! Jag är intresserad av att köpa " +
-                      title +
-                      "."
-                  ).catch(error => console.log(error));
-                }
+              if (
+                firebase.auth().currentUser &&
+                firebase.auth().currentUser.emailVerified
+              ) {
+                this.sendSMS(phone, title);
+              } else if (firebase.auth().currentUser) {
+                this.retryEmail();
+                if (firebase.auth().currentUser.emailVerified) {
+                  this.sendSMS(phone, title);
+                } else Toast.show("Du måste vara verifierad för detta");
               } else {
                 this.props.navigation.navigate("Login");
               }
@@ -276,6 +364,21 @@ const styles = {
     padding: 8,
     marginTop: 5,
     width: "40%"
+  },
+  titleStyle: {
+    color: "black",
+    fontSize: 20,
+    marginBottom: 20,
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalContainerStyle: {
+    backgroundColor: "white",
+    padding: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 20,
+    borderColor: "rgba(0, 0, 0, 0.1)"
   }
 };
 

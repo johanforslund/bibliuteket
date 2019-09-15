@@ -1,12 +1,19 @@
 import React, { Component } from "react";
 import { ListItem, Input, Button } from "react-native-elements";
-import { View, Text, TouchableOpacity, Alert } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Alert,
+  ActivityIndicator
+} from "react-native";
 import Modal from "react-native-modal";
 import firebase from "@firebase/app"; //eslint-disable-line
 import "@firebase/auth"; //eslint-disable-line
 import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { deleteUser, bookDelete } from "../actions";
+import { isLoading } from "../selectors/utilSelectors";
 
 class RemoveAccount extends Component {
   state = {
@@ -73,6 +80,7 @@ class RemoveAccount extends Component {
 
             <Button
               title="Ta bort konto"
+              loading={this.props.loading}
               onPress={() => {
                 var credentials = firebase.auth.EmailAuthProvider.credential(
                   this.state.liuId + "@student.liu.se",
@@ -96,7 +104,7 @@ class RemoveAccount extends Component {
                   .catch(error => {
                     console.log(error);
                     Alert.alert(
-                      "Uppgifter stämmer inte",
+                      "Uppgifterna stämmer inte",
                       "Ange korrekt uppgifter för att ta bort konto",
                       [
                         {
@@ -125,8 +133,9 @@ class RemoveAccount extends Component {
 }
 
 const mapStateToProps = state => {
+  const loading = isLoading(["DELETE_USER"], state);
   const { profileBooks } = state.profile;
-  return { profileBooks };
+  return { profileBooks, loading };
 };
 
 const styles = {
@@ -155,7 +164,8 @@ const styles = {
   },
   buttonStyle: {
     backgroundColor: "red",
-    marginTop: 40
+    marginTop: 40,
+    width: 150
   }
 };
 

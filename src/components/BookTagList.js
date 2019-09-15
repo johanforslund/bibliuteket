@@ -45,8 +45,14 @@ class BookTagList extends Component {
           value={this.state.tagName}
           onChangeText={value => this.setState({ tagName: value })}
         />
-        {this.props.tags.map(tag => {
-          return <BookTag name={tag}></BookTag>;
+        {this.props.tags.map((tag, i) => {
+          return (
+            <BookTag
+              removeTag={this.props.removeTag}
+              tagIndex={i}
+              name={tag}
+            ></BookTag>
+          );
         })}
       </View>
     );

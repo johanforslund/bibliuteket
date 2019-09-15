@@ -129,6 +129,12 @@ class BookForm extends PureComponent {
     this.setState({ tags: [...this.state.tags, tag] });
   };
 
+  removeTag = tagIndex => {
+    this.setState({
+      tags: this.state.tags.filter((tag, index) => tagIndex !== index)
+    });
+  };
+
   render() {
     const errors = this.validate();
     const shouldMarkError = field => {
@@ -238,7 +244,11 @@ class BookForm extends PureComponent {
             />
           </CardSection>
           <CardSection>
-            <BookTagList setTag={this.setTag} tags={this.state.tags} />
+            <BookTagList
+              removeTag={this.removeTag}
+              setTag={this.setTag}
+              tags={this.state.tags}
+            />
           </CardSection>
         </Card>
         <Card>
