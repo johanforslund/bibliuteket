@@ -134,9 +134,8 @@ class RemoveAccount extends Component {
 
 const mapStateToProps = state => {
   const loading = isLoading(["DELETE_USER"], state);
-  const { user } = state.auth;
   const { profileBooks } = state.profile;
-  return { user, profileBooks, loading };
+  return { profileBooks, loading };
 };
 
 const styles = {

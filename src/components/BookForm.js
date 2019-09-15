@@ -31,6 +31,16 @@ class BookForm extends PureComponent {
     tags: []
   };
 
+  constructor(props) {
+    super(props);
+
+    const { storedBook } = this.props;
+    if (storedBook) {
+      this.state.author = storedBook.author;
+      this.state.title = storedBook.title;
+    }
+  }
+
   validate = () => {
     const reg = new RegExp("^[0-9]+$");
     return {
@@ -61,6 +71,19 @@ class BookForm extends PureComponent {
     if (messengerName !== "") this.props.changeMessengerName(messengerName);
     if (phone !== "") this.props.changePhone(phone);
 
+    let programs = [];
+    let courses = [];
+    let isbn = "";
+    let storedBookID = "-1";
+
+    const { storedBook } = this.props;
+    if (storedBook) {
+      programs = storedBook.program;
+      courses = storedBook.course;
+      isbn = storedBook.isbn;
+      storedBookID = storedBook.objectID;
+    }
+
     this.props.bookCreate({
       author,
       date,
@@ -72,7 +95,11 @@ class BookForm extends PureComponent {
       title,
       imageURL,
       messengerName,
-      tags
+      tags,
+      programs,
+      courses,
+      isbn,
+      storedBookID
     });
 
     this.setState({
@@ -141,7 +168,6 @@ class BookForm extends PureComponent {
                 shouldMarkError("title") ? "Obligatoriskt fält" : ""
               }
               inputStyle={styles.inputStyle}
-              maxLength={35}
               onSubmitEditing={() => {
                 this.refs.Author.focus();
               }}
@@ -165,7 +191,6 @@ class BookForm extends PureComponent {
                 shouldMarkError("author") ? "Obligatoriskt fält" : ""
               }
               inputStyle={styles.inputStyle}
-              maxLength={35}
               onSubmitEditing={() => {
                 this.refs.Price.focus();
               }}
@@ -176,6 +201,7 @@ class BookForm extends PureComponent {
                   touched: { ...this.state.touched, author: true }
                 })
               }
+              disabled={this.props.storedBook}
             />
           </CardSection>
 

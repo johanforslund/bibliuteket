@@ -58,7 +58,11 @@ export const bookCreate = ({
   price,
   title,
   messengerName,
-  tags
+  tags,
+  programs,
+  courses,
+  isbn,
+  storedBookID
 }) => {
   price ? (price = parseInt(price)) : null;
   const { currentUser } = firebase.auth();
@@ -81,7 +85,11 @@ export const bookCreate = ({
         name,
         title,
         messengerName,
-        tags
+        tags,
+        programs,
+        courses,
+        isbn,
+        storedBookID
       })
       .then(() => {
         dispatch({ type: BOOK_CREATE_SUCCESS });

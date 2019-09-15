@@ -13,6 +13,7 @@ import ForgotPWScreen from "../screens/ForgotPWScreen";
 import TermsScreen from "../screens/TermsScreen";
 import AuthLoadingScreen from "../screens/AuthLoadingScreen";
 import SettingsScreen from "../screens/SettingsScreen";
+import SearchBookScreen from "../screens/SearchBookScreen";
 
 const BookListStack = createStackNavigator({
   BookList: {
@@ -39,12 +40,21 @@ BookListStack.navigationOptions = {
 };
 
 const AddBookStack = createStackNavigator({
+  SearchBook: {
+    screen: SearchBookScreen,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: "#29749D"
+      }
+    }
+  },
   AddBook: {
     screen: AddBookScreen,
     navigationOptions: {
       headerStyle: {
         backgroundColor: "#29749D"
-      }
+      },
+      headerTintColor: "white"
     }
   }
 });

@@ -87,11 +87,9 @@ const mapStateToProps = state => {
 
   const { sorting } = state.books;
 
-  const { user } = state.auth;
-
   const loading = isLoading(["BOOKS_FETCH"], state);
 
-  return { sorting, books, user, loading };
+  return { sorting, books, loading };
 };
 
 export default connect(
