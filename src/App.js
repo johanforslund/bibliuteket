@@ -27,7 +27,10 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    firebase.initializeApp(keys.firebaseConfig);
+    if (!firebase.apps.length) {
+      firebase.initializeApp(keys.firebaseConfig);
+    }
+
     console.disableYellowBox = true;
   }
 

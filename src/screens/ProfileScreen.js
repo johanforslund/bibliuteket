@@ -1,15 +1,23 @@
 import React, { Component } from "react";
-import { ListItem, Icon } from "react-native-elements";
+import { ListItem, Icon, Button, Input } from "react-native-elements";
 import { View, ScrollView, Text, TouchableOpacity, Image } from "react-native";
+import Modal from "react-native-modal";
 import firebase from "@firebase/app"; //eslint-disable-line
 import "@firebase/auth"; //eslint-disable-line
 import { connect } from "react-redux";
+import VectorIcon from "react-native-vector-icons/MaterialIcons";
 import moment from "moment";
 import Card from "../components/Card";
 import CardSection from "../components/CardSection";
-import { profileBooksFetch } from "../actions";
+
+import { profileBooksFetch, updateUserDetails } from "../actions";
 
 class ProfileScreen extends Component {
+  state = {
+    isModalVisible: false,
+    name: firebase.auth().currentUser.displayName
+  };
+
   componentDidMount() {
     this.props.profileBooksFetch();
   }
@@ -77,12 +85,68 @@ class ProfileScreen extends Component {
       <View>
         <View style={styles.makeRow}>
           <Text style={{ fontSize: 15 }}>
-            {firebase.auth().currentUser.email}
+            {this.state.name || firebase.auth().currentUser.displayName}
           </Text>
+          <TouchableOpacity
+            onPress={() => {
+              this.setState({
+                isModalVisible: !this.state.isModalVisible
+              });
+            }}
+          >
+            <VectorIcon
+              name="edit"
+              size={15}
+              color="#373737"
+              style={{ marginHorizontal: 5 }}
+            />
+          </TouchableOpacity>
+          <Modal
+            useNativeDriver={true}
+            animationIn="slideInDown"
+            animationOut="slideOutUp"
+            isVisible={this.state.isModalVisible}
+            onBackdropPress={() =>
+              this.setState({
+                isModalVisible: !this.state.isModalVisible
+              })
+            }
+          >
+            <View style={styles.modalContainerStyle}>
+              <Text style={styles.titleStyle}>Ändra profilnamn</Text>
+              <Input
+                leftIcon={<Icon color="#a5a5a5" name="person" size={20} />}
+                value={this.state.name}
+                onChangeText={value => this.setState({ name: value })}
+                returnKeyType="next"
+              />
+
+              <Button
+                buttonStyle={{ marginTop: 20 }}
+                title="Ändra profilnamn"
+                onPress={() => {
+                  this.setState({
+                    isModalVisible: !this.state.isModalVisible
+                  });
+                  this.props.updateUserDetails(this.state.name);
+                }}
+              />
+              <Button
+                title="Avbryt"
+                onPress={() => {
+                  this.setState({
+                    name: firebase.auth().currentUser.displayName,
+                    isModalVisible: !this.state.isModalVisible
+                  });
+                }}
+                type="clear"
+              />
+            </View>
+          </Modal>
         </View>
         <View style={styles.makeRow}>
           <Text style={{ fontSize: 15 }}>
-            {firebase.auth().currentUser.displayName}
+            {firebase.auth().currentUser.email}
           </Text>
         </View>
       </View>
@@ -192,11 +256,28 @@ const styles = {
     width: 60
   },
   makeRow: {
-    margin: 2
+    margin: 2,
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  titleStyle: {
+    color: "black",
+    fontSize: 20,
+    marginBottom: 20,
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalContainerStyle: {
+    backgroundColor: "white",
+    padding: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 20,
+    borderColor: "rgba(0, 0, 0, 0.1)"
   }
 };
 
 export default connect(
   mapStateToProps,
-  { profileBooksFetch }
+  { profileBooksFetch, updateUserDetails }
 )(ProfileScreen);

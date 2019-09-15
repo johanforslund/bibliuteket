@@ -12,7 +12,10 @@ import {
   REGISTER_USER_REQUEST,
   DELETE_USER_REQUEST,
   DELETE_USER_SUCCESS,
-  DELETE_USER_FAIL
+  DELETE_USER_FAIL,
+  UPDATE_USER_DETAILS_REQUEST,
+  UPDATE_USER_DETAILS_SUCCESS,
+  UPDATE_USER_DETAILS_FAIL
 } from "./types";
 
 export const userUpdate = ({ prop, value }) => {
@@ -59,6 +62,22 @@ export const registerUser = ({ name, liuid, password }) => {
       .catch(error => registerUserFail(error.message, dispatch));
   };
 };
+
+export const updateUserDetails = name => {
+  return dispatch => {
+    dispatch({ type: UPDATE_USER_DETAILS_REQUEST });
+    firebase
+      .auth()
+      .currentUser.updateProfile({
+        displayName: name
+      })
+      .then(() => {
+        updateUserDetailsSuccess(dispatch);
+      })
+      .catch(error => updateUserDetailsFail(error.message, dispatch));
+  };
+};
+
 export const deleteUser = () => {
   return dispatch => {
     dispatch({ type: DELETE_USER_REQUEST });
@@ -96,6 +115,19 @@ const registerUserFail = (error, dispatch) => {
 const registerUserSuccess = dispatch => {
   dispatch({
     type: REGISTER_USER_SUCCESS
+  });
+};
+
+const updateUserDetailsFail = (error, dispatch) => {
+  dispatch({
+    type: UPDATE_USER_DETAILS_FAIL,
+    payload: error
+  });
+};
+
+const updateUserDetailsSuccess = dispatch => {
+  dispatch({
+    type: UPDATE_USER_DETAILS_SUCCESS
   });
 };
 
