@@ -89,7 +89,7 @@ const mapStateToProps = state => {
 
   const { user } = state.auth;
 
-  const loading = isLoading(["BOOKS_FETCH"], state); // Not request?
+  const loading = isLoading(["BOOKS_FETCH"], state);
 
   return { sorting, books, user, loading };
 };

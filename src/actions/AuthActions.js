@@ -65,9 +65,9 @@ export const deleteUser = () => {
     firebase
       .auth()
       .currentUser.delete()
-      .then(() => Toast.show("Ditt konto har tagits bort"))
       .then(() => {
         deleteUserSuccess(dispatch);
+        Toast.show("Ditt konto har tagits bort");
       })
       .catch(error => deleteUserFail(error.message, dispatch));
   };
