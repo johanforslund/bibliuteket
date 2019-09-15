@@ -22,7 +22,8 @@ const keys = require("../config/keys");
 class SearchBookScreen extends Component {
   state = {
     emailVerified: false,
-    intervalId: -1
+    intervalId: -1,
+    searchText: ""
   };
 
   componentDidMount() {
@@ -74,16 +75,11 @@ class SearchBookScreen extends Component {
           apiKey={keys.algoliaConfig.apiKey}
           indexName={keys.algoliaConfig.indexName}
         >
-          <ConnectedSearchBox />
-          <ConnectedHits />
-        </InstantSearch>
-        <CardSection>
-          <Button
-            title="Jag hittar inte boken"
-            raised
-            onPress={() => this.props.navigation.navigate("AddBook")}
+          <ConnectedSearchBox
+            changeText={text => this.setState({ searchText: text })}
           />
-        </CardSection>
+          <ConnectedHits searchText={this.state.searchText} />
+        </InstantSearch>
       </View>
     );
   }
@@ -95,10 +91,13 @@ class SearchBox extends Component {
       <Card>
         <CardSection>
           <Input
-            onChangeText={text => this.props.refine(text)}
+            onChangeText={text => {
+              this.props.changeText(text);
+              this.props.refine(text);
+            }}
             value={this.props.currentRefinement}
-            label={"Search a book"}
-            placeholder="Title, author, course code, program..."
+            label={"Välj bok"}
+            placeholder="Titel, författare, kurskod, program..."
           />
         </CardSection>
       </Card>
@@ -127,13 +126,37 @@ class Hits extends Component {
     return item.objectID;
   };
 
+  renderListFooter = () => {
+    return (
+      <CardSection>
+        <Button
+          title="Jag hittar inte boken"
+          raised
+          onPress={() => this.props.navigation.navigate("AddBook")}
+        />
+      </CardSection>
+    );
+  };
+
   render() {
+    if (this.props.searchText.length < 2)
+      return (
+        <Card style={{ marginTop: 20 }}>
+          <CardSection>
+            <Text>1. Sök på den bok du vill sälja</Text>
+            <Text>2. Sök på den bok du vill sälja</Text>
+            <Text>3. Sök på den bok du vill sälja</Text>
+          </CardSection>
+        </Card>
+      );
+
     return (
       <FlatList
-        style={{ maxHeight: "70%" }}
+        style={{ marginBottom: 100 }}
         data={this.props.hits}
         renderItem={this.renderHit}
         keyExtractor={this.keyExtractor}
+        ListFooterComponent={this.renderListFooter}
       />
     );
   }
