@@ -7,7 +7,6 @@ const BookTag = props => {
     <TouchableOpacity
       style={styles.containerStyle}
       onPress={() => {
-        console.log("index: " + props.tagIndex);
         props.removeTag(props.tagIndex);
       }}
     >
