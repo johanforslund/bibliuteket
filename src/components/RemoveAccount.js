@@ -125,9 +125,8 @@ class RemoveAccount extends Component {
 }
 
 const mapStateToProps = state => {
-  const { user } = state.auth;
   const { profileBooks } = state.profile;
-  return { user, profileBooks };
+  return { profileBooks };
 };
 
 const styles = {

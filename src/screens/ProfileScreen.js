@@ -142,9 +142,8 @@ class ProfileScreen extends Component {
 
 const mapStateToProps = state => {
   const { profileBooks } = state.profile;
-  const { user } = state.auth;
 
-  return { profileBooks, user };
+  return { profileBooks };
 };
 
 const styles = {
