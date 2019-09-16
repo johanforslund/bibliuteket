@@ -8,8 +8,7 @@ import {
   ActivityIndicator
 } from "react-native";
 import Modal from "react-native-modal";
-import firebase from "@firebase/app"; //eslint-disable-line
-import "@firebase/auth"; //eslint-disable-line
+import firebase from "react-native-firebase"; //eslint-disable-line
 import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { deleteUser, bookDelete } from "../actions";

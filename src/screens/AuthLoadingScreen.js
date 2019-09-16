@@ -1,7 +1,6 @@
 import React from "react";
 import { ActivityIndicator, View } from "react-native";
-import firebase from "@firebase/app"; //eslint-disable-line
-import "@firebase/auth"; //eslint-disable-line
+import firebase from "react-native-firebase"; //eslint-disable-line
 
 class AuthLoadingScreen extends React.Component {
   componentDidMount() {
