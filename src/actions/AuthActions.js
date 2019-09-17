@@ -1,4 +1,5 @@
-import firebase from "react-native-firebase";
+import firebase from "@firebase/app"; //eslint-disable-line
+import "@firebase/auth"; //eslint-disable-line
 import Toast from "react-native-root-toast";
 import {
   FETCH_USER,

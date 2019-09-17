@@ -12,7 +12,8 @@ import {
   connectInfiniteHits
 } from "react-instantsearch/connectors";
 import NavigationService from "../navigation/NavigationService";
-import firebase from "react-native-firebase"; //eslint-disable-line
+import firebase from "@firebase/app"; //eslint-disable-line
+import "@firebase/auth"; //eslint-disable-line
 import { ListItem, Input, Button } from "react-native-elements";
 import CardSection from "../components/CardSection";
 import Card from "../components/Card";

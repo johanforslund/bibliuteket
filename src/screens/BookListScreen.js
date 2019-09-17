@@ -8,7 +8,8 @@ import {
   ActivityIndicator
 } from "react-native";
 import { connect } from "react-redux";
-import firebase from "react-native-firebase"; //eslint-disable-line
+import firebase from "@firebase/app"; //eslint-disable-line
+import "@firebase/auth"; //eslint-disable-line
 import { booksFetch } from "../actions";
 import BookDetail from "../components/BookDetail";
 import SearchBar from "../components/SearchBar";

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "@firebase/auth"; //eslint-disable-line
 import BookForm from "../components/BookForm";
 
 class AddBookScreen extends Component {

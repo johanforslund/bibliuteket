@@ -8,22 +8,36 @@ import {
   ActivityIndicator
 } from "react-native";
 import ImagePicker from "react-native-image-picker";
-import firebase from "react-native-firebase";
+import RNFetchBlob from "rn-fetch-blob";
+import firebase from "firebase";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import CardSection from "./CardSection";
 
 class ImageUploader extends PureComponent {
-  uploadImage(path) {
+  uploadImage(uri, mime = "application/octet-stream") {
     return new Promise((resolve, reject) => {
+      const Blob = RNFetchBlob.polyfill.Blob;
+      const fs = RNFetchBlob.fs;
+      window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
+      window.Blob = Blob;
+      const storage = firebase.storage();
+      const uploadUri =
+        Platform.OS === "ios" ? uri.replace("file://", "") : uri;
       const sessionId = new Date().getTime();
-      const imageRef = firebase
-        .storage()
-        .ref("images")
-        .child(`${sessionId}`);
-      this.props.setImageURL("");
-      imageRef
-        .putFile(path)
+      let uploadBlob = null;
+      const imageRef = storage.ref("images").child(`${sessionId}`);
+
+      fs.readFile(uploadUri, "base64")
+        .then(data => {
+          this.props.setImageURL("");
+          return Blob.build(data, { type: `${mime};BASE64` });
+        })
+        .then(blob => {
+          uploadBlob = blob;
+          return imageRef.put(blob, { contentType: mime });
+        })
         .then(() => {
+          uploadBlob.close();
           return imageRef.getDownloadURL();
         })
         .then(url => {
@@ -45,25 +59,9 @@ class ImageUploader extends PureComponent {
     };
 
     ImagePicker.showImagePicker(options, response => {
-      if (response.didCancel) {
-        console.log("User cancelled image picker");
-      } else if (response.error) {
-        console.log("ImagePicker Error: ", response.error);
-      } else if (response.customButton) {
-        console.log("User tapped custom button: ", response.customButton);
-      } else {
-        let path = "";
-        // Check if this works on iOS
-        if (Platform.OS == "ios") path = response.uri;
-        else {
-          path = response.path;
-        }
-        this.uploadImage(path)
-          .then(url => {
-            this.props.setImageURL(url);
-          })
-          .catch(error => console.log(error));
-      }
+      this.uploadImage(response.uri)
+        .then(url => this.props.setImageURL(url))
+        .catch(error => console.log(error));
     });
   }
 

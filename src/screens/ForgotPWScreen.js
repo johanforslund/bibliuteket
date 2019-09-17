@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Text, View, Alert } from "react-native";
 import { Input, Button } from "react-native-elements";
-import firebase from "react-native-firebase"; //eslint-disable-line
+import firebase from "@firebase/app"; //eslint-disable-line
+import "@firebase/auth"; //eslint-disable-line
 import Toast from "react-native-root-toast";
 
 class ForgotPWScreen extends Component {
