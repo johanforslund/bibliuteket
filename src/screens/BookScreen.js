@@ -12,8 +12,7 @@ import Toast from "react-native-root-toast";
 import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import moment from "moment";
-import firebase from "@firebase/app"; //eslint-disable-line
-import "@firebase/auth"; //eslint-disable-line
+import firebase from "react-native-firebase"; //eslint-disable-line
 import { connect } from "react-redux";
 import { Button } from "react-native-elements";
 import Card from "../components/Card";

@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import { ListItem, Icon, Button, Input } from "react-native-elements";
 import { View, ScrollView, Text, TouchableOpacity, Image } from "react-native";
 import Modal from "react-native-modal";
-import firebase from "@firebase/app"; //eslint-disable-line
-import "@firebase/auth"; //eslint-disable-line
+import firebase from "react-native-firebase";
 import { connect } from "react-redux";
 import VectorIcon from "react-native-vector-icons/MaterialIcons";
 import moment from "moment";

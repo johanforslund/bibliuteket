@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import firebase from "@firebase/app"; //eslint-disable-line
-import "@firebase/auth"; //eslint-disable-line
 import { createStore, applyMiddleware } from "redux";
 import ReduxThunk from "redux-thunk";
 import { Provider } from "react-redux";
@@ -26,10 +24,6 @@ useScreens();
 class App extends Component {
   constructor(props) {
     super(props);
-
-    if (!firebase.apps.length) {
-      firebase.initializeApp(keys.firebaseConfig);
-    }
 
     console.disableYellowBox = true;
   }
