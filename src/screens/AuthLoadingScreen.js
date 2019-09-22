@@ -4,9 +4,21 @@ import firebase from "react-native-firebase"; //eslint-disable-line
 
 class AuthLoadingScreen extends React.Component {
   componentDidMount() {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) this.props.navigation.navigate("App");
-      else this.props.navigation.navigate("Auth");
+    firebase.auth().onAuthStateChanged(async user => {
+      if (user) {
+        this.props.navigation.navigate("App");
+        const fcmToken = await firebase.messaging().getToken();
+
+        firebase
+          .database()
+          .ref(
+            "users/" +
+              firebase.auth().currentUser.uid +
+              "/notificationTokens/" +
+              fcmToken
+          )
+          .set(true);
+      } else this.props.navigation.navigate("Auth");
     });
   }
 
