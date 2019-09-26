@@ -156,6 +156,7 @@ class Hits extends Component {
         renderItem={this.renderHit}
         keyExtractor={this.keyExtractor}
         ListFooterComponent={this.renderListFooter}
+        keyboardShouldPersistTaps="handled"
       />
     );
   }
