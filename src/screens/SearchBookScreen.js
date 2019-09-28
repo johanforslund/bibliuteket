@@ -1,22 +1,10 @@
 import React, { Component } from "react";
-import {
-  View,
-  TouchableOpacity,
-  Text,
-  TextInput,
-  FlatList
-} from "react-native";
-import { InstantSearch } from "react-instantsearch/native";
-import {
-  connectSearchBox,
-  connectInfiniteHits
-} from "react-instantsearch/connectors";
-import NavigationService from "../navigation/NavigationService";
+import { TouchableOpacity, Text } from "react-native";
+
 import firebase from "react-native-firebase"; //eslint-disable-line
-import { ListItem, Input, Button } from "react-native-elements";
 import CardSection from "../components/CardSection";
 import Card from "../components/Card";
-const keys = require("../config/keys");
+import AlgoliaConnect from "../components/AlgoliaConnect";
 
 class SearchBookScreen extends Component {
   state = {
@@ -67,40 +55,7 @@ class SearchBookScreen extends Component {
       );
     }
 
-    return (
-      <View style={{ flex: 1 }}>
-        <InstantSearch
-          appId={keys.algoliaConfig.appId}
-          apiKey={keys.algoliaConfig.apiKey}
-          indexName={keys.algoliaConfig.indexName}
-        >
-          <ConnectedSearchBox
-            changeText={text => this.setState({ searchText: text })}
-          />
-          <ConnectedHits searchText={this.state.searchText} />
-        </InstantSearch>
-      </View>
-    );
-  }
-}
-
-class SearchBox extends Component {
-  render() {
-    return (
-      <Card>
-        <CardSection>
-          <Input
-            onChangeText={text => {
-              this.props.changeText(text);
-              this.props.refine(text);
-            }}
-            value={this.props.currentRefinement}
-            label={"Välj bok"}
-            placeholder="Titel, författare, kurskod, program..."
-          />
-        </CardSection>
-      </Card>
-    );
+    return <AlgoliaConnect purpose="addBook" />;
   }
 }
 

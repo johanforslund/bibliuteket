@@ -14,6 +14,8 @@ import TermsScreen from "../screens/TermsScreen";
 import AuthLoadingScreen from "../screens/AuthLoadingScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import SearchBookScreen from "../screens/SearchBookScreen";
+import MonitorBookScreen from "../screens/MonitorBookScreen";
+import AddMonitorBookScreen from "../screens/AddMonitorBookScreen";
 
 const BookListStack = createStackNavigator({
   BookList: {
@@ -74,6 +76,24 @@ const ProfileStack = createStackNavigator({
   },
   Settings: {
     screen: SettingsScreen,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: "#29749D"
+      },
+      headerTintColor: "white"
+    }
+  },
+  MonitorBook: {
+    screen: MonitorBookScreen,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: "#29749D"
+      },
+      headerTintColor: "white"
+    }
+  },
+  AddMonitorBook: {
+    screen: AddMonitorBookScreen,
     navigationOptions: {
       headerStyle: {
         backgroundColor: "#29749D"
