@@ -14,7 +14,7 @@ export const profileBooksFetch = () => {
         const profileBooks = [];
         snapshot.forEach(child => {
           const childWithUid = { ...child.val(), uid: child.key };
-          profileBooks.push(childWithUid);
+          if (!childWithUid.sold) profileBooks.push(childWithUid);
         });
         profileBooks.reverse();
         dispatch({ type: BOOKS_PROFILE_FETCH_SUCCESS, payload: profileBooks });
