@@ -94,7 +94,8 @@ class RemoveAccount extends Component {
                       this.props.profileBooks.map(profileBook => {
                         this.props.bookDelete(
                           profileBook.uid,
-                          profileBook.imageURL
+                          profileBook.imageURL,
+                          "delete"
                         );
                       });
                     }
