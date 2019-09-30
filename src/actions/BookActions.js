@@ -20,6 +20,8 @@ export const booksFetch = () => {
     firebase
       .database()
       .ref("books")
+      .orderByChild("sold")
+      .equalTo(false)
       .on("value", snapshot => {
         const books = [];
         snapshot.forEach(child => {
@@ -103,7 +105,7 @@ export const bookDelete = (uid, imageURL) => {
     firebase
       .database()
       .ref(`books/${uid}`)
-      .remove()
+      .update({ sold: true })
       .then(() => {
         dispatch({ type: BOOK_DELETE_SUCCESS });
 
