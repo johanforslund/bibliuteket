@@ -154,7 +154,10 @@ class ProfileScreen extends Component {
 
   render() {
     return (
-      <ScrollView style={{ flex: 1, backgroundColor: "#CFE3E9" }}>
+      <ScrollView
+        style={{ flex: 1, backgroundColor: "#CFE3E9" }}
+        keyboardShouldPersistTaps="handled"
+      >
         <Card>
           <CardSection>
             <Text style={styles.textHeader}>Användaruppgifter</Text>
