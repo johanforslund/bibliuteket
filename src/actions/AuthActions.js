@@ -1,8 +1,6 @@
 import firebase from "react-native-firebase";
 import Toast from "react-native-root-toast";
 import {
-  FETCH_USER,
-  USER_UPDATE,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAIL,
   LOGIN_USER_REQUEST,
@@ -17,17 +15,10 @@ import {
   UPDATE_USER_DETAILS_FAIL
 } from "./types";
 
-export const userUpdate = ({ prop, value }) => {
-  return {
-    type: USER_UPDATE,
-    payload: { prop, value }
-  };
-};
-
-export const loginUser = ({ liuid, password }) => {
+export const loginUser = ({ liuId, password }) => {
   return dispatch => {
     dispatch({ type: LOGIN_USER_REQUEST });
-    const email = `${liuid}@student.liu.se`;
+    const email = `${liuId}@student.liu.se`;
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
@@ -36,10 +27,10 @@ export const loginUser = ({ liuid, password }) => {
   };
 };
 
-export const registerUser = ({ name, liuid, password }) => {
+export const registerUser = ({ name, liuId, password }) => {
   return dispatch => {
     dispatch({ type: REGISTER_USER_REQUEST });
-    const email = `${liuid}@student.liu.se`;
+    const email = `${liuId}@student.liu.se`;
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
