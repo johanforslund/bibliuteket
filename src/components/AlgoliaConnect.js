@@ -19,8 +19,7 @@ const keys = require("../config/keys");
 
 class AlgoliaConnect extends Component {
   state = {
-    searchText: "",
-    purpose = "hej"
+    searchText: ""
   };
 
   render() {
@@ -34,7 +33,11 @@ class AlgoliaConnect extends Component {
           <ConnectedSearchBox
             changeText={text => this.setState({ searchText: text })}
           />
-          <ConnectedHits searchText={this.state.searchText} />
+          <ConnectedHits
+            onPressHit={this.props.onPressHit}
+            searchText={this.state.searchText}
+            listFooter={this.props.listFooter}
+          />
         </InstantSearch>
       </View>
     );
@@ -66,19 +69,7 @@ const ConnectedSearchBox = connectSearchBox(SearchBox);
 class Hits extends Component {
   renderHit = ({ item }) => {
     return (
-      <TouchableOpacity
-        onPress={() => {
-          console.log(this.state.purpose)
-          /*
-          if (this.props.purpose === "addBook") {
-            NavigationService.navigate("AddBook", {
-              storedBook: item
-            });
-          } else {
-            console.log(item);
-          }*/
-        }}
-      >
+      <TouchableOpacity onPress={() => this.props.onPressHit(item)}>
         <ListItem title={item.title} subtitle={item.author} bottomDivider />
       </TouchableOpacity>
     );
@@ -88,26 +79,12 @@ class Hits extends Component {
     return item.objectID;
   };
 
-  renderListFooter = () => {
-    return (
-      <CardSection>
-        <Button
-          title="Jag hittar inte boken"
-          raised
-          onPress={() => this.props.navigation.navigate("AddBook")}
-        />
-      </CardSection>
-    );
-  };
-
   render() {
     if (this.props.searchText.length < 2)
       return (
         <Card style={{ marginTop: 20 }}>
           <CardSection>
-            <Text>1. Sök på den bok du vill sälja</Text>
-            <Text>2. Sök på den bok du vill sälja</Text>
-            <Text>3. Sök på den bok du vill sälja</Text>
+            <Text>Sök och klicka på den bok du vill välja en bok</Text>
           </CardSection>
         </Card>
       );
@@ -118,7 +95,7 @@ class Hits extends Component {
         data={this.props.hits}
         renderItem={this.renderHit}
         keyExtractor={this.keyExtractor}
-        ListFooterComponent={this.renderListFooter}
+        ListFooterComponent={this.props.listFooter}
       />
     );
   }

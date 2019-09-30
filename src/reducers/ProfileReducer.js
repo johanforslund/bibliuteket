@@ -1,7 +1,4 @@
-import {
-  BOOKS_PROFILE_FETCH_SUCCESS
-} from '../actions/types';
-
+import { BOOKS_PROFILE_FETCH_SUCCESS } from "../actions/types";
 const INITIAL_STATE = {
   profileBooks: []
 };

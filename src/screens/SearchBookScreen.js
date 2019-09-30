@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { TouchableOpacity, Text } from "react-native";
-
+import { Button } from "react-native-elements";
+import NavigationService from "../navigation/NavigationService";
 import firebase from "react-native-firebase"; //eslint-disable-line
 import CardSection from "../components/CardSection";
 import Card from "../components/Card";
@@ -35,6 +36,24 @@ class SearchBookScreen extends Component {
       });
   };
 
+  navigateToBook = item => {
+    NavigationService.navigate("AddBook", {
+      storedBook: item
+    });
+  };
+
+  renderListFooter = () => {
+    return (
+      <CardSection>
+        <Button
+          title="Jag hittar inte boken"
+          raised
+          onPress={() => this.props.navigation.navigate("AddBook")}
+        />
+      </CardSection>
+    );
+  };
+
   render() {
     if (
       !this.state.emailVerified &&
@@ -55,7 +74,12 @@ class SearchBookScreen extends Component {
       );
     }
 
-    return <AlgoliaConnect purpose="addBook" />;
+    return (
+      <AlgoliaConnect
+        onPressHit={this.navigateToBook}
+        listFooter={this.renderListFooter}
+      />
+    );
   }
 }
 
