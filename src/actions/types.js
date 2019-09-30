@@ -1,5 +1,4 @@
 export const FETCH_USER = "FETCH_USER";
-export const USER_UPDATE = "USER_UPDATE";
 export const LOGIN_USER_SUCCESS = "LOGIN_USER_SUCCESS";
 export const LOGIN_USER_FAIL = "LOGIN_USER_FAIL";
 export const LOGIN_USER_REQUEST = "LOGIN_USER_REQUEST";

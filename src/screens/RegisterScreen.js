@@ -9,12 +9,23 @@ import CardSection from "../components/CardSection";
 
 class RegisterScreen extends Component {
   state = {
+    name: "",
+    liuId: "",
+    password: "",
     isChecked: false
   };
 
+  validate = () => {
+    return {
+      name: this.state.name.length === 0,
+      liuId: this.state.liuId.length === 0,
+      password: this.state.password.length === 0
+    };
+  };
+
   onRegisterPress() {
-    const { name, liuid, password } = this.props;
-    this.props.registerUser({ name, liuid, password });
+    const { name, liuId, password } = this.state;
+    this.props.registerUser({ name, liuId, password });
   }
 
   handleTOSPress() {
@@ -22,36 +33,34 @@ class RegisterScreen extends Component {
   }
 
   render() {
+    const errors = this.validate();
     return (
       <View style={{ flex: 1, backgroundColor: "#CFE3E9" }}>
         <Card>
           <CardSection>
             <Input
               placeholder="Ditt namn"
-              value={this.props.name}
-              onChangeText={value =>
-                this.props.userUpdate({ prop: "name", value })
-              }
+              value={this.state.name}
+              onChangeText={value => this.setState({ name: value })}
             />
             <Input
               placeholder="LiU-ID"
-              value={this.props.liuid}
-              onChangeText={value =>
-                this.props.userUpdate({ prop: "liuid", value })
-              }
+              value={this.state.liuId}
+              onChangeText={value => this.setState({ liuId: value })}
               maxLength={8}
+              autoCapitalize="none"
             />
             <Input
               placeholder="Lösenord"
-              value={this.props.password}
+              value={this.state.password}
               autoCorrect={false}
               autoCapitalize="none"
               secureTextEntry
-              onChangeText={value =>
-                this.props.userUpdate({ prop: "password", value })
-              }
+              onChangeText={value => this.setState({ password: value })}
             />
-            <Text style={styles.errorTextStyle}>{this.props.error}</Text>
+            <Text style={styles.errorTextStyle}>
+              {this.props.registerError}
+            </Text>
             <View
               style={{
                 flexDirection: "row",
@@ -81,7 +90,12 @@ class RegisterScreen extends Component {
               </View>
             </View>
             <Button
-              disabled={!this.state.isChecked}
+              disabled={
+                !this.state.isChecked ||
+                errors.name ||
+                errors.liuId ||
+                errors.password
+              }
               raised
               buttonStyle={{ backgroundColor: "#2ecc71" }}
               textStyle={{ textAlign: "center" }}
@@ -106,17 +120,16 @@ const styles = {
 };
 
 const mapStateToProps = state => {
-  const { name, liuid, password, error } = state.auth;
+  const { registerError } = state.auth;
 
   const loading = isLoading(["REGISTER_USER"], state);
 
-  return { name, liuid, password, error, loading };
+  return { registerError, loading };
 };
 
 export default connect(
   mapStateToProps,
   {
-    userUpdate,
     registerUser
   }
 )(RegisterScreen);
