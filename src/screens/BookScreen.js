@@ -88,7 +88,6 @@ class BookScreen extends Component {
             raised
             buttonStyle={{ backgroundColor: "#F44336" }}
             textStyle={{ textAlign: "center" }}
-            backgroundColor="red"
             title={"Ta bort"}
             loading={this.props.loading}
             onPress={() => {
@@ -109,16 +108,23 @@ class BookScreen extends Component {
             }
           >
             <View style={styles.modalContainerStyle}>
-              <Text style={styles.titleStyle}>Är du säker?</Text>
-
+              <Text style={styles.titleStyle}>Välj:</Text>
               <Button
-                title="Ja, ta bort min bok"
+                title="Boken är såld"
                 onPress={() => {
-                  this.props.bookDelete(uid, imageURL);
+                  this.props.bookDelete(uid, imageURL, "sell");
                   NavigationService.navigate("BookList");
-                  Toast.show("Din bok har tagits bort");
+                  Toast.show("Din bok är markerad som såld!");
                 }}
-                buttonStyle={{ backgroundColor: "red" }}
+                buttonStyle={{ marginBottom: 15 }}
+              />
+              <Button
+                title="Ta bort annons"
+                onPress={() => {
+                  this.props.bookDelete(uid, imageURL, "delete");
+                  NavigationService.navigate("BookList");
+                  Toast.show("Din bok har tagits bort.");
+                }}
               />
               <Button
                 title="Avbryt"

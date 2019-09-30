@@ -99,25 +99,43 @@ export const bookCreate = ({
   };
 };
 
-export const bookDelete = (uid, imageURL) => {
-  return dispatch => {
-    dispatch({ type: BOOK_DELETE_REQUEST });
-    firebase
-      .database()
-      .ref(`books/${uid}`)
-      .update({ sold: true })
-      .then(() => {
-        dispatch({ type: BOOK_DELETE_SUCCESS });
+export const bookDelete = (uid, imageURL, action) => {
+  if (action === "sell") {
+    return dispatch => {
+      dispatch({ type: BOOK_DELETE_REQUEST });
+      firebase
+        .database()
+        .ref(`books/${uid}`)
+        .update({ sold: true })
+        .then(() => deleteBookSuccess(dispatch, imageURL))
+        .catch(err => deleteBookFail(err, dispatch));
+    };
+  } else if (action === "delete") {
+    return dispatch => {
+      dispatch({ type: BOOK_DELETE_REQUEST });
+      firebase
+        .database()
+        .ref(`books/${uid}`)
+        .remove()
+        .then(() => deleteBookSuccess(dispatch, imageURL))
+        .catch(err => deleteBookFail(err, dispatch));
+    };
+  }
+};
 
-        const image = firebase.storage().refFromURL(imageURL);
-        image
-          .delete()
-          .then(function() {})
-          .catch(function(error) {
-            console.log(error);
-            // Uh-oh, an error occurred!
-          });
-      })
-      .catch(err => dispatch({ type: BOOK_DELETE_FAIL, payload: err.message }));
-  };
+const deleteBookSuccess = (dispatch, imageURL) => {
+  dispatch({ type: BOOK_DELETE_SUCCESS });
+
+  const image = firebase.storage().refFromURL(imageURL);
+  image
+    .delete()
+    .then(function() {})
+    .catch(function(error) {
+      console.log(error);
+      // Uh-oh, an error occurred!
+    });
+};
+
+const deleteBookFail = (err, dispatch) => {
+  dispatch({ type: BOOK_DELETE_FAIL, payload: err.message });
 };
