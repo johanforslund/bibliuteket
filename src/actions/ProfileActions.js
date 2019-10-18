@@ -41,7 +41,6 @@ export const monitorBooksFetch = () => {
       .on("value", snapshot => {
         const promises = [];
         snapshot.forEach(child => {
-          console.log(child.key);
           const promise = firebase
             .database()
             .ref("storedBooks/" + child.key)

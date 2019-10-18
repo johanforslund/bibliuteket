@@ -1,11 +1,7 @@
 import React, { Component } from "react";
 import { ListItem, Icon, Button, Input } from "react-native-elements";
-import { View, ScrollView, Text, TouchableOpacity, Image } from "react-native";
-import Modal from "react-native-modal";
-import firebase from "react-native-firebase";
+import { ScrollView, Text } from "react-native";
 import { connect } from "react-redux";
-import VectorIcon from "react-native-vector-icons/MaterialIcons";
-import moment from "moment";
 import Card from "../components/Card";
 import CardSection from "../components/CardSection";
 
@@ -23,9 +19,12 @@ class MonitorBookScreen extends Component {
   renderMonitoredBooks() {
     return this.props.monitoredBooks.map(monitoredBook => (
       <ListItem
+        key={monitoredBook.isbn}
         title={monitoredBook.title}
         subtitle={monitoredBook.author}
-        rightIcon={<Icon name="delete" onPress={() => console.log("delted")} />}
+        rightIcon={
+          <Icon name="delete" onPress={() => console.log("deleted")} />
+        }
         bottomDivider
       />
     ));
