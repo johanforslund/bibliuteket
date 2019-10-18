@@ -9,12 +9,27 @@ import moment from "moment";
 import Card from "../components/Card";
 import CardSection from "../components/CardSection";
 
-import { profileBooksFetch, updateUserDetails } from "../actions";
+import { monitorBooksFetch } from "../actions";
 
 class MonitorBookScreen extends Component {
   state = {
     isModalVisible: false
   };
+
+  componentDidMount() {
+    this.props.monitorBooksFetch();
+  }
+
+  renderMonitoredBooks() {
+    return this.props.monitoredBooks.map(monitoredBook => (
+      <ListItem
+        title={monitoredBook.title}
+        subtitle={monitoredBook.author}
+        rightIcon={<Icon name="delete" onPress={() => console.log("delted")} />}
+        bottomDivider
+      />
+    ));
+  }
 
   render() {
     return (
@@ -23,6 +38,14 @@ class MonitorBookScreen extends Component {
         contentContainerStyle={{ flexGrow: 1 }}
         keyboardShouldPersistTaps="handled"
       >
+        {this.props.monitoredBooks.length > 0 ? (
+          <Card>
+            <CardSection>
+              <Text style={styles.textHeader}>Dina bevakade böcker</Text>
+              <CardSection>{this.renderMonitoredBooks()}</CardSection>
+            </CardSection>
+          </Card>
+        ) : null}
         <CardSection>
           <Button
             raised
@@ -33,34 +56,15 @@ class MonitorBookScreen extends Component {
             onPress={() => this.props.navigation.navigate("AddMonitorBook")}
           />
         </CardSection>
-        <Card>
-          <CardSection>
-            <Text style={styles.textHeader}>Dina bevakade böcker</Text>
-            <CardSection>
-              <View style={styles.rowCardStyle}>
-                <View style={styles.textContainer}>
-                  <Text style={styles.textStyle}>Titel: Bevakad bok 1</Text>
-                  <Icon
-                    name="delete"
-                    size={25}
-                    color="#373737"
-                    style={styles.iconStyle}
-                    onPress={() => console.log("item deleted")}
-                  />
-                </View>
-              </View>
-            </CardSection>
-          </CardSection>
-        </Card>
       </ScrollView>
     );
   }
 }
 
 const mapStateToProps = state => {
-  const { profileBooks } = state.profile;
+  const { monitoredBooks } = state.profile;
 
-  return { profileBooks };
+  return { monitoredBooks };
 };
 
 const styles = {
@@ -104,5 +108,5 @@ const styles = {
 
 export default connect(
   mapStateToProps,
-  { profileBooksFetch, updateUserDetails }
+  { monitorBooksFetch }
 )(MonitorBookScreen);

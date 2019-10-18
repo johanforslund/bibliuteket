@@ -2,6 +2,7 @@ import firebase from "react-native-firebase"; //eslint-disable-line
 import NavigationService from "../navigation/NavigationService";
 import {
   BOOKS_PROFILE_FETCH_SUCCESS,
+  BOOKS_FETCH_MONITORED_SUCCESS,
   BOOK_MONITOR_REQUEST,
   BOOK_MONITOR_SUCCESS,
   BOOK_MONITOR_FAIL
@@ -24,6 +25,38 @@ export const profileBooksFetch = () => {
         });
         profileBooks.reverse();
         dispatch({ type: BOOKS_PROFILE_FETCH_SUCCESS, payload: profileBooks });
+      });
+  };
+};
+
+export const monitorBooksFetch = () => {
+  const { currentUser } = firebase.auth();
+
+  return dispatch => {
+    firebase
+      .database()
+      .ref("bookFollows")
+      .orderByChild(currentUser.uid)
+      .equalTo(true)
+      .on("value", snapshot => {
+        const promises = [];
+        snapshot.forEach(child => {
+          console.log(child.key);
+          const promise = firebase
+            .database()
+            .ref("storedBooks/" + child.key)
+            .once("value");
+          promises.push(promise);
+        });
+        Promise.all(promises).then(snapshots => {
+          const monitoredBooks = snapshots.map(snapshot => {
+            return snapshot.val();
+          });
+          dispatch({
+            type: BOOKS_FETCH_MONITORED_SUCCESS,
+            payload: monitoredBooks
+          });
+        });
       });
   };
 };
