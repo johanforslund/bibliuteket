@@ -5,7 +5,10 @@ import {
   BOOKS_FETCH_MONITORED_SUCCESS,
   BOOK_MONITOR_REQUEST,
   BOOK_MONITOR_SUCCESS,
-  BOOK_MONITOR_FAIL
+  BOOK_MONITOR_FAIL,
+  BOOK_MONITOR_DELETE_REQUEST,
+  BOOK_MONITOR_DELETE_SUCCESS,
+  BOOK_MONITOR_DELETE_FAIL
 } from "./types";
 
 export const profileBooksFetch = () => {
@@ -40,16 +43,24 @@ export const monitorBooksFetch = () => {
       .equalTo(true)
       .on("value", snapshot => {
         const promises = [];
+        const bookIDs = [];
         snapshot.forEach(child => {
+          const bookID = child.key;
           const promise = firebase
             .database()
             .ref("storedBooks/" + child.key)
             .once("value");
+          bookIDs.push(bookID);
           promises.push(promise);
         });
+        let monitoredBooks = [{}];
+        let counter = 0;
         Promise.all(promises).then(snapshots => {
-          const monitoredBooks = snapshots.map(snapshot => {
-            return snapshot.val();
+          monitoredBooks = snapshots.map(snapshot => {
+            return {
+              ID: bookIDs[counter++],
+              book: snapshot.val()
+            };
           });
           dispatch({
             type: BOOKS_FETCH_MONITORED_SUCCESS,
@@ -60,7 +71,7 @@ export const monitorBooksFetch = () => {
   };
 };
 
-export const addMonitorBook = storedBookID => {
+export const monitorBookAdd = storedBookID => {
   const { currentUser } = firebase.auth();
   const userId = currentUser.uid;
 
@@ -76,6 +87,23 @@ export const addMonitorBook = storedBookID => {
       })
       .catch(err =>
         dispatch({ type: BOOK_MONITOR_FAIL, payload: err.message })
+      );
+  };
+};
+
+export const monitorBookDelete = bookID => {
+  const { currentUser } = firebase.auth();
+  const userID = currentUser.uid;
+
+  return dispatch => {
+    dispatch({ type: BOOK_MONITOR_DELETE_REQUEST });
+    firebase
+      .database()
+      .ref(`bookFollows/${bookID}/${userID}`)
+      .remove()
+      .then(() => dispatch({ type: BOOK_MONITOR_DELETE_SUCCESS }))
+      .catch(err =>
+        dispatch({ type: BOOK_MONITOR_DELETE_FAIL, payload: err.message })
       );
   };
 };

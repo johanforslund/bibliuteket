@@ -84,7 +84,7 @@ class Hits extends Component {
       return (
         <Card style={{ marginTop: 20 }}>
           <CardSection>
-            <Text>Sök och klicka på den bok du vill välja en bok</Text>
+            <Text>Sök och klicka på den bok du vill välja</Text>
           </CardSection>
         </Card>
       );

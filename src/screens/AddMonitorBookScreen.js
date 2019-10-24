@@ -3,7 +3,7 @@ import { Text } from "react-native";
 import AlgoliaConnect from "../components/AlgoliaConnect";
 import CardSection from "../components/CardSection";
 import { connect } from "react-redux";
-import { addMonitorBook } from "../actions";
+import { monitorBookAdd } from "../actions";
 
 class AddMonitorBookScreen extends Component {
   state = {
@@ -11,7 +11,7 @@ class AddMonitorBookScreen extends Component {
   };
 
   addBookToMonitor = item => {
-    this.props.addMonitorBook(item.objectID);
+    this.props.monitorBookAdd(item.objectID);
   };
 
   renderListFooter = () => {
@@ -38,5 +38,5 @@ const mapStateToProps = () => {
 
 export default connect(
   mapStateToProps,
-  { addMonitorBook }
+  { monitorBookAdd }
 )(AddMonitorBookScreen);
