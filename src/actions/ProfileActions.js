@@ -54,12 +54,11 @@ export const monitorBooksFetch = () => {
           promises.push(promise);
         });
         let monitoredBooks = [{}];
-        let counter = 0;
         Promise.all(promises).then(snapshots => {
-          monitoredBooks = snapshots.map(snapshot => {
+          monitoredBooks = snapshots.map((snapshot, i) => {
             return {
-              ID: bookIDs[counter++],
-              book: snapshot.val()
+              uid: bookIDs[i],
+              ...snapshot.val()
             };
           });
           dispatch({

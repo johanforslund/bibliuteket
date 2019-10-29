@@ -18,12 +18,12 @@ class MonitorBookScreen extends Component {
   renderMonitoredBooks() {
     return this.props.monitoredBooks.map(monitoredBook => (
       <ListItem
-        key={monitoredBook.book.isbn}
-        title={monitoredBook.book.title}
-        subtitle={monitoredBook.book.author}
+        key={monitoredBook.isbn}
+        title={monitoredBook.title}
+        subtitle={monitoredBook.author}
         rightIcon={
           <TouchableOpacity
-            onPress={() => this.props.monitorBookDelete(monitoredBook.ID)}
+            onPress={() => this.props.monitorBookDelete(monitoredBook.uid)}
           >
             <Icon name="delete" />
           </TouchableOpacity>
