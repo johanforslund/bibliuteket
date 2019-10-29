@@ -95,6 +95,7 @@ export const bookCreate = ({
       })
       .then(() => {
         dispatch({ type: BOOK_CREATE_SUCCESS });
+        NavigationService.popToTop();
         NavigationService.navigate("BookList");
       })
       .catch(err => dispatch({ type: BOOK_CREATE_FAIL, payload: err.message }));
