@@ -9,6 +9,7 @@ import { useScreens } from "react-native-screens";
 import AsyncStorage from "@react-native-community/async-storage";
 import { persistStore, persistReducer } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
+import firebase from "react-native-firebase";
 const keys = require("./config/keys");
 
 const persistConfig = {
@@ -26,6 +27,21 @@ class App extends Component {
     super(props);
 
     console.disableYellowBox = true;
+  }
+
+  async componentDidMount() {
+    const enabled = await firebase.messaging().hasPermission();
+    if (enabled) {
+      console.log("No permission");
+    } else {
+      console.log("HEllooo");
+      try {
+        await firebase.messaging().requestPermission();
+        // User has authorised
+      } catch (error) {
+        console.log("Error: " + error);
+      }
+    }
   }
 
   render() {
