@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-import { ListItem, Icon, Button, Input } from "react-native-elements";
-import { ScrollView, Text } from "react-native";
+import { ListItem, Icon, Button } from "react-native-elements";
+import { ScrollView, Text, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import Card from "../components/Card";
 import CardSection from "../components/CardSection";
-
-import { monitorBooksFetch } from "../actions";
+import { monitorBooksFetch, monitorBookDelete } from "../actions";
 
 class MonitorBookScreen extends Component {
   state = {
@@ -23,7 +22,11 @@ class MonitorBookScreen extends Component {
         title={monitoredBook.title}
         subtitle={monitoredBook.author}
         rightIcon={
-          <Icon name="delete" onPress={() => console.log("deleted")} />
+          <TouchableOpacity
+            onPress={() => this.props.monitorBookDelete(monitoredBook.uid)}
+          >
+            <Icon name="delete" />
+          </TouchableOpacity>
         }
         bottomDivider
       />
@@ -51,7 +54,6 @@ class MonitorBookScreen extends Component {
             buttonStyle={{ backgroundColor: "#2ecc71" }}
             textStyle={{ textAlign: "center" }}
             title={"Lägg till bok att bevaka"}
-            loading={this.props.loading}
             onPress={() => this.props.navigation.navigate("AddMonitorBook")}
           />
         </CardSection>
@@ -107,5 +109,5 @@ const styles = {
 
 export default connect(
   mapStateToProps,
-  { monitorBooksFetch }
+  { monitorBooksFetch, monitorBookDelete }
 )(MonitorBookScreen);

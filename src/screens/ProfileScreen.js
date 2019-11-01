@@ -176,14 +176,18 @@ class ProfileScreen extends Component {
         <Card>
           <CardSection>
             <Text style={styles.textHeader}>Övrigt</Text>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate("MonitorBook")}>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate("MonitorBook")}
+            >
               <ListItem
                 style={styles.listItemStyle}
                 title="Bevaka bok"
                 leftIcon={{ name: "book" }}
               />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate("Settings")}>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate("Settings")}
+            >
               <ListItem
                 style={styles.listItemStyle}
                 title="Inställningar"
