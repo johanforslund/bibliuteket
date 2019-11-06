@@ -12,7 +12,7 @@ import {
   connectInfiniteHits
 } from "react-instantsearch/connectors";
 import NavigationService from "../navigation/NavigationService";
-import { ListItem, Input, Button } from "react-native-elements";
+import { ListItem, Input, Button, SearchBar } from "react-native-elements";
 import CardSection from "../components/CardSection";
 import Card from "../components/Card";
 const keys = require("../config/keys");
@@ -37,6 +37,7 @@ class AlgoliaConnect extends Component {
             onPressHit={this.props.onPressHit}
             searchText={this.state.searchText}
             listFooter={this.props.listFooter}
+            searchInfo={this.props.searchInfo}
           />
         </InstantSearch>
       </View>
@@ -82,16 +83,22 @@ class Hits extends Component {
   render() {
     if (this.props.searchText.length < 2)
       return (
-        <Card style={{ marginTop: 20 }}>
-          <CardSection>
-            <Text>Sök och klicka på den bok du vill välja</Text>
-          </CardSection>
-        </Card>
+        <View
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginTop: "50%"
+          }}
+        >
+          {this.props.searchInfo()}
+        </View>
       );
 
     return (
       <FlatList
-        style={{ marginBottom: 100 }}
+        style={{
+          marginBottom: 100
+        }}
         data={this.props.hits}
         renderItem={this.renderHit}
         keyExtractor={this.keyExtractor}

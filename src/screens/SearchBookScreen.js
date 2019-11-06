@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { TouchableOpacity, Text } from "react-native";
+import { TouchableOpacity, Text, View } from "react-native";
 import { Button } from "react-native-elements";
 import NavigationService from "../navigation/NavigationService";
 import firebase from "react-native-firebase"; //eslint-disable-line
@@ -54,6 +54,16 @@ class SearchBookScreen extends Component {
     );
   };
 
+  renderSearchInfo = () => {
+    return (
+      <View>
+        <Text style={{ fontSize: 18 }}>
+          Sök i databasen på den bok du vill sälja
+        </Text>
+      </View>
+    );
+  };
+
   render() {
     if (
       !this.state.emailVerified &&
@@ -78,6 +88,7 @@ class SearchBookScreen extends Component {
       <AlgoliaConnect
         onPressHit={this.navigateToBook}
         listFooter={this.renderListFooter}
+        searchInfo={this.renderSearchInfo}
       />
     );
   }
