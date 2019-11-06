@@ -43,7 +43,7 @@ export const getBooks = createSelector(
     if (searchText === "") return sortedBooks;
 
     const options = {
-      keys: ["title", "author"],
+      keys: ["title", "author", "tags"],
       shouldSort: false,
       threshold: 0.4
     };
