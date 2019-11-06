@@ -22,7 +22,7 @@ class BookListScreen extends Component {
   };
 
   componentWillMount() {
-    this.props.booksFetch(this.props.sorting);
+    this.props.booksFetch();
   }
 
   handlePress = book => {
