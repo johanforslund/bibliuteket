@@ -1,11 +1,5 @@
 import React, { Component } from "react";
-import {
-  View,
-  TouchableOpacity,
-  Text,
-  TextInput,
-  FlatList
-} from "react-native";
+import { View, TouchableOpacity, FlatList } from "react-native";
 import { InstantSearch } from "react-instantsearch/native";
 import {
   connectSearchBox,
@@ -13,8 +7,7 @@ import {
 } from "react-instantsearch/connectors";
 import NavigationService from "../navigation/NavigationService";
 import { ListItem, Input, Button } from "react-native-elements";
-import CardSection from "../components/CardSection";
-import Card from "../components/Card";
+
 const keys = require("../config/keys");
 
 class AlgoliaConnect extends Component {
@@ -37,6 +30,7 @@ class AlgoliaConnect extends Component {
             onPressHit={this.props.onPressHit}
             searchText={this.state.searchText}
             listFooter={this.props.listFooter}
+            searchInfo={this.props.searchInfo}
           />
         </InstantSearch>
       </View>
@@ -47,19 +41,17 @@ class AlgoliaConnect extends Component {
 class SearchBox extends Component {
   render() {
     return (
-      <Card>
-        <CardSection>
-          <Input
-            onChangeText={text => {
-              this.props.changeText(text);
-              this.props.refine(text);
-            }}
-            value={this.props.currentRefinement}
-            label={"Välj bok"}
-            placeholder="Titel, författare, kurskod, program..."
-          />
-        </CardSection>
-      </Card>
+      <View style={{ marginTop: 10 }}>
+        <Input
+          onChangeText={text => {
+            this.props.changeText(text);
+            this.props.refine(text);
+          }}
+          value={this.props.currentRefinement}
+          label={"Välj bok"}
+          placeholder="Titel, författare, kurskod, program..."
+        />
+      </View>
     );
   }
 }
@@ -82,11 +74,15 @@ class Hits extends Component {
   render() {
     if (this.props.searchText.length < 2)
       return (
-        <Card style={{ marginTop: 20 }}>
-          <CardSection>
-            <Text>Sök och klicka på den bok du vill välja</Text>
-          </CardSection>
-        </Card>
+        <View
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginTop: "50%"
+          }}
+        >
+          {this.props.searchInfo()}
+        </View>
       );
 
     return (

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text } from "react-native";
+import { Text, View } from "react-native";
 import AlgoliaConnect from "../components/AlgoliaConnect";
 import CardSection from "../components/CardSection";
 import { connect } from "react-redux";
@@ -36,11 +36,22 @@ class AddMonitorBookScreen extends Component {
     );
   };
 
+  renderSearchInfo = () => {
+    return (
+      <View>
+        <Text style={{ fontSize: 18 }}>
+          Sök i databasen på den bok du vill bevaka
+        </Text>
+      </View>
+    );
+  };
+
   render() {
     return (
       <AlgoliaConnect
         onPressHit={this.addBookToMonitor}
         listFooter={this.renderListFooter}
+        searchInfo={this.renderSearchInfo}
       />
     );
   }
