@@ -199,7 +199,7 @@ class BookScreen extends Component {
     }
   }
 
-  renderPhoneButton() {
+  renderSMSButton() {
     const { phone, name, title, user } = this.props.navigation.getParam("book");
     const { currentUser } = firebase.auth();
 
@@ -225,7 +225,7 @@ class BookScreen extends Component {
             }}
           >
             <Icon
-              name="phone"
+              name="message"
               size={20}
               color="#373737"
               style={styles.iconStyle}
@@ -303,7 +303,7 @@ class BookScreen extends Component {
               style={{ flexDirection: "row", justifyContent: "space-around" }}
             >
               {this.renderMessengerButton()}
-              {this.renderPhoneButton()}
+              {this.renderSMSButton()}
             </View>
           </CardSection>
           <CardSection>{this.renderDeleteButton()}</CardSection>

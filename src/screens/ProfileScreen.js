@@ -66,7 +66,7 @@ class ProfileScreen extends Component {
         <View style={styles.textContainer}>
           <Text style={styles.textStyle}>Titel: {profileBook.title}</Text>
           <Text style={styles.textStyle}>
-            Skapad: {moment(profileBook.date).format("YYYY-MM-DD | HH:SS")}
+            Skapad: {moment(profileBook.date).format("YYYY-MM-DD | HH:ss")}
           </Text>
         </View>
         <View style={styles.imageConatiner}>
