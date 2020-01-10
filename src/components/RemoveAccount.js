@@ -169,7 +169,6 @@ const styles = {
   }
 };
 
-export default connect(
-  mapStateToProps,
-  { deleteUser, bookDelete }
-)(RemoveAccount);
+export default connect(mapStateToProps, { deleteUser, bookDelete })(
+  RemoveAccount
+);
