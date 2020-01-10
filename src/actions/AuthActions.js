@@ -69,14 +69,21 @@ export const updateUserDetails = name => {
 };
 
 export const deleteUser = () => {
+  const { currentUser } = firebase.auth();
   return dispatch => {
     dispatch({ type: DELETE_USER_REQUEST });
     firebase
-      .auth()
-      .currentUser.delete()
+      .database()
+      .ref(`users/${currentUser.uid}`)
+      .remove()
       .then(() => {
-        deleteUserSuccess(dispatch);
-        Toast.show("Ditt konto har tagits bort");
+        firebase
+          .auth()
+          .currentUser.delete()
+          .then(() => {
+            deleteUserSuccess(dispatch);
+            Toast.show("Ditt konto har tagits bort");
+          });
       })
       .catch(error => deleteUserFail(error.message, dispatch));
   };
