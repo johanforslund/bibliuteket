@@ -9,11 +9,6 @@ class SettingsScreen extends Component {
       <View style={{ flex: 1, backgroundColor: "#CFE3E9" }}>
         <View>
           <RemoveAccount />
-          <ListItem
-            title="Notifikationer"
-            leftIcon={{ name: "notifications" }}
-            bottomDivider
-          />
         </View>
       </View>
     );

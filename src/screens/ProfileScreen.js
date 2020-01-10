@@ -30,16 +30,16 @@ class ProfileScreen extends Component {
   };
 
   authStatus() {
-    if (firebase.auth().currentUser.emailVerified) {
-      return (
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            marginTop: 20
-          }}
-        >
-          <Text>Verifierad</Text>
+    return (
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          marginTop: 20
+        }}
+      >
+        <Text>Verifierad:</Text>
+        {firebase.auth().currentUser.emailVerified ? (
           <Icon
             containerStyle={{
               backgroundColor: "powderblue",
@@ -50,9 +50,11 @@ class ProfileScreen extends Component {
             size={20}
             color="white"
           />
-        </View>
-      );
-    }
+        ) : (
+          <Text> Väntar på bekräftelse</Text>
+        )}
+      </View>
+    );
   }
 
   renderProfileBooks() {
@@ -280,7 +282,7 @@ const styles = {
   }
 };
 
-export default connect(
-  mapStateToProps,
-  { profileBooksFetch, updateUserDetails }
-)(ProfileScreen);
+export default connect(mapStateToProps, {
+  profileBooksFetch,
+  updateUserDetails
+})(ProfileScreen);
