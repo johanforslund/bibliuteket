@@ -38,9 +38,18 @@ class AddMonitorBookScreen extends Component {
 
   renderSearchInfo = () => {
     return (
-      <View>
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center"
+        }}
+      >
         <Text style={{ fontSize: 18 }}>
           Sök i databasen på den bok du vill bevaka
+        </Text>
+        <Text style={{ fontSize: 12 }}>
+          Du kommer att få en notifikation när en bok du bevakar läggs upp
         </Text>
       </View>
     );
@@ -61,7 +70,6 @@ const mapStateToProps = () => {
   return {};
 };
 
-export default connect(
-  mapStateToProps,
-  { monitorBookAdd }
-)(AddMonitorBookScreen);
+export default connect(mapStateToProps, { monitorBookAdd })(
+  AddMonitorBookScreen
+);

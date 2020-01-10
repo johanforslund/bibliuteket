@@ -133,9 +133,6 @@ const mapStateToProps = state => {
   return { loginError, loading };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    loginUser
-  }
-)(LoginScreen);
+export default connect(mapStateToProps, {
+  loginUser
+})(LoginScreen);
