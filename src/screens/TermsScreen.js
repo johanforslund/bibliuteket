@@ -37,7 +37,7 @@ class TermsScreen extends Component {
               Vad använder Bibliuteket mina uppgifter till?{"\n"}
             </Text>
             <Text>
-              På Bibliueteket samlar vi in och använder personuppgifter för att
+              På Bibliuteket samlar vi in och använder personuppgifter för att
               alltid kunna erbjuda våra användare de bästa digitala tjänsterna.
               I allmänhet använder vi uppgifter för att:{"\n"}
             </Text>
@@ -57,7 +57,7 @@ class TermsScreen extends Component {
               behandlingen är uppnådd.{"\n"}
             </Text>
             <Text style={styles.textSubHeader}>
-              Hur längre lagrar Bibliueteket mina personuppgifter?{"\n"}
+              Hur längre lagrar Bibliuteket mina personuppgifter?{"\n"}
             </Text>
             <Text>
               Vi lagrar personuppgifter under en obestämd tid. Vi ska radera
@@ -100,7 +100,7 @@ class TermsScreen extends Component {
             )}
             <Text style={styles.textSubHeader}>
               Om jag tidigare har lämnat samtycke till att mina personuppgifter
-              behandlas av Bibliueteket, kan jag återkalla detta samtycke?{"\n"}
+              behandlas av Bibliuteket, kan jag återkalla detta samtycke?{"\n"}
             </Text>
             <Text>
               Om du har lämnat samtycke till behandlingen av dina
@@ -115,7 +115,7 @@ class TermsScreen extends Component {
               En av våra viktigaste uppgifter är att hantera data på ett säkert,
               användarvänligt och ansvarsfullt sätt. Om du är missnöjd, har
               förslag på hur vi kan förbättra oss eller andra frågor, kan du
-              kontakta Bibliueteket på bibliuteket@gmail.com. {"\n\n"}
+              kontakta Bibliuteket på bibliuteket@gmail.com. {"\n\n"}
               Du har också rätt att lämna klagomål som rör vår behandling av
               dina personuppgifter till Datainspektionen.
             </Text>

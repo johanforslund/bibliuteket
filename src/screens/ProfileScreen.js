@@ -118,6 +118,7 @@ class ProfileScreen extends Component {
               <Input
                 leftIcon={<Icon color="#a5a5a5" name="person" size={20} />}
                 value={this.state.name}
+                maxLength={40}
                 onChangeText={value => this.setState({ name: value })}
                 returnKeyType="next"
               />
@@ -247,7 +248,8 @@ const styles = {
     width: "100%"
   },
   textContainer: {
-    alignSelf: "center"
+    alignSelf: "center",
+    width: "80%"
   },
   textStyle: {
     fontWeight: "bold"
