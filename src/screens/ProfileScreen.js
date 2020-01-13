@@ -247,7 +247,8 @@ const styles = {
     width: "100%"
   },
   textContainer: {
-    alignSelf: "center"
+    alignSelf: "center",
+    width: "80%"
   },
   textStyle: {
     fontWeight: "bold"
