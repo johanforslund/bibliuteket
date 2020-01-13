@@ -50,6 +50,7 @@ class BookListScreen extends Component {
     }
     return this.props.books.length > 0 ? (
       <FlatList
+        keyboardShouldPersistTaps={"handled"}
         data={this.props.books}
         renderItem={this.renderBook}
         keyExtractor={this.keyExtractor}

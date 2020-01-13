@@ -90,6 +90,7 @@ class Hits extends Component {
       <FlatList
         style={{ marginBottom: 100 }}
         data={this.props.hits}
+        keyboardShouldPersistTaps={"handled"}
         renderItem={this.renderHit}
         keyExtractor={this.keyExtractor}
         ListFooterComponent={this.props.listFooter}
