@@ -300,7 +300,11 @@ class BookScreen extends Component {
           </CardSection>
           <CardSection>
             <View
-              style={{ flexDirection: "row", justifyContent: "space-around" }}
+              style={{
+                flexWrap: "wrap",
+                flexDirection: "row",
+                justifyContent: "space-around"
+              }}
             >
               {this.renderMessengerButton()}
               {this.renderSMSButton()}
@@ -367,8 +371,7 @@ const styles = {
     flexDirection: "row",
     borderRadius: 10,
     padding: 8,
-    marginTop: 5,
-    width: "40%"
+    marginTop: 5
   },
   titleStyle: {
     color: "black",
@@ -393,7 +396,4 @@ const mapStateToProps = state => {
   return { loading };
 };
 
-export default connect(
-  mapStateToProps,
-  { bookDelete }
-)(BookScreen);
+export default connect(mapStateToProps, { bookDelete })(BookScreen);
