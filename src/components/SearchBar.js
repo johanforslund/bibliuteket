@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View } from "react-native";
+import { View, Platform } from "react-native";
 import { connect } from "react-redux";
 import { booksFetch, searchUpdate } from "../actions";
 import { SearchBar } from "react-native-elements";
@@ -10,7 +10,8 @@ class SearchInput extends Component {
     return (
       <View
         style={{
-          height: 57,
+          height: Platform.OS === "ios" ? 72 : 57,
+          paddingTop: Platform.OS === "ios" ? 15 : 0,
           flexDirection: "row",
           alignItems: "center",
           backgroundColor: "#29749D"
@@ -48,7 +49,6 @@ const mapStateToProps = state => {
   return { searchText, sorting };
 };
 
-export default connect(
-  mapStateToProps,
-  { booksFetch, searchUpdate }
-)(SearchInput);
+export default connect(mapStateToProps, { booksFetch, searchUpdate })(
+  SearchInput
+);

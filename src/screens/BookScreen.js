@@ -268,7 +268,7 @@ class BookScreen extends Component {
                 Norrköping
               </Text>
             </View>
-            <Text style={styles.priceStyle}>{price} kr</Text>
+            <Text style={styles.priceStyle}>{price} kr </Text>
           </CardSection>
         </Card>
         {this.renderDescription()}
@@ -393,7 +393,4 @@ const mapStateToProps = state => {
   return { loading };
 };
 
-export default connect(
-  mapStateToProps,
-  { bookDelete }
-)(BookScreen);
+export default connect(mapStateToProps, { bookDelete })(BookScreen);

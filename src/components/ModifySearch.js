@@ -30,7 +30,7 @@ class ModifySearch extends PureComponent {
           onBackdropPress={this.toggleModal}
         >
           <View style={styles.modalContainerStyle}>
-            <Text style={styles.titleStyle}>Sortera efter...</Text>
+            <Text style={styles.titleStyle}>Sortera efter... </Text>
             <View>
               <CheckBox
                 size={20}
@@ -119,7 +119,8 @@ const styles = {
   }
 };
 
-export default connect(
-  mapStateToProps,
-  { changeSorting, booksFetch, booksSearch }
-)(ModifySearch);
+export default connect(mapStateToProps, {
+  changeSorting,
+  booksFetch,
+  booksSearch
+})(ModifySearch);
