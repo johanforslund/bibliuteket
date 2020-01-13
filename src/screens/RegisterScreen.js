@@ -42,6 +42,7 @@ class RegisterScreen extends Component {
               placeholder="Ditt namn"
               value={this.state.name}
               onChangeText={value => this.setState({ name: value })}
+              maxLength={40}
             />
             <Input
               placeholder="LiU-ID"
@@ -127,9 +128,6 @@ const mapStateToProps = state => {
   return { registerError, loading };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    registerUser
-  }
-)(RegisterScreen);
+export default connect(mapStateToProps, {
+  registerUser
+})(RegisterScreen);
