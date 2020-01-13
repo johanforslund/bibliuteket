@@ -268,7 +268,7 @@ class BookScreen extends Component {
                 Norrköping
               </Text>
             </View>
-            <Text style={styles.priceStyle}>{price} kr</Text>
+            <Text style={styles.priceStyle}>{price} kr </Text>
           </CardSection>
         </Card>
         {this.renderDescription()}

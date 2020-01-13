@@ -91,7 +91,4 @@ const mapStateToProps = state => {
   return { sorting, books, loading };
 };
 
-export default connect(
-  mapStateToProps,
-  { booksFetch }
-)(BookListScreen);
+export default connect(mapStateToProps, { booksFetch })(BookListScreen);

@@ -20,7 +20,7 @@ class BookDetail extends PureComponent {
               <Text style={styles.titleStyle}>{title}</Text>
               <Text style={styles.authorStyle}>{author}</Text>
               <CardSection style={styles.cardSectionBottomStyle}>
-                <Text style={styles.priceStyle}>{price} kr</Text>
+                <Text style={styles.priceStyle}>{price} kr </Text>
                 <Text style={styles.dateStyle}>{dateFormatted}</Text>
               </CardSection>
             </CardSection>

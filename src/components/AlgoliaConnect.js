@@ -30,6 +30,7 @@ class AlgoliaConnect extends Component {
             onPressHit={this.props.onPressHit}
             searchText={this.state.searchText}
             listFooter={this.props.listFooter}
+            emptyList={this.props.emptyList}
             searchInfo={this.props.searchInfo}
           />
         </InstantSearch>
@@ -92,6 +93,7 @@ class Hits extends Component {
         renderItem={this.renderHit}
         keyExtractor={this.keyExtractor}
         ListFooterComponent={this.props.listFooter}
+        ListEmptyComponent={this.props.emptyList}
       />
     );
   }

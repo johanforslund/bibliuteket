@@ -28,7 +28,7 @@ class AddMonitorBookScreen extends Component {
     this.props.monitorBookAdd(item.objectID);
   };
 
-  renderListFooter = () => {
+  renderEmptyList = () => {
     return (
       <CardSection>
         <Text>Du kan tyvärr inte bevaka böcker som inte finns i databasen</Text>
@@ -59,7 +59,7 @@ class AddMonitorBookScreen extends Component {
     return (
       <AlgoliaConnect
         onPressHit={this.addBookToMonitor}
-        listFooter={this.renderListFooter}
+        emptyList={this.renderEmptyList}
         searchInfo={this.renderSearchInfo}
       />
     );
