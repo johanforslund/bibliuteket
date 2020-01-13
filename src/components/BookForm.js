@@ -135,6 +135,14 @@ class BookForm extends PureComponent {
     });
   };
 
+  stripMessengerName = name => {
+    preNameIndex = name.indexOf(".me/");
+    if (preNameIndex == -1) return name.trim();
+    strippedName = name.substr(preNameIndex + 4).trim();
+
+    return strippedName;
+  };
+
   render() {
     const errors = this.validate();
     const shouldMarkError = field => {
@@ -163,7 +171,7 @@ class BookForm extends PureComponent {
             <Input
               returnKeyType="next"
               autoCapitalize="sentences"
-              label="Bokens Titel"
+              label="Bokens Titel*"
               errorMessage={
                 shouldMarkError("title") ? "Obligatoriskt fält" : ""
               }
@@ -186,7 +194,7 @@ class BookForm extends PureComponent {
               ref="Author"
               autoCapitalize="words"
               returnKeyType="next"
-              label="Författare"
+              label="Författare*"
               errorMessage={
                 shouldMarkError("author") ? "Obligatoriskt fält" : ""
               }
@@ -210,7 +218,7 @@ class BookForm extends PureComponent {
               ref="Price"
               returnKeyType="next"
               keyboardType="numeric"
-              label="Pris"
+              label="Pris*"
               errorMessage={shouldMarkError("price") ? "Felaktigt pris" : ""}
               inputStyle={styles.inputStyle}
               maxLength={4}
@@ -279,13 +287,17 @@ class BookForm extends PureComponent {
                     popover={
                       <Text style={{ color: "white" }}>
                         Detta hittar du under "profil" på facebook messenger
+                        (ex. "fornamn.efternamn.131")
                       </Text>
                     }
                   >
                     <Icon name="info" size={20} color="#373737" />
                   </Tooltip>
                 }
-                onChangeText={value => this.setState({ messengerName: value })}
+                onChangeText={value => {
+                  messengerNameStripped = this.stripMessengerName(value);
+                  this.setState({ messengerName: messengerNameStripped });
+                }}
               />
             </View>
           </CardSection>
@@ -337,7 +349,8 @@ const mapStateToProps = state => {
   return { user, loading, messengerName, phone };
 };
 
-export default connect(
-  mapStateToProps,
-  { bookCreate, changeMessengerName, changePhone }
-)(BookForm);
+export default connect(mapStateToProps, {
+  bookCreate,
+  changeMessengerName,
+  changePhone
+})(BookForm);
