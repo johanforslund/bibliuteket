@@ -15,6 +15,7 @@ import SearchBar from "../components/SearchBar";
 import { isLoading } from "../selectors/utilSelectors";
 import { BOOKS_FETCH_REQUEST } from "../actions/types";
 import { getBooks } from "../selectors/bookSelectors";
+import { KeyboardAwareFlatList } from "react-native-keyboard-aware-scroll-view";
 
 class BookListScreen extends Component {
   static navigationOptions = {
@@ -49,7 +50,7 @@ class BookListScreen extends Component {
       );
     }
     return this.props.books.length > 0 ? (
-      <FlatList
+      <KeyboardAwareFlatList
         keyboardShouldPersistTaps={"handled"}
         data={this.props.books}
         renderItem={this.renderBook}

@@ -1,17 +1,12 @@
 import React, { Component } from "react";
-import {
-  Text,
-  View,
-  ScrollView,
-  TouchableWithoutFeedback,
-  Image
-} from "react-native";
+import { Text, View, TouchableWithoutFeedback, Image } from "react-native";
 import { Input, Button } from "react-native-elements";
 import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { loginUser } from "../actions";
 import CardSection from "../components/CardSection";
 import { isLoading } from "../selectors/utilSelectors";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const logo = require("../images/inAppLogo.png");
 
@@ -50,7 +45,7 @@ class LoginScreen extends Component {
   render() {
     const errors = this.validate();
     return (
-      <ScrollView keyboardShouldPersistTaps="handled">
+      <KeyboardAwareScrollView keyboardShouldPersistTaps="handled">
         <CardSection style={{ alignItems: "center", marginTop: 40 }}>
           <Image style={{ width: 200, height: 161 }} source={logo} />
         </CardSection>
@@ -58,6 +53,7 @@ class LoginScreen extends Component {
           <Input
             leftIcon={<Icon color="#a5a5a5" name="person" size={20} />}
             placeholder="LiU-ID"
+            placeholderTextColor="#cfcdcc"
             value={this.state.liuId}
             onChangeText={value => this.setState({ liuId: value })}
             onSubmitEditing={() => {
@@ -70,6 +66,7 @@ class LoginScreen extends Component {
             leftIcon={<Icon color="#a5a5a5" name="lock" size={20} />}
             containerStyle={{ marginBottom: 20 }}
             placeholder="Lösenord"
+            placeholderTextColor="#cfcdcc"
             value={this.state.password}
             autoCorrect={false}
             secureTextEntry
@@ -112,7 +109,7 @@ class LoginScreen extends Component {
             </View>
           </TouchableWithoutFeedback>
         </CardSection>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     );
   }
 }

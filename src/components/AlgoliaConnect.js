@@ -50,6 +50,7 @@ class SearchBox extends Component {
           }}
           value={this.props.currentRefinement}
           label={"Välj bok"}
+          placeholderTextColor="#cfcdcc"
           placeholder="Titel, författare, kurskod, program..."
         />
       </View>

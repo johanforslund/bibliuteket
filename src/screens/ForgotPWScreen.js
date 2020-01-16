@@ -14,6 +14,7 @@ class ForgotPWScreen extends Component {
       <View>
         <Input
           placeholder="LiU-ID"
+          placeholderTextColor="#cfcdcc"
           value={this.props.liuid}
           onChangeText={value => this.setState({ liuid: value })}
         />

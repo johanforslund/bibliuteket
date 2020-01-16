@@ -10,8 +10,7 @@ class SearchInput extends Component {
     return (
       <View
         style={{
-          height: Platform.OS === "ios" ? 72 : 57,
-          paddingTop: Platform.OS === "ios" ? 15 : 0,
+          height: 57,
           flexDirection: "row",
           alignItems: "center",
           backgroundColor: "#29749D"
@@ -19,6 +18,7 @@ class SearchInput extends Component {
       >
         <SearchBar
           placeholder="Sök"
+          placeholderTextColor="#cfcdcc"
           value={this.props.searchText}
           onChangeText={value => this.props.searchUpdate(value)}
           containerStyle={{

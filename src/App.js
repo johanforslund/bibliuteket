@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { createStore, applyMiddleware } from "redux";
 import ReduxThunk from "redux-thunk";
 import { Provider } from "react-redux";
+import { StyleSheet, SafeAreaView } from "react-native";
 import AppContainer from "./navigation/Navigator";
 import reducers from "./reducers";
 import NavigationService from "./navigation/NavigationService";
@@ -32,15 +33,24 @@ class App extends Component {
     return (
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistStore(store)}>
-          <AppContainer
-            ref={navigatorRef => {
-              NavigationService.setTopLevelNavigator(navigatorRef);
-            }}
-          />
+          <SafeAreaView style={styles.container}>
+            <AppContainer
+              ref={navigatorRef => {
+                NavigationService.setTopLevelNavigator(navigatorRef);
+              }}
+            />
+          </SafeAreaView>
         </PersistGate>
       </Provider>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#29749D"
+  }
+});
 
 export default App;

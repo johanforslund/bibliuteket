@@ -9,6 +9,7 @@ import BookTagList from "./BookTagList";
 import ImageUploader from "./ImageUploader";
 import { isLoading } from "../selectors/utilSelectors";
 import { changeMessengerName, changePhone } from "../actions/SettingsActions";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 class BookForm extends PureComponent {
   state = {
@@ -153,7 +154,7 @@ class BookForm extends PureComponent {
     };
 
     return (
-      <ScrollView
+      <KeyboardAwareScrollView
         style={{ backgroundColor: "#CFE3E9" }}
         contentContainerStyle={{ flexGrow: 1 }}
         keyboardShouldPersistTaps="handled"
@@ -330,7 +331,7 @@ class BookForm extends PureComponent {
             }
           />
         </CardSection>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     );
   }
 }
