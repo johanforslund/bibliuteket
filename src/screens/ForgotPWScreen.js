@@ -34,7 +34,7 @@ class ForgotPWScreen extends Component {
               .catch(error => {
                 Alert.alert(
                   "Det finns ingen användare med detta LiU-ID",
-                  "Ange korrekt uppgifter för återställa ditt lösenord",
+                  "Ange korrekt uppgifter för att återställa ditt lösenord",
                   [
                     {
                       text: "OK"

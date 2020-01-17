@@ -18,6 +18,7 @@ class SearchInput extends Component {
       >
         <SearchBar
           placeholder="Sök"
+          returnKeyType="done"
           placeholderTextColor="#cfcdcc"
           value={this.props.searchText}
           onChangeText={value => this.props.searchUpdate(value)}

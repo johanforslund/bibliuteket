@@ -283,7 +283,8 @@ class BookForm extends PureComponent {
                 value={this.state.messengerName}
                 rightIcon={
                   <Tooltip // Kanske behöver ändra yOffset i tooltip.js för rätt pos
-                    height={100}
+                    height={200}
+                    width={200}
                     backgroundColor="#29749D"
                     popover={
                       <Text style={{ color: "white" }}>

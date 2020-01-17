@@ -37,6 +37,7 @@ class ImageUploader extends PureComponent {
 
   pickImage() {
     const options = {
+      tintColor: Platform.OS === "ios" ? "#a6a2a0" : null,
       title: "Välj Bild",
       takePhotoButtonTitle: "Ta Foto",
       chooseFromLibraryButtonTitle: "Välj Från Galleri",
