@@ -6,7 +6,7 @@ import Toast from "react-native-root-toast";
 
 class ForgotPWScreen extends Component {
   state = {
-    liuid: ""
+    liuid: "",
   };
 
   render() {
@@ -16,7 +16,7 @@ class ForgotPWScreen extends Component {
           placeholder="LiU-ID"
           placeholderTextColor="#cfcdcc"
           value={this.props.liuid}
-          onChangeText={value => this.setState({ liuid: value })}
+          onChangeText={(value) => this.setState({ liuid: value })}
         />
         <Button
           raised
@@ -28,17 +28,17 @@ class ForgotPWScreen extends Component {
               .auth()
               .sendPasswordResetEmail(this.state.liuid + "@student.liu.se")
               .then(() => {
-                Toast.show("En återställningslänk har skikats till din mail");
+                Toast.show("En återställningslänk har skickats till din mail");
                 this.props.navigation.navigate("Login");
               })
-              .catch(error => {
+              .catch((error) => {
                 Alert.alert(
                   "Det finns ingen användare med detta LiU-ID",
                   "Ange korrekt uppgifter för att återställa ditt lösenord",
                   [
                     {
-                      text: "OK"
-                    }
+                      text: "OK",
+                    },
                   ]
                 );
               });
@@ -55,8 +55,8 @@ const styles = {
   errorTextStyle: {
     fontSize: 15,
     alignSelf: "center",
-    color: "red"
-  }
+    color: "red",
+  },
 };
 
 export default ForgotPWScreen;

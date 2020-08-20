@@ -289,7 +289,7 @@ class BookForm extends PureComponent {
                     popover={
                       <Text style={{ color: "white" }}>
                         Detta hittar du under "profil" på facebook messenger
-                        (ex. "fornamn.efternamn.131")
+                        (ex. "m.me/fornamn.efternamn.131")
                       </Text>
                     }
                   >
