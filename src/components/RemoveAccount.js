@@ -59,6 +59,7 @@ class RemoveAccount extends Component {
               returnKeyType="next"
               leftIcon={<Icon color="#a5a5a5" name="person" size={20} />}
               placeholder="LiU-ID"
+              placeholderTextColor="#cfcdcc"
               onSubmitEditing={() => {
                 this.refs.Password.focus();
               }}
@@ -71,6 +72,7 @@ class RemoveAccount extends Component {
               secureTextEntry
               autoCapitalize="none"
               placeholder="Lösenord"
+              placeholderTextColor="#cfcdcc"
               leftIcon={<Icon color="#a5a5a5" name="lock" size={20} />}
               inputStyle={styles.inputStyle}
               value={this.state.password}

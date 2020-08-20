@@ -9,6 +9,7 @@ import BookTagList from "./BookTagList";
 import ImageUploader from "./ImageUploader";
 import { isLoading } from "../selectors/utilSelectors";
 import { changeMessengerName, changePhone } from "../actions/SettingsActions";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 class BookForm extends PureComponent {
   state = {
@@ -153,7 +154,7 @@ class BookForm extends PureComponent {
     };
 
     return (
-      <ScrollView
+      <KeyboardAwareScrollView
         style={{ backgroundColor: "#CFE3E9" }}
         contentContainerStyle={{ flexGrow: 1 }}
         keyboardShouldPersistTaps="handled"
@@ -282,7 +283,8 @@ class BookForm extends PureComponent {
                 value={this.state.messengerName}
                 rightIcon={
                   <Tooltip // Kanske behöver ändra yOffset i tooltip.js för rätt pos
-                    height={100}
+                    height={200}
+                    width={200}
                     backgroundColor="#29749D"
                     popover={
                       <Text style={{ color: "white" }}>
@@ -330,7 +332,7 @@ class BookForm extends PureComponent {
             }
           />
         </CardSection>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     );
   }
 }

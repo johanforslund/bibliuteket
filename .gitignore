@@ -1,6 +1,7 @@
 src/config/
 google-services.json
 GoogleService-Info.plist
+ios/Pods
 
 # OSX
 #

@@ -67,14 +67,7 @@ class BookScreen extends Component {
           "."
       ).catch(error => console.log(error));
     } else {
-      Linking.openURL(
-        "sms:" +
-          phone +
-          "?body=" +
-          "Hej! Jag är intresserad av att köpa " +
-          title +
-          "."
-      ).catch(error => console.log(error));
+      Linking.openURL("sms:" + phone).catch(error => console.log(error));
     }
   };
 
@@ -311,6 +304,7 @@ class BookScreen extends Component {
             </View>
           </CardSection>
           <CardSection>{this.renderDeleteButton()}</CardSection>
+          <CardSection></CardSection>
         </Card>
       </ScrollView>
     );

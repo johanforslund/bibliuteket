@@ -6,6 +6,7 @@ import { userUpdate, registerUser } from "../actions";
 import { isLoading } from "../selectors/utilSelectors";
 import Card from "../components/Card";
 import CardSection from "../components/CardSection";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 class RegisterScreen extends Component {
   state = {
@@ -35,17 +36,22 @@ class RegisterScreen extends Component {
   render() {
     const errors = this.validate();
     return (
-      <View style={{ flex: 1, backgroundColor: "#CFE3E9" }}>
+      <KeyboardAwareScrollView
+        keyboardShouldPersistTaps="handled"
+        style={{ flex: 1, backgroundColor: "#CFE3E9" }}
+      >
         <Card>
           <CardSection>
             <Input
               placeholder="Ditt namn"
+              placeholderTextColor="#cfcdcc"
               value={this.state.name}
               onChangeText={value => this.setState({ name: value })}
               maxLength={40}
             />
             <Input
               placeholder="LiU-ID"
+              placeholderTextColor="#cfcdcc"
               value={this.state.liuId}
               onChangeText={value => this.setState({ liuId: value })}
               maxLength={8}
@@ -53,6 +59,7 @@ class RegisterScreen extends Component {
             />
             <Input
               placeholder="Lösenord"
+              placeholderTextColor="#cfcdcc"
               value={this.state.password}
               autoCorrect={false}
               autoCapitalize="none"
@@ -107,7 +114,7 @@ class RegisterScreen extends Component {
             />
           </CardSection>
         </Card>
-      </View>
+      </KeyboardAwareScrollView>
     );
   }
 }
