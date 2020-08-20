@@ -2,20 +2,21 @@ import React, { Component } from "react";
 import { createStore, applyMiddleware } from "redux";
 import ReduxThunk from "redux-thunk";
 import { Provider } from "react-redux";
-import { StyleSheet, SafeAreaView } from "react-native";
+import { StyleSheet } from "react-native";
 import AppContainer from "./navigation/Navigator";
 import reducers from "./reducers";
 import NavigationService from "./navigation/NavigationService";
 import { useScreens } from "react-native-screens";
 import AsyncStorage from "@react-native-community/async-storage";
 import { persistStore, persistReducer } from "redux-persist";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { PersistGate } from "redux-persist/integration/react";
 const keys = require("./config/keys");
 
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
-  whitelist: ["settings"]
+  whitelist: ["settings"],
 };
 const persistedReducer = persistReducer(persistConfig, reducers);
 const store = createStore(persistedReducer, applyMiddleware(ReduxThunk));
@@ -33,13 +34,13 @@ class App extends Component {
     return (
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistStore(store)}>
-          <SafeAreaView style={styles.container}>
+          <SafeAreaProvider>
             <AppContainer
-              ref={navigatorRef => {
+              ref={(navigatorRef) => {
                 NavigationService.setTopLevelNavigator(navigatorRef);
               }}
             />
-          </SafeAreaView>
+          </SafeAreaProvider>
         </PersistGate>
       </Provider>
     );
@@ -49,8 +50,8 @@ class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#29749D"
-  }
+    backgroundColor: "#29749D",
+  },
 });
 
 export default App;
