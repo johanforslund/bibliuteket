@@ -142,7 +142,7 @@ export const bookEdit = (
       .then(() => {
         dispatch({ type: BOOK_EDIT_SUCCESS });
         NavigationService.popToTop();
-        Toast.show("Ditt annons har blivit uppdaterad");
+        Toast.show("Din annons har blivit uppdaterad");
       })
       .catch(err => dispatch({ type: BOOK_EDIT_FAIL, payload: err.message }));
   };
