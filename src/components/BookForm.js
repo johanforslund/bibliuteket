@@ -2,7 +2,7 @@ import React, { PureComponent } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { Input, Tooltip, Icon, Button } from "react-native-elements";
 import { connect } from "react-redux";
-import { bookCreate } from "../actions";
+import { bookCreate, bookEdit } from "../actions";
 import CardSection from "./CardSection";
 import Card from "./Card";
 import BookTagList from "./BookTagList";
@@ -35,8 +35,20 @@ class BookForm extends PureComponent {
   constructor(props) {
     super(props);
 
-    const { storedBook } = this.props;
-    if (storedBook) {
+    const { storedBook, editBook } = this.props;
+    console.log(editBook);
+    if (editBook) {
+      this.state.author = editBook.author;
+      this.state.title = editBook.title;
+      this.state.description = editBook.description;
+      this.state.location = editBook.location;
+      this.state.phone = editBook.phone;
+      this.state.price = editBook.price.toString();
+      this.state.name = editBook.name;
+      this.state.imageURL = editBook.imageURL;
+      this.state.messengerName = editBook.messengerName;
+      this.state.tags = editBook.tags ? editBook.tags : [];
+    } else if (storedBook) {
       this.state.author = storedBook.author;
       this.state.title = storedBook.title;
     }
@@ -67,41 +79,56 @@ class BookForm extends PureComponent {
       messengerName,
       tags
     } = this.state;
-    const date = new Date().getTime();
 
     if (messengerName !== "") this.props.changeMessengerName(messengerName);
     if (phone !== "") this.props.changePhone(phone);
 
-    let programs = [];
-    let courses = [];
-    let isbn = "";
-    let storedBookID = "-1";
+    const { editBook } = this.props;
+    if (editBook) {
+      this.props.bookEdit(editBook.uid, {
+        author,
+        description,
+        location,
+        phone,
+        price,
+        title,
+        imageURL,
+        messengerName,
+        tags
+      });
+    } else {
+      let programs = [];
+      let courses = [];
+      let isbn = "";
+      let storedBookID = "-1";
 
-    const { storedBook } = this.props;
-    if (storedBook) {
-      programs = storedBook.program;
-      courses = storedBook.course;
-      isbn = storedBook.isbn;
-      storedBookID = storedBook.objectID;
+      const { storedBook } = this.props;
+      if (storedBook) {
+        programs = storedBook.program;
+        courses = storedBook.course;
+        isbn = storedBook.isbn;
+        storedBookID = storedBook.objectID;
+      }
+      const date = new Date().getTime();
+
+      this.props.bookCreate({
+        author,
+        date,
+        description,
+        location,
+        phone,
+        price,
+        name,
+        title,
+        imageURL,
+        messengerName,
+        tags,
+        programs,
+        courses,
+        isbn,
+        storedBookID
+      });
     }
-
-    this.props.bookCreate({
-      author,
-      date,
-      description,
-      location,
-      phone,
-      price,
-      name,
-      title,
-      imageURL,
-      messengerName,
-      tags,
-      programs,
-      courses,
-      isbn,
-      storedBookID
-    });
 
     this.setState({
       author: "",
@@ -210,7 +237,11 @@ class BookForm extends PureComponent {
                   touched: { ...this.state.touched, author: true }
                 })
               }
-              disabled={this.props.storedBook}
+              disabled={
+                this.props.storedBook ||
+                (this.props.editBook &&
+                  this.props.editBook.storedBookID !== "-1")
+              }
             />
           </CardSection>
 
@@ -282,7 +313,7 @@ class BookForm extends PureComponent {
                 }}
                 value={this.state.messengerName}
                 rightIcon={
-                  <Tooltip // Kanske behöver ändra yOffset i tooltip.js för rätt pos
+                  <Tooltip
                     height={200}
                     width={200}
                     backgroundColor="#29749D"
@@ -320,7 +351,7 @@ class BookForm extends PureComponent {
             raised
             buttonStyle={{ backgroundColor: "#2ecc71" }}
             textStyle={{ textAlign: "center" }}
-            title={"Lägg upp"}
+            title={this.props.editBook ? "Slutför ändringar" : "Lägg upp"}
             loading={this.props.loading}
             onPress={this.onButtonPress.bind(this)}
             disabled={
@@ -351,8 +382,12 @@ const mapStateToProps = state => {
   return { user, loading, messengerName, phone };
 };
 
-export default connect(mapStateToProps, {
-  bookCreate,
-  changeMessengerName,
-  changePhone
-})(BookForm);
+export default connect(
+  mapStateToProps,
+  {
+    bookCreate,
+    bookEdit,
+    changeMessengerName,
+    changePhone
+  }
+)(BookForm);

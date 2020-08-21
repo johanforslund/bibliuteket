@@ -6,6 +6,9 @@ import {
   BOOK_CREATE_SUCCESS,
   BOOK_CREATE_FAIL,
   BOOK_CREATE_REQUEST,
+  BOOK_EDIT_SUCCESS,
+  BOOK_EDIT_FAIL,
+  BOOK_EDIT_REQUEST,
   BOOK_DELETE_SUCCESS,
   BOOK_DELETE_FAIL,
   BOOK_DELETE_REQUEST,
@@ -13,6 +16,7 @@ import {
   BOOKS_SORT_BY
 } from "./types";
 import NavigationService from "../navigation/NavigationService";
+import Toast from "react-native-root-toast";
 
 export const booksFetch = () => {
   return dispatch => {
@@ -99,6 +103,48 @@ export const bookCreate = ({
         NavigationService.navigate("BookList");
       })
       .catch(err => dispatch({ type: BOOK_CREATE_FAIL, payload: err.message }));
+  };
+};
+
+export const bookEdit = (
+  uid,
+  {
+    author,
+    description,
+    location,
+    phone,
+    imageURL,
+    price,
+    title,
+    messengerName,
+    tags
+  }
+) => {
+  price ? (price = parseInt(price)) : null;
+
+  return dispatch => {
+    dispatch({ type: BOOK_EDIT_REQUEST });
+
+    firebase
+      .database()
+      .ref(`books/${uid}`)
+      .update({
+        author,
+        description,
+        location,
+        phone,
+        imageURL,
+        price,
+        title,
+        messengerName,
+        tags
+      })
+      .then(() => {
+        dispatch({ type: BOOK_EDIT_SUCCESS });
+        NavigationService.popToTop();
+        Toast.show("Ditt annons har blivit uppdaterad");
+      })
+      .catch(err => dispatch({ type: BOOK_EDIT_FAIL, payload: err.message }));
   };
 };
 

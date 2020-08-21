@@ -6,7 +6,7 @@ import {
   Image,
   Linking,
   TouchableOpacity,
-  Platform,
+  Platform
 } from "react-native";
 import Toast from "react-native-root-toast";
 import Modal from "react-native-modal";
@@ -28,7 +28,7 @@ class BookScreen extends Component {
   state = {
     isModalVisible: false,
     emailVerified: false,
-    intervalId: -1,
+    intervalId: -1
   };
 
   componentDidMount() {
@@ -65,11 +65,31 @@ class BookScreen extends Component {
           "Hej! Jag är intresserad av att köpa " +
           title +
           "."
-      ).catch((error) => console.log(error));
+      ).catch(error => console.log(error));
     } else {
-      Linking.openURL("sms:" + phone).catch((error) => console.log(error));
+      Linking.openURL("sms:" + phone).catch(error => console.log(error));
     }
   };
+
+  renderEditButton() {
+    const { currentUser } = firebase.auth();
+    const editBook = this.props.navigation.getParam("book");
+
+    if (currentUser && currentUser.uid === editBook.user) {
+      return (
+        <TouchableOpacity
+          style={styles.editBtnStyle}
+          onPress={() => {
+            this.props.navigation.navigate("EditBook", {
+              editBook: editBook
+            });
+          }}
+        >
+          <Icon name="edit" size={30} color="#fff" />
+        </TouchableOpacity>
+      );
+    }
+  }
 
   renderDeleteButton() {
     const { currentUser } = firebase.auth();
@@ -85,7 +105,7 @@ class BookScreen extends Component {
             loading={this.props.loading}
             onPress={() => {
               this.setState({
-                isModalVisible: !this.state.isModalVisible,
+                isModalVisible: !this.state.isModalVisible
               });
             }}
           />
@@ -96,7 +116,7 @@ class BookScreen extends Component {
             isVisible={this.state.isModalVisible}
             onBackdropPress={() =>
               this.setState({
-                isModalVisible: !this.state.isModalVisible,
+                isModalVisible: !this.state.isModalVisible
               })
             }
           >
@@ -106,7 +126,7 @@ class BookScreen extends Component {
                 style={{
                   width: "100%",
                   flexDirection: "row",
-                  justifyContent: "space-around",
+                  justifyContent: "space-around"
                 }}
               >
                 <Button
@@ -132,7 +152,7 @@ class BookScreen extends Component {
                 title="Avbryt"
                 onPress={() =>
                   this.setState({
-                    isModalVisible: !this.state.isModalVisible,
+                    isModalVisible: !this.state.isModalVisible
                   })
                 }
                 type="clear"
@@ -146,7 +166,6 @@ class BookScreen extends Component {
 
   renderDescription() {
     const { description } = this.props.navigation.getParam("book");
-
     if (description.trim() != "") {
       return (
         <Card>
@@ -191,7 +210,7 @@ class BookScreen extends Component {
               style={{
                 marginRight: 8,
                 height: 20,
-                width: 20,
+                width: 20
               }}
             />
             <Text style={styles.infoStyle}>Kontakta {name.split(" ")[0]}</Text>
@@ -246,7 +265,7 @@ class BookScreen extends Component {
       name,
       imageURL,
       price,
-      title,
+      title
     } = this.props.navigation.getParam("book");
     const formattedDate = moment(date).fromNow();
 
@@ -257,6 +276,7 @@ class BookScreen extends Component {
           <CardSection>
             <Text style={styles.headingStyle}>{title}</Text>
             <Text style={styles.subHeadingStyle}>{author}</Text>
+            {this.renderEditButton()}
           </CardSection>
           <CardSection style={styles.rowCardStyle}>
             <View style={{ flexDirection: "row" }}>
@@ -279,7 +299,7 @@ class BookScreen extends Component {
             <View
               style={{
                 flexDirection: "row",
-                marginBottom: 3,
+                marginBottom: 3
               }}
             >
               <Icon
@@ -305,7 +325,7 @@ class BookScreen extends Component {
               style={{
                 flexWrap: "wrap",
                 flexDirection: "row",
-                justifyContent: "space-around",
+                justifyContent: "space-around"
               }}
             >
               {this.renderMessengerButton()}
@@ -324,42 +344,54 @@ const styles = {
   headingStyle: {
     fontSize: 25,
     fontWeight: "bold",
+    marginRight: 60
   },
   subHeadingStyle: {
     fontSize: 15,
-    color: "#373737",
+    color: "#373737"
   },
   priceStyle: {
     fontSize: 25,
     fontWeight: "bold",
-    color: "#00C853",
+    color: "#00C853"
   },
   rowCardStyle: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-between"
+  },
+  editBtnStyle: {
+    position: "absolute",
+    right: 10,
+    top: -30,
+    backgroundColor: "#29749D",
+    height: 60,
+    width: 60,
+    borderRadius: 30,
+    justifyContent: "center",
+    alignItems: "center"
   },
   imageStyle: {
     width: "100%",
     height: 280,
     resizeMode: "contain",
-    backgroundColor: "#373737",
+    backgroundColor: "#373737"
   },
   descriptionHeadingStyle: {
     fontSize: 14,
     fontWeight: "bold",
-    marginBottom: 3,
+    marginBottom: 3
   },
   descriptionTextStyle: {
     fontSize: 14,
-    color: "#373737",
+    color: "#373737"
   },
   infoStyle: {
     fontSize: 14,
     color: "#373737",
-    marginBottom: 3,
+    marginBottom: 3
   },
   iconStyle: {
-    marginRight: 8,
+    marginRight: 8
   },
   messengerStyle: {
     shadowColor: "rgba(0,0,0, .4)",
@@ -374,14 +406,14 @@ const styles = {
     flexDirection: "row",
     borderRadius: 10,
     padding: 8,
-    marginTop: 5,
+    marginTop: 5
   },
   titleStyle: {
     color: "black",
     fontSize: 20,
     marginBottom: 20,
     fontWeight: "bold",
-    textAlign: "center",
+    textAlign: "center"
   },
   modalContainerStyle: {
     backgroundColor: "white",
@@ -389,11 +421,11 @@ const styles = {
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 20,
-    borderColor: "rgba(0, 0, 0, 0.1)",
-  },
+    borderColor: "rgba(0, 0, 0, 0.1)"
+  }
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const loading = isLoading(["BOOK_DELETE"], state);
 
   return { loading };
