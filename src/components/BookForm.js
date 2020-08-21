@@ -36,7 +36,6 @@ class BookForm extends PureComponent {
     super(props);
 
     const { storedBook, editBook } = this.props;
-    console.log(editBook);
     if (editBook) {
       this.state.author = editBook.author;
       this.state.title = editBook.title;
