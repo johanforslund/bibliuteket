@@ -6,6 +6,7 @@ import Ionicons from "react-native-vector-icons/MaterialIcons";
 import BookListScreen from "../screens/BookListScreen";
 import BookScreen from "../screens/BookScreen";
 import AddBookScreen from "../screens/AddBookScreen";
+import EditBookScreen from "../screens/EditBookScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
@@ -28,6 +29,15 @@ const BookListStack = createStackNavigator({
   },
   Book: {
     screen: BookScreen,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: "#29749D"
+      },
+      headerTintColor: "white"
+    }
+  },
+  EditBook: {
+    screen: EditBookScreen,
     navigationOptions: {
       headerStyle: {
         backgroundColor: "#29749D"

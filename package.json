@@ -49,5 +49,8 @@
   },
   "jest": {
     "preset": "react-native"
+  },
+  "prettier": {
+    "trailingComma": "none"
   }
 }
