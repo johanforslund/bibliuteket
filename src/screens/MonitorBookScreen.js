@@ -1,8 +1,16 @@
 import React, { Component } from "react";
 import { ListItem, Icon, Button } from "react-native-elements";
-import { ScrollView, Text, TouchableOpacity } from "react-native";
+import {
+  ScrollView,
+  Text,
+  View,
+  TouchableOpacity,
+  ActivityIndicator
+} from "react-native";
 import { connect } from "react-redux";
 import Card from "../components/Card";
+import { isLoading } from "../selectors/utilSelectors";
+
 import CardSection from "../components/CardSection";
 import { monitorBooksFetch, monitorBookDelete } from "../actions";
 
@@ -16,21 +24,34 @@ class MonitorBookScreen extends Component {
   }
 
   renderMonitoredBooks() {
-    return this.props.monitoredBooks.map(monitoredBook => (
-      <ListItem
-        key={monitoredBook.isbn}
-        title={monitoredBook.title}
-        subtitle={monitoredBook.author}
-        rightIcon={
-          <TouchableOpacity
-            onPress={() => this.props.monitorBookDelete(monitoredBook.uid)}
-          >
-            <Icon name="delete" />
-          </TouchableOpacity>
-        }
-        bottomDivider
-      />
-    ));
+    if (this.props.loading) {
+      return (
+        <View style={{ flex: 1, justifyContent: "center" }}>
+          <ActivityIndicator />
+        </View>
+      );
+    }
+    if (this.props.monitoredBooks.length > 0) {
+      return this.props.monitoredBooks.map(monitoredBook => (
+        <ListItem
+          key={monitoredBook.isbn}
+          title={monitoredBook.title}
+          subtitle={monitoredBook.author}
+          rightIcon={
+            <TouchableOpacity
+              onPress={() => this.props.monitorBookDelete(monitoredBook.uid)}
+            >
+              <Icon name="delete" />
+            </TouchableOpacity>
+          }
+          bottomDivider
+        />
+      ));
+    } else {
+      return (
+        <Text style={styles.textStyle}>Du har inga böcker bevakade ännu.</Text>
+      );
+    }
   }
 
   render() {
@@ -40,14 +61,12 @@ class MonitorBookScreen extends Component {
         contentContainerStyle={{ flexGrow: 1 }}
         keyboardShouldPersistTaps="handled"
       >
-        {this.props.monitoredBooks.length > 0 ? (
-          <Card>
-            <CardSection>
-              <Text style={styles.textHeader}>Dina bevakade böcker</Text>
-              <CardSection>{this.renderMonitoredBooks()}</CardSection>
-            </CardSection>
-          </Card>
-        ) : null}
+        <Card>
+          <CardSection>
+            <Text style={styles.textHeader}>Dina bevakade böcker</Text>
+            <CardSection>{this.renderMonitoredBooks()}</CardSection>
+          </CardSection>
+        </Card>
         <CardSection>
           <Button
             raised
@@ -65,7 +84,9 @@ class MonitorBookScreen extends Component {
 const mapStateToProps = state => {
   const { monitoredBooks } = state.profile;
 
-  return { monitoredBooks };
+  const loading = isLoading(["BOOKS_FETCH_MONITORED"], state);
+
+  return { monitoredBooks, loading };
 };
 
 const styles = {
@@ -96,13 +117,6 @@ const styles = {
     alignItems: "center"
   },
   textStyle: {
-    fontWeight: "bold"
-  },
-  titleStyle: {
-    color: "black",
-    fontSize: 20,
-    marginBottom: 20,
-    fontWeight: "bold",
     textAlign: "center"
   }
 };

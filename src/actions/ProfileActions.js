@@ -3,9 +3,10 @@ import NavigationService from "../navigation/NavigationService";
 import {
   BOOKS_PROFILE_FETCH_SUCCESS,
   BOOKS_FETCH_MONITORED_SUCCESS,
-  BOOK_MONITOR_REQUEST,
-  BOOK_MONITOR_SUCCESS,
-  BOOK_MONITOR_FAIL,
+  BOOKS_FETCH_MONITORED_REQUEST,
+  BOOK_MONITOR_ADD_REQUEST,
+  BOOK_MONITOR_ADD_SUCCESS,
+  BOOK_MONITOR_ADD_FAIL,
   BOOK_MONITOR_DELETE_REQUEST,
   BOOK_MONITOR_DELETE_SUCCESS,
   BOOK_MONITOR_DELETE_FAIL
@@ -36,6 +37,7 @@ export const monitorBooksFetch = () => {
   const { currentUser } = firebase.auth();
 
   return dispatch => {
+    dispatch({ type: BOOKS_FETCH_MONITORED_REQUEST });
     firebase
       .database()
       .ref("bookFollows")
@@ -75,17 +77,17 @@ export const monitorBookAdd = storedBookID => {
   const userId = currentUser.uid;
 
   return dispatch => {
-    dispatch({ type: BOOK_MONITOR_REQUEST });
+    dispatch({ type: BOOK_MONITOR_ADD_REQUEST }); // add ADD to type
     firebase
       .database()
       .ref("/bookFollows/" + storedBookID + "/" + userId)
       .set(true)
       .then(() => {
         NavigationService.navigate("MonitorBook");
-        dispatch({ type: BOOK_MONITOR_SUCCESS });
+        dispatch({ type: BOOK_MONITOR_ADD_SUCCESS });
       })
       .catch(err =>
-        dispatch({ type: BOOK_MONITOR_FAIL, payload: err.message })
+        dispatch({ type: BOOK_MONITOR_ADD_FAIL, payload: err.message })
       );
   };
 };
