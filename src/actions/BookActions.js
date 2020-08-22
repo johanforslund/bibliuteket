@@ -176,7 +176,9 @@ const deleteBookSuccess = (dispatch, imageURL) => {
   dispatch({ type: BOOK_DELETE_SUCCESS });
 
   const image = firebase.storage().refFromURL(imageURL);
-  image
+  firebase
+    .storage()
+    .ref(image.fullPath)
     .delete()
     .then(function() {})
     .catch(function(error) {
