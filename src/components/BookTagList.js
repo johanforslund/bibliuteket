@@ -48,10 +48,11 @@ class BookTagList extends Component {
         {this.props.tags.map((tag, i) => {
           return (
             <BookTag
+              isRemovable={true}
               removeTag={this.props.removeTag}
               tagIndex={i}
               name={tag}
-            ></BookTag>
+            />
           );
         })}
       </View>

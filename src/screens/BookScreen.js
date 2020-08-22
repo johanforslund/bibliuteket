@@ -168,12 +168,23 @@ class BookScreen extends Component {
     const { description } = this.props.navigation.getParam("book");
     if (description.trim() != "") {
       return (
-        <Card>
-          <CardSection>
-            <Text style={styles.descriptionHeadingStyle}>Beskrivning</Text>
-            <Text style={styles.descriptionTextStyle}>{description}</Text>
-          </CardSection>
-        </Card>
+        <CardSection>
+          <Text style={styles.descriptionHeadingStyle}>Beskrivning</Text>
+          <Text style={styles.descriptionTextStyle}>{description}</Text>
+        </CardSection>
+      );
+    }
+  }
+
+  renderTags() {
+    const { tags } = this.props.navigation.getParam("book");
+    if (tags && tags.length > 0) {
+      return (
+        <View style={styles.tagsContainerStyle}>
+          {tags.map(tag => {
+            return <BookTag isRemovable={false} name={tag} />;
+          })}
+        </View>
       );
     }
   }
@@ -293,7 +304,10 @@ class BookScreen extends Component {
             <Text style={styles.priceStyle}>{price} kr </Text>
           </CardSection>
         </Card>
-        {this.renderDescription()}
+        <Card>
+          {this.renderDescription()}
+          {this.renderTags()}
+        </Card>
         <Card>
           <CardSection>
             <View
@@ -422,6 +436,12 @@ const styles = {
     alignItems: "center",
     borderRadius: 20,
     borderColor: "rgba(0, 0, 0, 0.1)"
+  },
+  tagsContainerStyle: {
+    marginTop: 6,
+    flexDirection: "row",
+    paddingLeft: 10,
+    flexWrap: "wrap"
   }
 };
 
