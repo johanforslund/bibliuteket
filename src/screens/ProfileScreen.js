@@ -1,6 +1,13 @@
 import React, { Component } from "react";
 import { ListItem, Icon, Button, Input } from "react-native-elements";
-import { View, ScrollView, Text, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  Image,
+  ActivityIndicator
+} from "react-native";
 import Modal from "react-native-modal";
 import firebase from "react-native-firebase";
 import { connect } from "react-redux";
@@ -8,6 +15,7 @@ import VectorIcon from "react-native-vector-icons/MaterialIcons";
 import moment from "moment";
 import Card from "../components/Card";
 import CardSection from "../components/CardSection";
+import { isLoading } from "../selectors/utilSelectors";
 
 import { profileBooksFetch, updateUserDetails } from "../actions";
 
@@ -58,27 +66,42 @@ class ProfileScreen extends Component {
   }
 
   renderProfileBooks() {
-    return this.props.profileBooks.map(profileBook => (
-      <TouchableOpacity
-        style={styles.rowCardStyle}
-        key={profileBook.date}
-        delayPressIn={50}
-        onPress={() => this.handlePress(profileBook)}
-      >
-        <View style={styles.textContainer}>
-          <Text style={styles.textStyle}>Titel: {profileBook.title}</Text>
-          <Text style={styles.textStyle}>
-            Skapad: {moment(profileBook.date).format("YYYY-MM-DD | HH:ss")}
-          </Text>
+    if (this.props.loading) {
+      return (
+        <View style={{ flex: 1, justifyContent: "center" }}>
+          <ActivityIndicator />
         </View>
-        <View style={styles.imageConatiner}>
-          <Image
-            style={styles.imageStyle}
-            source={{ uri: profileBook.imageURL }}
-          />
-        </View>
-      </TouchableOpacity>
-    ));
+      );
+    }
+    if (this.props.profileBooks.length > 0) {
+      return this.props.profileBooks.map(profileBook => (
+        <TouchableOpacity
+          style={styles.rowCardStyle}
+          key={profileBook.date}
+          delayPressIn={50}
+          onPress={() => this.handlePress(profileBook)}
+        >
+          <View style={styles.textContainer}>
+            <Text style={styles.textStyle}>Titel: {profileBook.title}</Text>
+            <Text style={styles.textStyle}>
+              Skapad: {moment(profileBook.date).format("YYYY-MM-DD | HH:ss")}
+            </Text>
+          </View>
+          <View style={styles.imageConatiner}>
+            <Image
+              style={styles.imageStyle}
+              source={{ uri: profileBook.imageURL }}
+            />
+          </View>
+        </TouchableOpacity>
+      ));
+    } else {
+      return (
+        <Text style={{ textAlign: "center" }}>
+          Du har inga upplagda böcker ännu.
+        </Text>
+      );
+    }
   }
 
   renderProfile() {
@@ -168,14 +191,12 @@ class ProfileScreen extends Component {
             {this.authStatus()}
           </CardSection>
         </Card>
-        {this.props.profileBooks.length > 0 ? (
-          <Card>
-            <CardSection>
-              <Text style={styles.textHeader}>Dina böcker</Text>
-              <CardSection>{this.renderProfileBooks()}</CardSection>
-            </CardSection>
-          </Card>
-        ) : null}
+        <Card>
+          <CardSection>
+            <Text style={styles.textHeader}>Dina böcker</Text>
+            <CardSection>{this.renderProfileBooks()}</CardSection>
+          </CardSection>
+        </Card>
         <Card>
           <CardSection>
             <Text style={styles.textHeader}>Övrigt</Text>
@@ -214,7 +235,9 @@ class ProfileScreen extends Component {
 const mapStateToProps = state => {
   const { profileBooks } = state.profile;
 
-  return { profileBooks };
+  const loading = isLoading(["BOOKS_FETCH_PROFILE"], state);
+
+  return { profileBooks, loading };
 };
 
 const styles = {
@@ -284,7 +307,10 @@ const styles = {
   }
 };
 
-export default connect(mapStateToProps, {
-  profileBooksFetch,
-  updateUserDetails
-})(ProfileScreen);
+export default connect(
+  mapStateToProps,
+  {
+    profileBooksFetch,
+    updateUserDetails
+  }
+)(ProfileScreen);
