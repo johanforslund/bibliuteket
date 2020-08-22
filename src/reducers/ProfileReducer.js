@@ -1,4 +1,4 @@
-import { BOOKS_PROFILE_FETCH_SUCCESS } from "../actions/types";
+import { BOOKS_FETCH_PROFILE_SUCCESS } from "../actions/types";
 import { BOOKS_FETCH_MONITORED_SUCCESS } from "../actions/types";
 const INITIAL_STATE = {
   profileBooks: [],
@@ -7,7 +7,7 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case BOOKS_PROFILE_FETCH_SUCCESS:
+    case BOOKS_FETCH_PROFILE_SUCCESS:
       const profileBooks = action.payload;
       return { ...state, profileBooks };
     case BOOKS_FETCH_MONITORED_SUCCESS:

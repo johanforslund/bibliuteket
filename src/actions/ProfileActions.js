@@ -1,8 +1,8 @@
 import firebase from "react-native-firebase"; //eslint-disable-line
 import NavigationService from "../navigation/NavigationService";
 import {
-  BOOKS_PROFILE_FETCH_SUCCESS,
-  BOOKS_PROFILE_FETCH_REQUEST,
+  BOOKS_FETCH_PROFILE_SUCCESS,
+  BOOKS_FETCH_PROFILE_REQUEST,
   BOOKS_FETCH_MONITORED_SUCCESS,
   BOOKS_FETCH_MONITORED_REQUEST,
   BOOK_MONITOR_ADD_REQUEST,
@@ -16,7 +16,7 @@ import {
 export const profileBooksFetch = () => {
   const { currentUser } = firebase.auth();
   return dispatch => {
-    dispatch({ type: BOOKS_PROFILE_FETCH_REQUEST });
+    dispatch({ type: BOOKS_FETCH_PROFILE_REQUEST });
     firebase
       .database()
       .ref("books")
@@ -29,7 +29,7 @@ export const profileBooksFetch = () => {
           if (!childWithUid.sold) profileBooks.push(childWithUid);
         });
         profileBooks.reverse();
-        dispatch({ type: BOOKS_PROFILE_FETCH_SUCCESS, payload: profileBooks });
+        dispatch({ type: BOOKS_FETCH_PROFILE_SUCCESS, payload: profileBooks });
       });
   };
 };

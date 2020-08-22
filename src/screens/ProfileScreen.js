@@ -235,7 +235,7 @@ class ProfileScreen extends Component {
 const mapStateToProps = state => {
   const { profileBooks } = state.profile;
 
-  const loading = isLoading(["BOOKS_PROFILE_FETCH"], state);
+  const loading = isLoading(["BOOKS_FETCH_PROFILE"], state);
 
   return { profileBooks, loading };
 };
