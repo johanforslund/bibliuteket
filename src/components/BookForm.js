@@ -54,14 +54,18 @@ class BookForm extends PureComponent {
   }
 
   validate = () => {
-    const reg = new RegExp("^[0-9]+$");
+    const { title, author, price, messengerName, phone } = this.state;
+
+    const regNumber = new RegExp("^[0-9]+$");
+    const regMessengerName = new RegExp("^[a-zA-Z0-9.]+$");
     return {
-      title: this.state.title.length === 0,
-      author: this.state.author.length === 0,
-      price: this.state.price.length === 0 || !reg.test(this.state.price),
+      title: title.length === 0,
+      author: author.length === 0,
+      price: price.length === 0 || !regNumber.test(price),
       imageURL: !this.state.imageURL,
-      contact:
-        this.state.messengerName.length === 0 && this.state.phone.length === 0
+      messengerName: messengerName && !regMessengerName.test(messengerName),
+      phone: phone && !regNumber.test(phone),
+      contact: messengerName.length === 0 && phone.length === 0
     };
   };
 
@@ -163,9 +167,9 @@ class BookForm extends PureComponent {
   };
 
   stripMessengerName = name => {
-    preNameIndex = name.indexOf(".me/");
+    const preNameIndex = name.indexOf(".me/");
     if (preNameIndex == -1) return name.trim();
-    strippedName = name.substr(preNameIndex + 4).trim();
+    const strippedName = name.substr(preNameIndex + 4).trim();
 
     return strippedName;
   };
@@ -303,7 +307,7 @@ class BookForm extends PureComponent {
                 returnKeyType="next"
                 label="Messenger-användarnamn"
                 errorMessage={
-                  shouldMarkError("title") ? "Obligatoriskt fält" : ""
+                  shouldMarkError("messengerName") ? "Felaktigt format" : ""
                 }
                 maxLength={40}
                 inputStyle={styles.inputStyle}
@@ -327,9 +331,14 @@ class BookForm extends PureComponent {
                   </Tooltip>
                 }
                 onChangeText={value => {
-                  messengerNameStripped = this.stripMessengerName(value);
+                  const messengerNameStripped = this.stripMessengerName(value);
                   this.setState({ messengerName: messengerNameStripped });
                 }}
+                onBlur={() =>
+                  this.setState({
+                    touched: { ...this.state.touched, messengerName: true }
+                  })
+                }
               />
             </View>
           </CardSection>
@@ -358,6 +367,8 @@ class BookForm extends PureComponent {
               errors.author ||
               errors.price ||
               errors.imageURL ||
+              errors.messengerName ||
+              errors.phone ||
               errors.contact
             }
           />
