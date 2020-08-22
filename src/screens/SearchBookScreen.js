@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { TouchableOpacity, Text, View } from "react-native";
 import { Button } from "react-native-elements";
 import NavigationService from "../navigation/NavigationService";
-import firebase from "react-native-firebase"; //eslint-disable-line
+import firebase from "@react-native-firebase/app"; //eslint-disable-line
 import CardSection from "../components/CardSection";
 import Card from "../components/Card";
 import AlgoliaConnect from "../components/AlgoliaConnect";

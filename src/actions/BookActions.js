@@ -1,4 +1,4 @@
-import firebase from "react-native-firebase"; //eslint-disable-line
+import firebase from "@react-native-firebase/app"; //eslint-disable-line
 import {
   BOOKS_FETCH_SUCCESS,
   BOOKS_FETCH_FAIL,
@@ -175,8 +175,12 @@ export const bookDelete = (uid, imageURL, action) => {
 const deleteBookSuccess = (dispatch, imageURL) => {
   dispatch({ type: BOOK_DELETE_SUCCESS });
 
+  console.log(imageURL);
+
   const image = firebase.storage().refFromURL(imageURL);
-  image
+  firebase
+    .storage()
+    .ref(image.fullPath)
     .delete()
     .then(function() {})
     .catch(function(error) {

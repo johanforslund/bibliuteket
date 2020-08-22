@@ -9,7 +9,7 @@ import {
   ActivityIndicator
 } from "react-native";
 import Modal from "react-native-modal";
-import firebase from "react-native-firebase";
+import firebase from "@react-native-firebase/app";
 import { connect } from "react-redux";
 import VectorIcon from "react-native-vector-icons/MaterialIcons";
 import moment from "moment";

@@ -8,7 +8,7 @@ import {
   ActivityIndicator
 } from "react-native";
 import { connect } from "react-redux";
-import firebase from "react-native-firebase"; //eslint-disable-line
+import firebase from "@react-native-firebase/app"; //eslint-disable-line
 import { booksFetch } from "../actions";
 import BookDetail from "../components/BookDetail";
 import SearchBar from "../components/SearchBar";
@@ -93,4 +93,7 @@ const mapStateToProps = state => {
   return { sorting, books, loading };
 };
 
-export default connect(mapStateToProps, { booksFetch })(BookListScreen);
+export default connect(
+  mapStateToProps,
+  { booksFetch }
+)(BookListScreen);

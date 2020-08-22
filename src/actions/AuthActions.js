@@ -1,4 +1,4 @@
-import firebase from "react-native-firebase";
+import firebase from "@react-native-firebase/app";
 import Toast from "react-native-root-toast";
 import {
   LOGIN_USER_SUCCESS,

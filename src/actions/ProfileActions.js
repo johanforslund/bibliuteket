@@ -1,4 +1,4 @@
-import firebase from "react-native-firebase"; //eslint-disable-line
+import firebase from "@react-native-firebase/app"; //eslint-disable-line
 import NavigationService from "../navigation/NavigationService";
 import {
   BOOKS_FETCH_PROFILE_SUCCESS,

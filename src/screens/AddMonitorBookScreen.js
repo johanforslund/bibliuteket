@@ -4,7 +4,7 @@ import AlgoliaConnect from "../components/AlgoliaConnect";
 import CardSection from "../components/CardSection";
 import { connect } from "react-redux";
 import { monitorBookAdd } from "../actions";
-import firebase from "react-native-firebase";
+import firebase from "@react-native-firebase/app";
 
 class AddMonitorBookScreen extends Component {
   state = {
@@ -70,6 +70,7 @@ const mapStateToProps = () => {
   return {};
 };
 
-export default connect(mapStateToProps, { monitorBookAdd })(
-  AddMonitorBookScreen
-);
+export default connect(
+  mapStateToProps,
+  { monitorBookAdd }
+)(AddMonitorBookScreen);

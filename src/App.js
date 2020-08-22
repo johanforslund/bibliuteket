@@ -11,12 +11,17 @@ import AsyncStorage from "@react-native-community/async-storage";
 import { persistStore, persistReducer } from "redux-persist";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { PersistGate } from "redux-persist/integration/react";
+import firebase from "@react-native-firebase/app";
+import "@react-native-firebase/auth";
+import "@react-native-firebase/database";
+import "@react-native-firebase/storage";
+import "@react-native-firebase/messaging";
 const keys = require("./config/keys");
 
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
-  whitelist: ["settings"],
+  whitelist: ["settings"]
 };
 const persistedReducer = persistReducer(persistConfig, reducers);
 const store = createStore(persistedReducer, applyMiddleware(ReduxThunk));
@@ -36,7 +41,7 @@ class App extends Component {
         <PersistGate loading={null} persistor={persistStore(store)}>
           <SafeAreaProvider>
             <AppContainer
-              ref={(navigatorRef) => {
+              ref={navigatorRef => {
                 NavigationService.setTopLevelNavigator(navigatorRef);
               }}
             />
@@ -50,8 +55,8 @@ class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#29749D",
-  },
+    backgroundColor: "#29749D"
+  }
 });
 
 export default App;

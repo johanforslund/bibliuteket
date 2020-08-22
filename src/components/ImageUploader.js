@@ -8,7 +8,7 @@ import {
   ActivityIndicator
 } from "react-native";
 import ImagePicker from "react-native-image-picker";
-import firebase from "react-native-firebase";
+import firebase from "@react-native-firebase/app";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import CardSection from "./CardSection";
 
