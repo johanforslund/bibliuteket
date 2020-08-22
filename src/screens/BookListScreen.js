@@ -22,7 +22,7 @@ class BookListScreen extends Component {
     header: <SearchBar />
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.booksFetch();
   }
 
@@ -44,7 +44,7 @@ class BookListScreen extends Component {
     if (this.props.loading) {
       return (
         <View style={{ flex: 1, justifyContent: "center" }}>
-          <Text style={{ textAlign: "center" }}>Loading books...</Text>
+          <Text style={{ textAlign: "center" }}>Laddar böcker...</Text>
           <ActivityIndicator />
         </View>
       );
@@ -93,4 +93,7 @@ const mapStateToProps = state => {
   return { sorting, books, loading };
 };
 
-export default connect(mapStateToProps, { booksFetch })(BookListScreen);
+export default connect(
+  mapStateToProps,
+  { booksFetch }
+)(BookListScreen);
