@@ -12,7 +12,10 @@ import {
   DELETE_USER_FAIL,
   UPDATE_USER_DETAILS_REQUEST,
   UPDATE_USER_DETAILS_SUCCESS,
-  UPDATE_USER_DETAILS_FAIL
+  UPDATE_USER_DETAILS_FAIL,
+  UPDATE_USER_PASSWORD_REQUEST,
+  UPDATE_USER_PASSWORD_SUCCESS,
+  UPDATE_USER_PASSWORD_FAIL
 } from "./types";
 
 export const loginUser = ({ liuId, password }) => {
@@ -65,6 +68,21 @@ export const updateUserDetails = name => {
         updateUserDetailsSuccess(dispatch);
       })
       .catch(error => updateUserDetailsFail(error.message, dispatch));
+  };
+};
+
+export const updateUserPassword = newPassword => {
+  return dispatch => {
+    dispatch({ type: UPDATE_USER_PASSWORD_REQUEST });
+    return firebase
+      .auth()
+      .currentUser.updatePassword(newPassword)
+      .then(() => {
+        updateUserPasswordSuccess(dispatch);
+      })
+      .catch(error => {
+        updateUserPasswordFail(error.message, dispatch);
+      });
   };
 };
 
@@ -125,6 +143,19 @@ const updateUserDetailsFail = (error, dispatch) => {
 const updateUserDetailsSuccess = dispatch => {
   dispatch({
     type: UPDATE_USER_DETAILS_SUCCESS
+  });
+};
+
+const updateUserPasswordSuccess = dispatch => {
+  dispatch({
+    type: UPDATE_USER_PASSWORD_SUCCESS
+  });
+};
+
+const updateUserPasswordFail = (error, dispatch) => {
+  dispatch({
+    type: UPDATE_USER_PASSWORD_FAIL,
+    payload: error
   });
 };
 

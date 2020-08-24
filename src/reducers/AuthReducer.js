@@ -7,12 +7,16 @@ import {
   REGISTER_USER_REQUEST,
   UPDATE_USER_DETAILS_SUCCESS,
   UPDATE_USER_DETAILS_FAIL,
-  UPDATE_USER_DETAILS_REQUEST
+  UPDATE_USER_DETAILS_REQUEST,
+  UPDATE_USER_PASSWORD_REQUEST,
+  UPDATE_USER_PASSWORD_SUCCESS,
+  UPDATE_USER_PASSWORD_FAIL
 } from "../actions/types";
 
 const INITIAL_STATE = {
   loginError: "",
-  registerError: ""
+  registerError: "",
+  newPWError: ""
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -35,6 +39,12 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, ...INITIAL_STATE };
     case UPDATE_USER_DETAILS_FAIL:
       return { ...state, error: action.payload };
+    case UPDATE_USER_PASSWORD_REQUEST:
+      return { ...state, newPWError: "" };
+    case UPDATE_USER_PASSWORD_SUCCESS:
+      return { ...state, ...INITIAL_STATE };
+    case UPDATE_USER_PASSWORD_FAIL:
+      return { ...state, newPWError: action.payload };
     default:
       return state;
   }
