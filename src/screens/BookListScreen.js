@@ -5,8 +5,11 @@ import {
   StyleSheet,
   View,
   Text,
+  Image,
   ActivityIndicator
 } from "react-native";
+import { Button } from "react-native-elements";
+
 import { connect } from "react-redux";
 import firebase from "react-native-firebase"; //eslint-disable-line
 import { booksFetch } from "../actions";
@@ -16,6 +19,8 @@ import { isLoading } from "../selectors/utilSelectors";
 import { BOOKS_FETCH_REQUEST } from "../actions/types";
 import { getBooks } from "../selectors/bookSelectors";
 import { KeyboardAwareFlatList } from "react-native-keyboard-aware-scroll-view";
+
+const magnifying_glass = require("../images/bib-magnifying.png");
 
 class BookListScreen extends Component {
   static navigationOptions = {
@@ -59,11 +64,26 @@ class BookListScreen extends Component {
       />
     ) : (
       <View style={styles.noBooksStyle}>
-        <Text style={{ fontWeight: "bold", marginBottom: 20 }}>
+        <Image
+          source={magnifying_glass}
+          style={{
+            height: 100,
+            width: 100
+          }}
+        />
+        <Text style={{ fontWeight: "bold", marginBottom: 20, marginTop: 20 }}>
           Inga böcker kunde hittas
         </Text>
         <Text>Testa att söka på:</Text>
         <Text>kurskod, titel, författare, program m.m...</Text>
+
+        <Text style={styles.monitorBookTextStyle}>
+          Vill du bli notifierad när en bok du söker läggs upp?
+        </Text>
+        <Button
+          onPress={() => this.props.navigation.navigate("MonitorBook")}
+          title="Gå till Bevaka bok"
+        />
       </View>
     );
   }
@@ -80,6 +100,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: "10%"
+  },
+  monitorBookTextStyle: {
+    marginTop: 40,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginBottom: 10
   }
 });
 
