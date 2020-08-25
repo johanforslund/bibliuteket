@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import Toast from "react-native-root-toast";
 
-import { updateUserPassword } from "../actions";
+import { updateUserPassword, reAuthenticate } from "../actions";
 
 import { isLoading } from "../selectors/utilSelectors";
 
@@ -16,53 +16,24 @@ class PasswordChanger extends Component {
     isModalVisible: false,
     liuId: "",
     password: "",
-    newPassword: "",
-    hasRecentlyAuth: false
+    newPassword: ""
   };
 
   toggleModal() {
     this.setState({
       isModalVisible: !this.state.isModalVisible,
-      hasRecentlyAuth: false,
       liuId: "",
       password: "",
       newPassword: ""
     });
   }
 
-  handleCompletedCredentials() {
-    var credentials = firebase.auth.EmailAuthProvider.credential(
-      this.state.liuId + "@student.liu.se",
-      this.state.password
-    );
-
-    firebase
-      .auth()
-      .currentUser.reauthenticateWithCredential(credentials)
-      .then(() => {
-        this.setState({ hasRecentlyAuth: true });
-      })
-      .catch(error => {
-        console.log(error);
-        Alert.alert(
-          "Uppgifterna stämmer inte",
-          "Ange korrekt uppgifter för att gå vidare",
-          [
-            {
-              text: "OK"
-            }
-          ]
-        );
-      });
-  }
-
-  handleNewPwPress() {
-    this.props.updateUserPassword(this.state.newPassword).then(() => {
-      if (this.props.newPWError === "") {
-        this.toggleModal();
-        Toast.show("Ditt lösenord har ändrats");
-      }
-    });
+  async handleNewPwPress() {
+    await this.props.updateUserPassword(this.state.newPassword);
+    if (this.props.newPWError === "") {
+      this.toggleModal();
+      Toast.show("Ditt lösenord har ändrats");
+    }
   }
 
   renderCredentialFields() {
@@ -71,7 +42,6 @@ class PasswordChanger extends Component {
         <Text style={styles.titleStyle}>
           Ange dina uppgifter för att byta lösenord
         </Text>
-
         <Input
           ref="LiuId"
           returnKeyType="next"
@@ -99,8 +69,10 @@ class PasswordChanger extends Component {
 
         <Button
           title="Bekräfta"
-          loading={this.props.loading}
-          onPress={this.handleCompletedCredentials.bind(this)}
+          loading={this.props.loadingCredentials}
+          onPress={() =>
+            this.props.reAuthenticate(this.state.liuId, this.state.password)
+          }
           buttonStyle={styles.buttonStyle}
         />
       </Fragment>
@@ -131,7 +103,7 @@ class PasswordChanger extends Component {
         <Button
           title={"Bekräfta"}
           disabled={this.state.newPassword.length < 1}
-          loading={this.props.loading}
+          loading={this.props.loadingNewPW}
           onPress={this.handleNewPwPress.bind(this)}
           buttonStyle={styles.buttonStyle}
         />
@@ -160,7 +132,7 @@ class PasswordChanger extends Component {
           onBackdropPress={this.toggleModal.bind(this)}
         >
           <View style={styles.modalContainerStyle}>
-            {this.state.hasRecentlyAuth
+            {this.props.hasRecentlyAuth
               ? this.renderNewPWField()
               : this.renderCredentialFields()}
             <Button
@@ -176,9 +148,10 @@ class PasswordChanger extends Component {
 }
 
 const mapStateToProps = state => {
-  const { newPWError } = state.auth;
-  const loading = isLoading(["UPDATE_USER_PASSWORD"], state);
-  return { loading, newPWError };
+  const { newPWError, hasRecentlyAuth } = state.auth;
+  const loadingNewPW = isLoading(["UPDATE_USER_PASSWORD"], state);
+  const loadingCredentials = isLoading(["REAUTHENTICATE_USER"], state);
+  return { loadingNewPW, loadingCredentials, newPWError, hasRecentlyAuth };
 };
 
 const styles = {
@@ -213,5 +186,5 @@ const styles = {
 
 export default connect(
   mapStateToProps,
-  { updateUserPassword }
+  { updateUserPassword, reAuthenticate }
 )(PasswordChanger);

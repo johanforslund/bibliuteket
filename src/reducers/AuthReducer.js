@@ -10,13 +10,18 @@ import {
   UPDATE_USER_DETAILS_REQUEST,
   UPDATE_USER_PASSWORD_REQUEST,
   UPDATE_USER_PASSWORD_SUCCESS,
-  UPDATE_USER_PASSWORD_FAIL
+  UPDATE_USER_PASSWORD_FAIL,
+  REAUTHENTICATE_USER_REQUEST,
+  REAUTHENTICATE_USER_SUCCESS,
+  REAUTHENTICATE_USER_FAIL
 } from "../actions/types";
 
 const INITIAL_STATE = {
   loginError: "",
   registerError: "",
-  newPWError: ""
+  newPWError: "",
+  hasRecentlyAuth: false,
+  reAuthenticationError: ""
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -45,6 +50,12 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, ...INITIAL_STATE };
     case UPDATE_USER_PASSWORD_FAIL:
       return { ...state, newPWError: action.payload };
+    case REAUTHENTICATE_USER_REQUEST:
+      return { ...state, hasRecentlyAuth: false, reAuthenticationError: "" };
+    case REAUTHENTICATE_USER_SUCCESS:
+      return { ...state, hasRecentlyAuth: true };
+    case REAUTHENTICATE_USER_FAIL:
+      return { ...state, reAuthenticationError: action.payload };
     default:
       return state;
   }

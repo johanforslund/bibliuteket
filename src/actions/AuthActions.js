@@ -1,5 +1,7 @@
 import firebase from "react-native-firebase";
 import Toast from "react-native-root-toast";
+import { Alert } from "react-native";
+
 import {
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAIL,
@@ -15,7 +17,10 @@ import {
   UPDATE_USER_DETAILS_FAIL,
   UPDATE_USER_PASSWORD_REQUEST,
   UPDATE_USER_PASSWORD_SUCCESS,
-  UPDATE_USER_PASSWORD_FAIL
+  UPDATE_USER_PASSWORD_FAIL,
+  REAUTHENTICATE_USER_REQUEST,
+  REAUTHENTICATE_USER_SUCCESS,
+  REAUTHENTICATE_USER_FAIL
 } from "./types";
 
 export const loginUser = ({ liuId, password }) => {
@@ -53,6 +58,35 @@ export const registerUser = ({ name, liuId, password }) => {
           });
       })
       .catch(error => registerUserFail(error.message, dispatch));
+  };
+};
+
+export const reAuthenticate = (liuId, password) => {
+  return dispatch => {
+    dispatch({ type: REAUTHENTICATE_USER_REQUEST });
+    const credentials = firebase.auth.EmailAuthProvider.credential(
+      liuId + "@student.liu.se",
+      password
+    );
+    firebase
+      .auth()
+      .currentUser.reauthenticateWithCredential(credentials)
+      .then(() => {
+        dispatch({ type: REAUTHENTICATE_USER_SUCCESS });
+      })
+      .catch(error => {
+        dispatch({ type: REAUTHENTICATE_USER_FAIL, payload: error.message });
+        console.log(error);
+        Alert.alert(
+          "Uppgifterna stämmer inte",
+          "Ange korrekt uppgifter för att gå vidare",
+          [
+            {
+              text: "OK"
+            }
+          ]
+        );
+      });
   };
 };
 
