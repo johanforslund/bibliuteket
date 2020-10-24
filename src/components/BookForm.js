@@ -1,5 +1,5 @@
 import React, { PureComponent } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, Image } from "react-native";
 import { Input, Tooltip, Icon, Button } from "react-native-elements";
 import { connect } from "react-redux";
 import { bookCreate, bookEdit } from "../actions";
@@ -10,6 +10,9 @@ import ImageUploader from "./ImageUploader";
 import { isLoading } from "../selectors/utilSelectors";
 import { changeMessengerName, changePhone } from "../actions/SettingsActions";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
+const msg_username = require("../images/user_name.jpg");
+const msg_profile = require("../images/profile_fb.jpg");
 
 class BookForm extends PureComponent {
   state = {
@@ -167,9 +170,15 @@ class BookForm extends PureComponent {
   };
 
   stripMessengerName = name => {
-    const preNameIndex = name.indexOf(".me/");
-    if (preNameIndex == -1) return name.trim();
-    const strippedName = name.substr(preNameIndex + 4).trim();
+    const preNameIndexMe = name.indexOf(".me/");
+    const preNameIndexFb = name.indexOf(".com/");
+    let strippedName;
+    if (preNameIndexMe == -1 && preNameIndexFb == -1) return name.trim();
+    if (preNameIndexMe > 0) {
+      strippedName = name.substr(preNameIndexMe + 4).trim();
+    } else {
+      strippedName = name.substr(preNameIndexFb + 5).trim();
+    }
 
     return strippedName;
   };
@@ -309,7 +318,7 @@ class BookForm extends PureComponent {
                 errorMessage={
                   shouldMarkError("messengerName") ? "Felaktigt format" : ""
                 }
-                maxLength={40}
+                maxLength={70}
                 inputStyle={styles.inputStyle}
                 onSubmitEditing={() => {
                   this.refs.Phone.focus();
@@ -317,14 +326,35 @@ class BookForm extends PureComponent {
                 value={this.state.messengerName}
                 rightIcon={
                   <Tooltip
-                    height={200}
-                    width={200}
+                    height={300}
+                    width={300}
                     backgroundColor="#29749D"
                     popover={
-                      <Text style={{ color: "white" }}>
-                        Detta hittar du under "profil" på facebook messenger
-                        (ex. "m.me/fornamn.efternamn.131")
-                      </Text>
+                      <View
+                        style={{
+                          height: "100%",
+                          width: "100%",
+                          display: "flex",
+                          flexDirection: "row"
+                        }}
+                      >
+                        <Image
+                          source={msg_profile}
+                          style={{
+                            height: "100%",
+                            width: "49%",
+                            marginRight: "1%"
+                          }}
+                        />
+                        <Image
+                          source={msg_username}
+                          style={{
+                            height: "100%",
+                            width: "49%",
+                            marginLeft: "1%"
+                          }}
+                        />
+                      </View>
                     }
                   >
                     <Icon name="info" size={20} color="#373737" />
